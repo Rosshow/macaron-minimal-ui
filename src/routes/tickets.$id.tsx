@@ -3,7 +3,7 @@ import { Paperclip, Send, Bell, Upload, Undo2, Pencil, ArrowRight, Bot } from "l
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { Avatar } from "@/components/Bits";
-import { tickets, kindTone, priorityTone, statusTone } from "@/data/mock";
+import { tickets, kindTone, priorityTone, statusTone, type Ticket } from "@/data/mock";
 
 export const Route = createFileRoute("/tickets/$id")({
   loader: ({ params }) => {
@@ -33,7 +33,7 @@ const actions = [
 ];
 
 function Detail() {
-  const t = Route.useLoaderData();
+  const t = Route.useLoaderData() as Ticket;
 
   return (
     <PageShell title="工单详情" back>
