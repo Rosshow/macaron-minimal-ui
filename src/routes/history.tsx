@@ -1,0 +1,100 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { Search, ArrowRight } from "lucide-react";
+import { PageShell } from "@/components/Shell";
+import { Tag } from "@/components/Tag";
+import { Avatar } from "@/components/Bits";
+import { tickets, kindTone, priorityTone, statusTone } from "@/data/mock";
+import { cn } from "@/lib/utils";
+
+export const Route = createFileRoute("/history")({
+  head: () => ({
+    meta: [
+      { title: "历史工单 · 摇人吧" },
+      { name: "description", content: "检索历史工单记录，按状态筛选并查看处理人与最新进展。" },
+      { property: "og:title", content: "历史工单 · 摇人吧" },
+      { property: "og:description", content: "检索历史工单记录，按状态筛选并查看处理人与最新进展。" },
+    ],
+  }),
+  component: History,
+});
+
+const tabs = ["全部", "新建", "处理中", "待处理", "已解决", "已取消", "已关闭"];
+
+function History() {
+  const [tab, setTab] = useState("全部");
+
+  return (
+    <PageShell title="历史工单" back>
+      <div className="surface-card flex items-center gap-2 px-4 py-3">
+        <Search className="size-4 text-muted-foreground" />
+        <input
+          placeholder="搜索工单标题 / 描述…"
+          className="w-full bg-transparent text-[13px] outline-none placeholder:text-muted-foreground"
+        />
+      </div>
+
+      <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1">
+        {tabs.map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={cn(
+              "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
+              tab === t ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground",
+            )}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-3 space-y-3">
+        {tickets.map((t) => (
+          <Link key={t.id} to="/tickets/$id" params={{ id: t.id }} className="block">
+            <article className="surface-card p-4">
+              <div className="flex items-start gap-2">
+                <Tag tone={kindTone[t.kind]}>{t.kind}</Tag>
+                <h3 className="flex-1 text-[14.5px] font-bold leading-6">{t.title}</h3>
+                <span className="shrink-0 text-[11px] text-muted-foreground">{t.date}</span>
+              </div>
+              <p className="mt-2 line-clamp-2 text-[12.5px] leading-6 text-muted-foreground">
+                {t.desc}
+              </p>
+              <p className="mt-2 text-[11.5px] text-muted-foreground">所属项目 · {t.project}</p>
+              <div className="mt-3 flex items-center gap-3">
+                <Avatar name={t.reporter} tone="lilac" />
+                <div className="leading-tight">
+                  <div className="text-[10px] text-muted-foreground">发起人</div>
+                  <div className="text-[12.5px] font-medium">{t.reporter}</div>
+                </div>
+                <ArrowRight className="mx-auto size-4 text-sky" />
+                <div className="text-right leading-tight">
+                  <div className="text-[10px] text-muted-foreground">处理人</div>
+                  <div className="text-[12.5px] font-medium">{t.owner}</div>
+                </div>
+                <Avatar name={t.owner} tone="sky" />
+              </div>
+              <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5">
+                <Tag tone={statusTone[t.status]}>{t.status}</Tag>
+                <Tag tone={priorityTone[t.priority]} size="sm">
+                  {t.priority}
+                </Tag>
+                <div className="ml-auto flex gap-1.5">
+                  {["催办", "上报", "撤回"].map((a) => (
+                    <span
+                      key={a}
+                      className="rounded-full bg-secondary px-2.5 py-1 text-[11px] text-muted-foreground"
+                    >
+                      {a}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </article>
+          </Link>
+        ))}
+      </div>
+    </PageShell>
+  );
+}
