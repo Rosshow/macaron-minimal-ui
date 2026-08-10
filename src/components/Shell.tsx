@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouter, useRouterState } from "@tanstack/react-router";
 import { Radio, LayoutGrid, Gauge, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -14,20 +14,22 @@ export function TopBar({
   right,
 }: {
   title: string;
-  back?: boolean;
-  right?: React.ReactNode;
+  back?: boolean | undefined;
+  right?: React.ReactNode | undefined;
 }) {
+  const router = useRouter();
   return (
     <header className="glass-bar sticky top-0 z-20 border-b border-border/60">
       <div className="mx-auto flex h-14 max-w-3xl items-center gap-2 px-4">
         {back ? (
-          <Link
-            to="/tasks"
+          <button
+            type="button"
+            onClick={() => router.history.back()}
             aria-label="返回"
             className="grid size-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-secondary"
           >
             <ChevronLeft className="size-5" />
-          </Link>
+          </button>
         ) : (
           <span className="size-9" />
         )}
@@ -78,8 +80,8 @@ export function PageShell({
   children,
 }: {
   title: string;
-  back?: boolean;
-  right?: React.ReactNode;
+  back?: boolean | undefined;
+  right?: React.ReactNode | undefined;
   children: React.ReactNode;
 }) {
   return (

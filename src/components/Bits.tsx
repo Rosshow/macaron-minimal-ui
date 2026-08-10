@@ -24,7 +24,7 @@ export function Avatar({
         "grid size-8 shrink-0 place-items-center rounded-full text-[12px] font-semibold text-card",
         className,
       )}
-      style={{ background: toneVar[tone] ?? toneVar.sky }}
+      style={{ background: toneVar[tone] ?? toneVar['sky'] }}
     >
       {name.slice(0, 1)}
     </span>
