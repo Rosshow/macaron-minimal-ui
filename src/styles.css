@@ -91,7 +91,7 @@
   --popover-foreground: oklch(0.26 0.008 220);
 
   /* 蒂芙尼蓝 */
-  --primary: oklch(0.78 0.096 189);
+  --primary: oklch(0.66 0.115 230);
   --primary-foreground: oklch(0.99 0.003 200);
 
   --secondary: oklch(0.958 0.004 210);
@@ -100,7 +100,7 @@
   --muted: oklch(0.962 0.003 210);
   --muted-foreground: oklch(0.58 0.008 220);
 
-  --accent: oklch(0.94 0.035 189);
+  --accent: oklch(0.94 0.035 228);
   --accent-foreground: oklch(0.38 0.05 195);
 
   --destructive: oklch(0.55 0.02 220);
@@ -108,13 +108,13 @@
 
   --border: oklch(0.922 0.003 210);
   --input: oklch(0.94 0.003 210);
-  --ring: oklch(0.82 0.07 189);
+  --ring: oklch(0.72 0.08 230);
 
   /* 单色调蒂芙尼蓝阶 + 中性灰，仅明度/饱和度变化 */
-  --mint: oklch(0.74 0.105 189);
-  --mint-soft: oklch(0.955 0.033 189);
-  --sky: oklch(0.66 0.085 196);
-  --sky-soft: oklch(0.948 0.026 196);
+  --mint: oklch(0.66 0.115 230);
+  --mint-soft: oklch(0.955 0.028 228);
+  --sky: oklch(0.52 0.095 232);
+  --sky-soft: oklch(0.945 0.024 230);
   --rose: oklch(0.45 0.012 215);
   --rose-soft: oklch(0.93 0.004 215);
   --butter: oklch(0.83 0.06 185);

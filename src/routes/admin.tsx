@@ -156,10 +156,10 @@ function Admin() {
       <SectionTitle title="更多功能" />
       <section className="grid grid-cols-4 gap-2">
         {[
-          { label: "项目管理", icon: FolderKanban, to: "/projects", tone: "butter" },
-          { label: "数据管理", icon: Database, to: "/projects", tone: "sky" },
-          { label: "日报周报", icon: FileBarChart, to: "/tasks", tone: "lilac" },
-          { label: "其他", icon: MoreHorizontal, to: "/tasks", tone: "mint" },
+          { label: "项目管理", icon: FolderKanban, to: "/projects", tone: "blue-1" },
+          { label: "数据管理", icon: Database, to: "/projects", tone: "blue-2" },
+          { label: "日报周报", icon: FileBarChart, to: "/tasks", tone: "blue-3" },
+          { label: "其他", icon: MoreHorizontal, to: "/tasks", tone: "blue-4" },
         ].map(({ label, icon: Icon, to, tone }) => (
           <Link key={label} to={to} className="surface-card flex flex-col items-center gap-2 py-4">
             <span
