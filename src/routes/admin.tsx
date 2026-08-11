@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight, RefreshCw, FolderKanban, Database, FileBarChart, MoreHorizontal } from "lucide-react";
+import { ChevronRight, RefreshCw, FolderKanban, Database, FileBarChart, MoreHorizontal, Bell, LayoutGrid } from "lucide-react";
 import { PageShell } from "@/components/Shell";
-import { Donut, Stat } from "@/components/Bits";
+import { Donut, Stat, Avatar } from "@/components/Bits";
 import { Tag } from "@/components/Tag";
 import { stageChips } from "@/data/mock";
 
@@ -43,9 +43,43 @@ function SectionTitle({ title, to, action }: { title: string; to?: string; actio
   );
 }
 
+function WelcomeHeader() {
+  return (
+    <section className="mb-2 flex items-center justify-between px-1">
+      <div className="flex items-center gap-3">
+        <Avatar name="管" tone="mint" className="size-11 text-[15px]" />
+        <div>
+          <div className="text-[13px] leading-tight text-muted-foreground">Hello,</div>
+          <div className="text-[17px] font-bold leading-tight tracking-tight text-foreground">
+            管理员
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          aria-label="通知"
+          className="relative grid size-10 place-items-center rounded-full border border-border/70 bg-card text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <Bell className="size-[18px]" />
+          <span className="absolute right-2 top-2 size-2 rounded-full bg-rose" />
+        </button>
+        <button
+          type="button"
+          aria-label="菜单"
+          className="grid size-10 place-items-center rounded-full border border-border/70 bg-card text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <LayoutGrid className="size-[18px]" />
+        </button>
+      </div>
+    </section>
+  );
+}
+
 function Admin() {
   return (
     <PageShell title="后台管理">
+      <WelcomeHeader />
       <SectionTitle title="工单状态监测" to="/tasks" />
       <section className="surface-card p-4">
         <div className="flex items-center gap-4">
