@@ -17,6 +17,9 @@ const toneVar: Record<string, string> = {
   "blue-5": "var(--blue-5)",
 };
 
+export function toneColor(tone: string) {
+  return toneVar[tone] ?? toneVar["sky"]!;
+}
 
 export function Avatar({
   name,
@@ -33,19 +36,29 @@ export function Avatar({
         "grid size-8 shrink-0 place-items-center rounded-full text-[12px] font-semibold text-card",
         className,
       )}
-      style={{ background: toneVar[tone] ?? toneVar['sky'] }}
+      style={{ background: toneColor(String(tone)) }}
     >
       {name.slice(0, 1)}
     </span>
   );
 }
 
+export type DonutSegment = { value: number; tone: string; label?: string };
+
 export function Donut({
   segments,
   size = 132,
+  thickness = 18,
+  gap = 0,
+  centerValue,
+  centerLabel,
 }: {
-  segments: { value: number; tone: keyof typeof toneVar }[];
+  segments: DonutSegment[];
   size?: number;
+  thickness?: number;
+  gap?: number;
+  centerValue?: string | number;
+  centerLabel?: string;
 }) {
   const total = segments.reduce((s, x) => s + x.value, 0) || 1;
   const r = 54;
@@ -53,28 +66,67 @@ export function Donut({
   let offset = 0;
 
   return (
-    <svg width={size} height={size} viewBox="0 0 140 140" className="-rotate-90">
-      <circle cx="70" cy="70" r={r} fill="none" stroke="var(--muted)" strokeWidth="16" />
-      {segments.map((s, i) => {
-        const len = (s.value / total) * c;
-        const el = (
-          <circle
-            key={i}
-            cx="70"
-            cy="70"
-            r={r}
-            fill="none"
-            stroke={toneVar[s.tone]}
-            strokeWidth="16"
-            strokeLinecap="round"
-            strokeDasharray={`${Math.max(len - 4, 0)} ${c}`}
-            strokeDashoffset={-offset}
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox="0 0 140 140" className="-rotate-90">
+        <circle cx="70" cy="70" r={r} fill="none" stroke="var(--muted)" strokeWidth={thickness} />
+        {segments.map((s, i) => {
+          const len = (s.value / total) * c;
+          const el = (
+            <circle
+              key={i}
+              cx="70"
+              cy="70"
+              r={r}
+              fill="none"
+              stroke={toneColor(s.tone)}
+              strokeWidth={thickness}
+              strokeDasharray={`${Math.max(len - gap, 0)} ${c}`}
+              strokeDashoffset={-offset}
+            />
+          );
+          offset += len;
+          return el;
+        })}
+      </svg>
+      {centerValue !== undefined ? (
+        <div className="absolute inset-0 grid place-items-center text-center">
+          <div>
+            <div className="text-[20px] font-bold tabular-nums text-foreground">{centerValue}</div>
+            {centerLabel ? (
+              <div className="text-[10.5px] text-muted-foreground">{centerLabel}</div>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export function Legend({
+  items,
+  className,
+}: {
+  items: { label: string; value: number; tone: string; percent: number }[];
+  className?: string;
+}) {
+  return (
+    <ul className={cn("flex-1 space-y-2", className)}>
+      {items.map((it) => (
+        <li key={it.label} className="flex items-center gap-2">
+          <span
+            className="size-2.5 shrink-0 rounded-full"
+            style={{ background: toneColor(it.tone) }}
           />
-        );
-        offset += len;
-        return el;
-      })}
-    </svg>
+          <span className="text-[12.5px] text-muted-foreground">{it.label}</span>
+          <span className="ml-auto text-[12.5px] font-bold tabular-nums text-foreground">
+            {it.percent}%
+          </span>
+          <span className="w-7 text-right text-[11.5px] tabular-nums text-muted-foreground">
+            {it.value}
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -85,11 +137,11 @@ export function Stat({
 }: {
   value: string | number;
   label: string;
-  tone?: keyof typeof toneVar;
+  tone?: string;
 }) {
   return (
     <div className="text-center">
-      <div className="text-[22px] font-bold tabular-nums" style={{ color: toneVar[tone] }}>
+      <div className="text-[22px] font-bold tabular-nums" style={{ color: toneColor(tone) }}>
         {value}
       </div>
       <div className="mt-0.5 text-[11px] text-muted-foreground">{label}</div>
