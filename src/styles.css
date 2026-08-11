@@ -68,83 +68,90 @@
   --font-rounded: "Quicksand", "PingFang SC", "HarmonyOS Sans SC", "Hiragino Sans GB",
     "Microsoft YaHei UI Rounded", "Microsoft YaHei", system-ui, sans-serif;
 
-  --background: oklch(0.978 0.005 240);
-  --foreground: oklch(0.36 0.028 262);
+  --background: oklch(0.981 0.002 200);
+  --foreground: oklch(0.26 0.008 220);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.36 0.028 262);
+  --card-foreground: oklch(0.26 0.008 220);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.36 0.028 262);
+  --popover-foreground: oklch(0.26 0.008 220);
 
-  --primary: oklch(0.74 0.075 215);
-  --primary-foreground: oklch(0.99 0.004 220);
+  /* 蒂芙尼蓝 */
+  --primary: oklch(0.78 0.096 189);
+  --primary-foreground: oklch(0.99 0.003 200);
 
-  --secondary: oklch(0.955 0.012 240);
-  --secondary-foreground: oklch(0.45 0.03 262);
+  --secondary: oklch(0.958 0.004 210);
+  --secondary-foreground: oklch(0.38 0.008 220);
 
-  --muted: oklch(0.962 0.008 250);
-  --muted-foreground: oklch(0.63 0.02 258);
+  --muted: oklch(0.962 0.003 210);
+  --muted-foreground: oklch(0.58 0.008 220);
 
-  --accent: oklch(0.93 0.035 190);
-  --accent-foreground: oklch(0.42 0.05 210);
+  --accent: oklch(0.94 0.035 189);
+  --accent-foreground: oklch(0.38 0.05 195);
 
-  --destructive: oklch(0.74 0.09 20);
-  --destructive-foreground: oklch(0.99 0.004 20);
+  --destructive: oklch(0.55 0.02 220);
+  --destructive-foreground: oklch(0.99 0.003 200);
 
-  --border: oklch(0.925 0.008 250);
-  --input: oklch(0.94 0.008 250);
-  --ring: oklch(0.82 0.05 215);
+  --border: oklch(0.922 0.003 210);
+  --input: oklch(0.94 0.003 210);
+  --ring: oklch(0.82 0.07 189);
 
-  /* 马卡龙色阶：pastel 主色 + 更浅的底色 */
-  --mint: oklch(0.79 0.075 172);
-  --mint-soft: oklch(0.955 0.028 172);
-  --sky: oklch(0.77 0.075 240);
-  --sky-soft: oklch(0.955 0.026 240);
-  --rose: oklch(0.79 0.07 15);
-  --rose-soft: oklch(0.96 0.025 15);
-  --butter: oklch(0.86 0.075 92);
-  --butter-soft: oklch(0.968 0.032 92);
-  --lilac: oklch(0.78 0.07 300);
-  --lilac-soft: oklch(0.958 0.025 300);
-  --apricot: oklch(0.82 0.08 55);
-  --apricot-soft: oklch(0.962 0.03 55);
+  /* 单色调蒂芙尼蓝阶 + 中性灰，仅明度/饱和度变化 */
+  --mint: oklch(0.74 0.105 189);
+  --mint-soft: oklch(0.955 0.033 189);
+  --sky: oklch(0.66 0.085 196);
+  --sky-soft: oklch(0.948 0.026 196);
+  --rose: oklch(0.45 0.012 215);
+  --rose-soft: oklch(0.93 0.004 215);
+  --butter: oklch(0.83 0.06 185);
+  --butter-soft: oklch(0.965 0.022 185);
+  --lilac: oklch(0.56 0.055 198);
+  --lilac-soft: oklch(0.94 0.018 198);
+  --apricot: oklch(0.62 0.02 215);
+  --apricot-soft: oklch(0.955 0.005 215);
 
-  --shadow-soft: 0 1px 2px oklch(0.6 0.03 250 / 0.04), 0 8px 24px oklch(0.6 0.03 250 / 0.06);
-  --shadow-float: 0 2px 6px oklch(0.6 0.03 250 / 0.06), 0 16px 40px oklch(0.6 0.03 250 / 0.1);
+  --shadow-soft: 0 1px 2px oklch(0.5 0.01 220 / 0.04), 0 8px 24px oklch(0.5 0.01 220 / 0.06);
+  --shadow-float: 0 2px 6px oklch(0.5 0.01 220 / 0.06), 0 16px 40px oklch(0.5 0.01 220 / 0.1);
   --gradient-surface: linear-gradient(
     170deg,
-    oklch(0.985 0.012 200) 0%,
-    oklch(0.978 0.006 250) 45%,
-    oklch(0.982 0.012 320) 100%
+    oklch(0.986 0.008 189) 0%,
+    oklch(0.981 0.002 210) 55%,
+    oklch(0.978 0.004 200) 100%
   );
   --gradient-primary: linear-gradient(135deg, var(--mint) 0%, var(--sky) 100%);
 }
 
 .dark {
-  --background: oklch(0.22 0.018 258);
-  --foreground: oklch(0.94 0.008 250);
-  --card: oklch(0.26 0.02 258);
-  --card-foreground: oklch(0.94 0.008 250);
-  --popover: oklch(0.26 0.02 258);
-  --popover-foreground: oklch(0.94 0.008 250);
-  --primary: oklch(0.72 0.07 200);
-  --primary-foreground: oklch(0.2 0.02 250);
-  --secondary: oklch(0.3 0.02 258);
-  --secondary-foreground: oklch(0.92 0.01 250);
-  --muted: oklch(0.3 0.02 258);
-  --muted-foreground: oklch(0.72 0.015 255);
-  --accent: oklch(0.34 0.03 200);
-  --accent-foreground: oklch(0.94 0.01 220);
+  --background: oklch(0.19 0.006 220);
+  --foreground: oklch(0.95 0.003 210);
+  --card: oklch(0.235 0.007 220);
+  --card-foreground: oklch(0.95 0.003 210);
+  --popover: oklch(0.235 0.007 220);
+  --popover-foreground: oklch(0.95 0.003 210);
+  --primary: oklch(0.74 0.09 189);
+  --primary-foreground: oklch(0.19 0.01 200);
+  --secondary: oklch(0.28 0.007 220);
+  --secondary-foreground: oklch(0.93 0.004 210);
+  --muted: oklch(0.28 0.007 220);
+  --muted-foreground: oklch(0.7 0.006 215);
+  --accent: oklch(0.32 0.03 190);
+  --accent-foreground: oklch(0.94 0.01 200);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.6 0.05 210);
-  --mint-soft: oklch(0.33 0.035 172);
-  --sky-soft: oklch(0.33 0.035 240);
-  --rose-soft: oklch(0.33 0.03 15);
-  --butter-soft: oklch(0.34 0.035 92);
-  --lilac-soft: oklch(0.33 0.032 300);
-  --apricot-soft: oklch(0.34 0.035 55);
-  --gradient-surface: linear-gradient(170deg, oklch(0.24 0.02 220), oklch(0.22 0.018 280));
+  --ring: oklch(0.6 0.06 189);
+  --mint: oklch(0.78 0.1 189);
+  --mint-soft: oklch(0.32 0.04 189);
+  --sky: oklch(0.72 0.08 196);
+  --sky-soft: oklch(0.31 0.032 196);
+  --rose: oklch(0.78 0.008 215);
+  --rose-soft: oklch(0.3 0.004 215);
+  --butter: oklch(0.85 0.055 185);
+  --butter-soft: oklch(0.31 0.026 185);
+  --lilac: oklch(0.7 0.05 198);
+  --lilac-soft: oklch(0.3 0.022 198);
+  --apricot: oklch(0.7 0.012 215);
+  --apricot-soft: oklch(0.29 0.005 215);
+  --gradient-surface: linear-gradient(170deg, oklch(0.21 0.012 189), oklch(0.19 0.005 220));
 }
 
 @layer base {
