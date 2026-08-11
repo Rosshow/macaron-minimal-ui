@@ -79,6 +79,7 @@ function WelcomeHeader() {
 function Admin() {
   return (
     <PageShell title="后台管理">
+      <WelcomeHeader />
       <SectionTitle title="工单状态监测" to="/tasks" />
       <section className="surface-card p-4">
         <div className="flex items-center gap-4">
