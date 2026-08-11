@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight, RefreshCw, FolderKanban, Database, FileBarChart, MoreHorizontal, Bell, LayoutGrid } from "lucide-react";
 import { PageShell } from "@/components/Shell";
-import { Donut, Stat, Avatar } from "@/components/Bits";
+import { Donut, Stat, Avatar, Legend } from "@/components/Bits";
+import { MonthBars } from "@/components/MonthBars";
 import { Tag } from "@/components/Tag";
-import { stageChips } from "@/data/mock";
+import { stageChips, ticketStatusSegments, projectMonthly, projectYears } from "@/data/mock";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -17,14 +18,6 @@ export const Route = createFileRoute("/admin")({
   component: Admin,
 });
 
-const ticketChips: { label: string; count: number; tone: "sky" | "mint" }[] = [
-  { label: "新建", count: 0, tone: "sky" },
-  { label: "处理中", count: 24, tone: "mint" },
-  { label: "暂停/挂起", count: 0, tone: "sky" },
-  { label: "已解决", count: 2, tone: "mint" },
-  { label: "已关闭", count: 8, tone: "sky" },
-  { label: "已取消", count: 1, tone: "mint" },
-];
 
 function SectionTitle({ title, to, action }: { title: string; to?: string; action?: string }) {
   return (
