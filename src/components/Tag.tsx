@@ -14,6 +14,9 @@ const tagVariants = cva(
         apricot: "bg-apricot-soft text-apricot",
         muted: "bg-muted text-muted-foreground",
         gray: "bg-gray-soft text-gray",
+        blue: "bg-blue-soft text-blue-2",
+        "blue-deep": "bg-blue-soft text-blue-1",
+
       },
       size: {
         sm: "px-2 py-0 text-[10px]",

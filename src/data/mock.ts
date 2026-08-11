@@ -171,3 +171,27 @@ export const stageChips: { label: string; count: number; tone: Tone }[] = [
   { label: "项目变更", count: 3, tone: "lilac" },
   { label: "项目结束", count: 18, tone: "sky" },
 ];
+
+/** 工单状态分布（后台管理·工单状态监测） */
+export const ticketStatusSegments: { label: string; value: number; tone: string }[] = [
+  { label: "处理中", value: 24, tone: "blue-1" },
+  { label: "已关闭", value: 8, tone: "blue-2" },
+  { label: "已解决", value: 2, tone: "blue-3" },
+  { label: "已取消", value: 1, tone: "blue-4" },
+  { label: "新建", value: 0, tone: "blue-5" },
+];
+
+/** 跨项目看板：按月项目数 */
+export const projectMonthly: { key: string; year: number; month: number; value: number }[] = [
+  ["2025-09", 6], ["2025-10", 9], ["2025-11", 4], ["2025-12", 11],
+  ["2026-01", 7], ["2026-02", 5], ["2026-03", 10], ["2026-04", 8],
+  ["2026-05", 12], ["2026-06", 9], ["2026-07", 13], ["2026-08", 12],
+  ["2026-09", 6], ["2026-10", 4], ["2026-11", 3], ["2026-12", 2],
+].map(([k, v]) => ({
+  key: k as string,
+  year: Number((k as string).slice(0, 4)),
+  month: Number((k as string).slice(5)),
+  value: v as number,
+}));
+
+export const projectYears = [2024, 2025, 2026];

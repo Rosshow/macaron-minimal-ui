@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight, RefreshCw, FolderKanban, Database, FileBarChart, MoreHorizontal, Bell, LayoutGrid } from "lucide-react";
 import { PageShell } from "@/components/Shell";
-import { Donut, Stat, Avatar } from "@/components/Bits";
+import { Donut, Stat, Avatar, Legend } from "@/components/Bits";
+import { MonthBars } from "@/components/MonthBars";
 import { Tag } from "@/components/Tag";
-import { stageChips } from "@/data/mock";
+import { stageChips, ticketStatusSegments, projectMonthly, projectYears } from "@/data/mock";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -17,14 +18,6 @@ export const Route = createFileRoute("/admin")({
   component: Admin,
 });
 
-const ticketChips: { label: string; count: number; tone: "sky" | "mint" }[] = [
-  { label: "新建", count: 0, tone: "sky" },
-  { label: "处理中", count: 24, tone: "mint" },
-  { label: "暂停/挂起", count: 0, tone: "sky" },
-  { label: "已解决", count: 2, tone: "mint" },
-  { label: "已关闭", count: 8, tone: "sky" },
-  { label: "已取消", count: 1, tone: "mint" },
-];
 
 function SectionTitle({ title, to, action }: { title: string; to?: string; action?: string }) {
   return (
@@ -76,6 +69,8 @@ function WelcomeHeader() {
   );
 }
 
+const ticketTotal = ticketStatusSegments.reduce((s, x) => s + x.value, 0);
+
 function Admin() {
   return (
     <PageShell title="后台管理">
@@ -84,26 +79,27 @@ function Admin() {
       <section className="surface-card p-4">
         <div className="flex items-center gap-4">
           <Donut
-            segments={[
-              { value: 24, tone: "mint" },
-              { value: 8, tone: "sky" },
-              { value: 2, tone: "mint" },
-              { value: 1, tone: "sky" },
-            ]}
+            segments={ticketStatusSegments.map((s) => ({ value: s.value, tone: s.tone }))}
+            size={140}
+            thickness={20}
+            gap={3}
+            centerValue={ticketTotal}
+            centerLabel="工单总数"
           />
-          <div className="grid flex-1 grid-cols-2 gap-4">
-            <Stat value={35} label="总工单数" tone="mint" />
-            <Stat value={24} label="待处理" tone="sky" />
-            <Stat value={0} label="超时工单" tone="mint" />
-            <Stat value="6%" label="解决率" tone="sky" />
-          </div>
+          <Legend
+            items={ticketStatusSegments.map((s) => ({
+              label: s.label,
+              value: s.value,
+              tone: s.tone,
+              percent: Math.round((s.value / (ticketTotal || 1)) * 100),
+            }))}
+          />
         </div>
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
-          {ticketChips.map((c) => (
-            <Tag key={c.label} tone={c.tone}>
-              {c.label} {c.count}
-            </Tag>
-          ))}
+        <div className="mt-4 grid grid-cols-4 gap-2 border-t border-border/70 pt-3">
+          <Stat value={ticketTotal} label="总工单数" tone="blue-1" />
+          <Stat value={24} label="待处理" tone="blue-2" />
+          <Stat value={0} label="超时工单" tone="blue-3" />
+          <Stat value="6%" label="解决率" tone="blue-4" />
         </div>
       </section>
 
@@ -111,43 +107,35 @@ function Admin() {
       <section className="surface-card p-4">
         <div className="flex items-center">
           <h3 className="text-[13px] font-semibold text-muted-foreground">调度项目看板</h3>
-          <button className="ml-auto flex items-center gap-1 rounded-full bg-gray-soft px-3 py-1.5 text-[11.5px] font-medium text-gray">
+          <button className="ml-auto flex items-center gap-1 rounded-full bg-blue-soft px-3 py-1.5 text-[11.5px] font-medium text-blue-2">
             <RefreshCw className="size-3.5" /> 同步最新数据
           </button>
         </div>
-        <div className="mt-3 flex items-center gap-4">
-          <Donut
-            segments={[
-              { value: 21, tone: "gray" },
-              { value: 18, tone: "gray-light" },
-              { value: 16, tone: "gray-dark" },
-              { value: 13, tone: "gray" },
-              { value: 10, tone: "gray-light" },
-              { value: 4, tone: "gray-dark" },
-            ]}
-          />
-          <div className="grid flex-1 grid-cols-2 gap-4">
-            <Stat value={106} label="项目总数" tone="gray" />
-            <Stat value={0} label="本月新增" tone="gray" />
-            <Stat value={0} label="风险项目" tone="gray" />
-            <Stat value={3} label="对接人缺省" tone="gray" />
-          </div>
+
+        <MonthBars data={projectMonthly} years={projectYears} className="mt-3" />
+
+        <div className="mt-4 grid grid-cols-4 gap-2 border-t border-border/70 pt-3">
+          <Stat value={106} label="项目总数" tone="blue-1" />
+          <Stat value={0} label="本月新增" tone="blue-2" />
+          <Stat value={0} label="风险项目" tone="blue-3" />
+          <Stat value={3} label="对接人缺省" tone="blue-4" />
         </div>
         <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
           {stageChips.map((c) => (
-            <Tag key={c.label} tone="gray">
+            <Tag key={c.label} tone={c.count > 0 ? "blue" : "gray"}>
               {c.label} {c.count}
             </Tag>
           ))}
         </div>
 
+
         <h3 className="mt-5 text-[13px] font-semibold text-muted-foreground">项目紧急度看板</h3>
         <div className="mt-2 grid grid-cols-2 gap-2">
           {[
-            { v: 69, l: "重要紧急", tone: "gray" },
-            { v: 37, l: "重要不紧急", tone: "gray-light" },
-            { v: 0, l: "紧急不重要", tone: "gray-dark" },
-            { v: 0, l: "不重要不紧急", tone: "gray" },
+            { v: 69, l: "重要紧急", tone: "blue-1" },
+            { v: 37, l: "重要不紧急", tone: "blue-2" },
+            { v: 0, l: "紧急不重要", tone: "blue-3" },
+            { v: 0, l: "不重要不紧急", tone: "blue-4" },
           ].map((x) => (
             <div
               key={x.l}
@@ -168,10 +156,10 @@ function Admin() {
       <SectionTitle title="更多功能" />
       <section className="grid grid-cols-4 gap-2">
         {[
-          { label: "项目管理", icon: FolderKanban, to: "/projects", tone: "butter" },
-          { label: "数据管理", icon: Database, to: "/projects", tone: "sky" },
-          { label: "日报周报", icon: FileBarChart, to: "/tasks", tone: "lilac" },
-          { label: "其他", icon: MoreHorizontal, to: "/tasks", tone: "mint" },
+          { label: "项目管理", icon: FolderKanban, to: "/projects", tone: "blue-1" },
+          { label: "数据管理", icon: Database, to: "/projects", tone: "blue-2" },
+          { label: "日报周报", icon: FileBarChart, to: "/tasks", tone: "blue-3" },
+          { label: "其他", icon: MoreHorizontal, to: "/tasks", tone: "blue-4" },
         ].map(({ label, icon: Icon, to, tone }) => (
           <Link key={label} to={to} className="surface-card flex flex-col items-center gap-2 py-4">
             <span

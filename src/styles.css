@@ -61,6 +61,15 @@
   --color-gray-light: var(--gray-light);
   --color-gray-dark: var(--gray-dark);
 
+  /* 蓝色阶（参考看板配色） */
+  --color-blue-1: var(--blue-1);
+  --color-blue-2: var(--blue-2);
+  --color-blue-3: var(--blue-3);
+  --color-blue-4: var(--blue-4);
+  --color-blue-5: var(--blue-5);
+  --color-blue-soft: var(--blue-soft);
+
+
   --color-chart-1: var(--mint);
   --color-chart-2: var(--sky);
   --color-chart-3: var(--lilac);
@@ -82,7 +91,7 @@
   --popover-foreground: oklch(0.26 0.008 220);
 
   /* 蒂芙尼蓝 */
-  --primary: oklch(0.78 0.096 189);
+  --primary: oklch(0.66 0.115 230);
   --primary-foreground: oklch(0.99 0.003 200);
 
   --secondary: oklch(0.958 0.004 210);
@@ -91,7 +100,7 @@
   --muted: oklch(0.962 0.003 210);
   --muted-foreground: oklch(0.58 0.008 220);
 
-  --accent: oklch(0.94 0.035 189);
+  --accent: oklch(0.94 0.035 228);
   --accent-foreground: oklch(0.38 0.05 195);
 
   --destructive: oklch(0.55 0.02 220);
@@ -99,13 +108,13 @@
 
   --border: oklch(0.922 0.003 210);
   --input: oklch(0.94 0.003 210);
-  --ring: oklch(0.82 0.07 189);
+  --ring: oklch(0.72 0.08 230);
 
   /* 单色调蒂芙尼蓝阶 + 中性灰，仅明度/饱和度变化 */
-  --mint: oklch(0.74 0.105 189);
-  --mint-soft: oklch(0.955 0.033 189);
-  --sky: oklch(0.66 0.085 196);
-  --sky-soft: oklch(0.948 0.026 196);
+  --mint: oklch(0.66 0.115 230);
+  --mint-soft: oklch(0.955 0.028 228);
+  --sky: oklch(0.52 0.095 232);
+  --sky-soft: oklch(0.945 0.024 230);
   --rose: oklch(0.45 0.012 215);
   --rose-soft: oklch(0.93 0.004 215);
   --butter: oklch(0.83 0.06 185);
@@ -119,6 +128,15 @@
   --gray-soft: oklch(0.92 0 220);
   --gray-light: oklch(0.72 0 220);
   --gray-dark: oklch(0.32 0 220);
+
+  /* 参考看板蓝色阶：深 → 浅 */
+  --blue-1: oklch(0.36 0.062 234);
+  --blue-2: oklch(0.52 0.095 232);
+  --blue-3: oklch(0.66 0.115 230);
+  --blue-4: oklch(0.79 0.085 228);
+  --blue-5: oklch(0.89 0.05 226);
+  --blue-soft: oklch(0.955 0.022 226);
+
 
   --shadow-soft: 0 1px 2px oklch(0.5 0.01 220 / 0.04), 0 8px 24px oklch(0.5 0.01 220 / 0.06);
   --shadow-float: 0 2px 6px oklch(0.5 0.01 220 / 0.06), 0 16px 40px oklch(0.5 0.01 220 / 0.1);
