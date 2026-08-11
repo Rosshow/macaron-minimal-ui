@@ -15,6 +15,11 @@ const toneVar: Record<string, string> = {
   "blue-3": "var(--blue-3)",
   "blue-4": "var(--blue-4)",
   "blue-5": "var(--blue-5)",
+  "clay-1": "var(--clay-1)",
+  "clay-2": "var(--clay-2)",
+  "clay-3": "var(--clay-3)",
+  "clay-4": "var(--clay-4)",
+  "clay-5": "var(--clay-5)",
 };
 
 export function toneColor(tone: string) {
