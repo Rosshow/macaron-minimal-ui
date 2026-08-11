@@ -7,6 +7,9 @@ const toneVar: Record<string, string> = {
   butter: "var(--butter)",
   lilac: "var(--lilac)",
   apricot: "var(--apricot)",
+  gray: "var(--gray)",
+  "gray-light": "var(--gray-light)",
+  "gray-dark": "var(--gray-dark)",
 };
 
 export function Avatar({

@@ -56,6 +56,11 @@
   --color-apricot: var(--apricot);
   --color-apricot-soft: var(--apricot-soft);
 
+  --color-gray: var(--gray);
+  --color-gray-soft: var(--gray-soft);
+  --color-gray-light: var(--gray-light);
+  --color-gray-dark: var(--gray-dark);
+
   --color-chart-1: var(--mint);
   --color-chart-2: var(--sky);
   --color-chart-3: var(--lilac);
@@ -109,6 +114,11 @@
   --lilac-soft: oklch(0.94 0.018 198);
   --apricot: oklch(0.62 0.02 215);
   --apricot-soft: oklch(0.955 0.005 215);
+
+  --gray: oklch(0.55 0 220);
+  --gray-soft: oklch(0.92 0 220);
+  --gray-light: oklch(0.72 0 220);
+  --gray-dark: oklch(0.32 0 220);
 
   --shadow-soft: 0 1px 2px oklch(0.5 0.01 220 / 0.04), 0 8px 24px oklch(0.5 0.01 220 / 0.06);
   --shadow-float: 0 2px 6px oklch(0.5 0.01 220 / 0.06), 0 16px 40px oklch(0.5 0.01 220 / 0.1);

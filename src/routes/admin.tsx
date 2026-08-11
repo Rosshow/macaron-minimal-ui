@@ -17,13 +17,13 @@ export const Route = createFileRoute("/admin")({
   component: Admin,
 });
 
-const ticketChips: { label: string; count: number; tone: "sky" | "mint" | "butter" | "lilac" | "rose" | "apricot" }[] = [
+const ticketChips: { label: string; count: number; tone: "sky" | "mint" }[] = [
   { label: "新建", count: 0, tone: "sky" },
   { label: "处理中", count: 24, tone: "mint" },
-  { label: "暂停/挂起", count: 0, tone: "apricot" },
-  { label: "已解决", count: 2, tone: "lilac" },
-  { label: "已关闭", count: 8, tone: "butter" },
-  { label: "已取消", count: 1, tone: "rose" },
+  { label: "暂停/挂起", count: 0, tone: "sky" },
+  { label: "已解决", count: 2, tone: "mint" },
+  { label: "已关闭", count: 8, tone: "sky" },
+  { label: "已取消", count: 1, tone: "mint" },
 ];
 
 function SectionTitle({ title, to, action }: { title: string; to?: string; action?: string }) {
@@ -87,15 +87,15 @@ function Admin() {
             segments={[
               { value: 24, tone: "mint" },
               { value: 8, tone: "sky" },
-              { value: 2, tone: "lilac" },
-              { value: 1, tone: "rose" },
+              { value: 2, tone: "mint" },
+              { value: 1, tone: "sky" },
             ]}
           />
           <div className="grid flex-1 grid-cols-2 gap-4">
-            <Stat value={35} label="总工单数" tone="sky" />
-            <Stat value={24} label="待处理" tone="apricot" />
-            <Stat value={0} label="超时工单" tone="rose" />
-            <Stat value="6%" label="解决率" tone="mint" />
+            <Stat value={35} label="总工单数" tone="mint" />
+            <Stat value={24} label="待处理" tone="sky" />
+            <Stat value={0} label="超时工单" tone="mint" />
+            <Stat value="6%" label="解决率" tone="sky" />
           </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
@@ -111,31 +111,31 @@ function Admin() {
       <section className="surface-card p-4">
         <div className="flex items-center">
           <h3 className="text-[13px] font-semibold text-muted-foreground">调度项目看板</h3>
-          <button className="ml-auto flex items-center gap-1 rounded-full bg-mint-soft px-3 py-1.5 text-[11.5px] font-medium text-mint">
+          <button className="ml-auto flex items-center gap-1 rounded-full bg-gray-soft px-3 py-1.5 text-[11.5px] font-medium text-gray">
             <RefreshCw className="size-3.5" /> 同步最新数据
           </button>
         </div>
         <div className="mt-3 flex items-center gap-4">
           <Donut
             segments={[
-              { value: 21, tone: "mint" },
-              { value: 18, tone: "sky" },
-              { value: 16, tone: "lilac" },
-              { value: 13, tone: "apricot" },
-              { value: 10, tone: "butter" },
-              { value: 4, tone: "rose" },
+              { value: 21, tone: "gray" },
+              { value: 18, tone: "gray-light" },
+              { value: 16, tone: "gray-dark" },
+              { value: 13, tone: "gray" },
+              { value: 10, tone: "gray-light" },
+              { value: 4, tone: "gray-dark" },
             ]}
           />
           <div className="grid flex-1 grid-cols-2 gap-4">
-            <Stat value={106} label="项目总数" tone="sky" />
-            <Stat value={0} label="本月新增" tone="mint" />
-            <Stat value={0} label="风险项目" tone="rose" />
-            <Stat value={3} label="对接人缺省" tone="apricot" />
+            <Stat value={106} label="项目总数" tone="gray" />
+            <Stat value={0} label="本月新增" tone="gray" />
+            <Stat value={0} label="风险项目" tone="gray" />
+            <Stat value={3} label="对接人缺省" tone="gray" />
           </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
           {stageChips.map((c) => (
-            <Tag key={c.label} tone={c.tone}>
+            <Tag key={c.label} tone="gray">
               {c.label} {c.count}
             </Tag>
           ))}
@@ -144,10 +144,10 @@ function Admin() {
         <h3 className="mt-5 text-[13px] font-semibold text-muted-foreground">项目紧急度看板</h3>
         <div className="mt-2 grid grid-cols-2 gap-2">
           {[
-            { v: 69, l: "重要紧急", tone: "rose" },
-            { v: 37, l: "重要不紧急", tone: "apricot" },
-            { v: 0, l: "紧急不重要", tone: "sky" },
-            { v: 0, l: "不重要不紧急", tone: "mint" },
+            { v: 69, l: "重要紧急", tone: "gray" },
+            { v: 37, l: "重要不紧急", tone: "gray-light" },
+            { v: 0, l: "紧急不重要", tone: "gray-dark" },
+            { v: 0, l: "不重要不紧急", tone: "gray" },
           ].map((x) => (
             <div
               key={x.l}
