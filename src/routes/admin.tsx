@@ -77,26 +77,27 @@ function Admin() {
       <section className="surface-card p-4">
         <div className="flex items-center gap-4">
           <Donut
-            segments={[
-              { value: 24, tone: "mint" },
-              { value: 8, tone: "sky" },
-              { value: 2, tone: "mint" },
-              { value: 1, tone: "sky" },
-            ]}
+            segments={ticketStatusSegments.map((s) => ({ value: s.value, tone: s.tone }))}
+            size={140}
+            thickness={20}
+            gap={3}
+            centerValue={ticketTotal}
+            centerLabel="工单总数"
           />
-          <div className="grid flex-1 grid-cols-2 gap-4">
-            <Stat value={35} label="总工单数" tone="mint" />
-            <Stat value={24} label="待处理" tone="sky" />
-            <Stat value={0} label="超时工单" tone="mint" />
-            <Stat value="6%" label="解决率" tone="sky" />
-          </div>
+          <Legend
+            items={ticketStatusSegments.map((s) => ({
+              label: s.label,
+              value: s.value,
+              tone: s.tone,
+              percent: Math.round((s.value / (ticketTotal || 1)) * 100),
+            }))}
+          />
         </div>
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
-          {ticketChips.map((c) => (
-            <Tag key={c.label} tone={c.tone}>
-              {c.label} {c.count}
-            </Tag>
-          ))}
+        <div className="mt-4 grid grid-cols-4 gap-2 border-t border-border/70 pt-3">
+          <Stat value={ticketTotal} label="总工单数" tone="blue-1" />
+          <Stat value={24} label="待处理" tone="blue-2" />
+          <Stat value={0} label="超时工单" tone="blue-3" />
+          <Stat value="6%" label="解决率" tone="blue-4" />
         </div>
       </section>
 
@@ -104,35 +105,27 @@ function Admin() {
       <section className="surface-card p-4">
         <div className="flex items-center">
           <h3 className="text-[13px] font-semibold text-muted-foreground">调度项目看板</h3>
-          <button className="ml-auto flex items-center gap-1 rounded-full bg-gray-soft px-3 py-1.5 text-[11.5px] font-medium text-gray">
+          <button className="ml-auto flex items-center gap-1 rounded-full bg-blue-soft px-3 py-1.5 text-[11.5px] font-medium text-blue-2">
             <RefreshCw className="size-3.5" /> 同步最新数据
           </button>
         </div>
-        <div className="mt-3 flex items-center gap-4">
-          <Donut
-            segments={[
-              { value: 21, tone: "gray" },
-              { value: 18, tone: "gray-light" },
-              { value: 16, tone: "gray-dark" },
-              { value: 13, tone: "gray" },
-              { value: 10, tone: "gray-light" },
-              { value: 4, tone: "gray-dark" },
-            ]}
-          />
-          <div className="grid flex-1 grid-cols-2 gap-4">
-            <Stat value={106} label="项目总数" tone="gray" />
-            <Stat value={0} label="本月新增" tone="gray" />
-            <Stat value={0} label="风险项目" tone="gray" />
-            <Stat value={3} label="对接人缺省" tone="gray" />
-          </div>
+
+        <MonthBars data={projectMonthly} years={projectYears} className="mt-3" />
+
+        <div className="mt-4 grid grid-cols-4 gap-2 border-t border-border/70 pt-3">
+          <Stat value={106} label="项目总数" tone="blue-1" />
+          <Stat value={0} label="本月新增" tone="blue-2" />
+          <Stat value={0} label="风险项目" tone="blue-3" />
+          <Stat value={3} label="对接人缺省" tone="blue-4" />
         </div>
         <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
           {stageChips.map((c) => (
-            <Tag key={c.label} tone="gray">
+            <Tag key={c.label} tone={c.count > 0 ? "blue" : "gray"}>
               {c.label} {c.count}
             </Tag>
           ))}
         </div>
+
 
         <h3 className="mt-5 text-[13px] font-semibold text-muted-foreground">项目紧急度看板</h3>
         <div className="mt-2 grid grid-cols-2 gap-2">
