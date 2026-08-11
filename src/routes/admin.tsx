@@ -3,8 +3,7 @@ import { ChevronRight, RefreshCw, FolderKanban, Database, FileBarChart, MoreHori
 import { PageShell } from "@/components/Shell";
 import { Donut, Stat, Avatar, Legend } from "@/components/Bits";
 import { MonthBars } from "@/components/MonthBars";
-import { Tag } from "@/components/Tag";
-import { stageChips, ticketStatusSegments, projectMonthly, projectYears } from "@/data/mock";
+import { ticketStatusSegments, projectMonthly, projectYears } from "@/data/mock";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -119,13 +118,6 @@ function Admin() {
           <Stat value={0} label="本月新增" tone="blue-2" />
           <Stat value={0} label="风险项目" tone="blue-3" />
           <Stat value={3} label="对接人缺省" tone="blue-4" />
-        </div>
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
-          {stageChips.map((c) => (
-            <Tag key={c.label} tone={c.count > 0 ? "blue" : "gray"}>
-              {c.label} {c.count}
-            </Tag>
-          ))}
         </div>
 
 
