@@ -69,6 +69,8 @@ function WelcomeHeader() {
   );
 }
 
+const ticketTotal = ticketStatusSegments.reduce((s, x) => s + x.value, 0);
+
 function Admin() {
   return (
     <PageShell title="后台管理">
@@ -130,10 +132,10 @@ function Admin() {
         <h3 className="mt-5 text-[13px] font-semibold text-muted-foreground">项目紧急度看板</h3>
         <div className="mt-2 grid grid-cols-2 gap-2">
           {[
-            { v: 69, l: "重要紧急", tone: "gray" },
-            { v: 37, l: "重要不紧急", tone: "gray-light" },
-            { v: 0, l: "紧急不重要", tone: "gray-dark" },
-            { v: 0, l: "不重要不紧急", tone: "gray" },
+            { v: 69, l: "重要紧急", tone: "blue-1" },
+            { v: 37, l: "重要不紧急", tone: "blue-2" },
+            { v: 0, l: "紧急不重要", tone: "blue-3" },
+            { v: 0, l: "不重要不紧急", tone: "blue-4" },
           ].map((x) => (
             <div
               key={x.l}
