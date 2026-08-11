@@ -56,6 +56,11 @@
   --color-apricot: var(--apricot);
   --color-apricot-soft: var(--apricot-soft);
 
+  --color-gray: var(--gray);
+  --color-gray-soft: var(--gray-soft);
+  --color-gray-light: var(--gray-light);
+  --color-gray-dark: var(--gray-dark);
+
   --color-chart-1: var(--mint);
   --color-chart-2: var(--sky);
   --color-chart-3: var(--lilac);
