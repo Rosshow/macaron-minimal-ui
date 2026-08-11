@@ -17,13 +17,13 @@ export const Route = createFileRoute("/admin")({
   component: Admin,
 });
 
-const ticketChips: { label: string; count: number; tone: "sky" | "mint" | "butter" | "lilac" | "rose" | "apricot" }[] = [
+const ticketChips: { label: string; count: number; tone: "sky" | "mint" }[] = [
   { label: "新建", count: 0, tone: "sky" },
   { label: "处理中", count: 24, tone: "mint" },
-  { label: "暂停/挂起", count: 0, tone: "apricot" },
-  { label: "已解决", count: 2, tone: "lilac" },
-  { label: "已关闭", count: 8, tone: "butter" },
-  { label: "已取消", count: 1, tone: "rose" },
+  { label: "暂停/挂起", count: 0, tone: "sky" },
+  { label: "已解决", count: 2, tone: "mint" },
+  { label: "已关闭", count: 8, tone: "sky" },
+  { label: "已取消", count: 1, tone: "mint" },
 ];
 
 function SectionTitle({ title, to, action }: { title: string; to?: string; action?: string }) {
