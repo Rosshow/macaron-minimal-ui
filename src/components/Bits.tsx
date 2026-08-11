@@ -10,7 +10,13 @@ const toneVar: Record<string, string> = {
   gray: "var(--gray)",
   "gray-light": "var(--gray-light)",
   "gray-dark": "var(--gray-dark)",
+  "blue-1": "var(--blue-1)",
+  "blue-2": "var(--blue-2)",
+  "blue-3": "var(--blue-3)",
+  "blue-4": "var(--blue-4)",
+  "blue-5": "var(--blue-5)",
 };
+
 
 export function Avatar({
   name,
