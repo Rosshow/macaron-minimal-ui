@@ -69,6 +69,14 @@
   --color-blue-5: var(--blue-5);
   --color-blue-soft: var(--blue-soft);
 
+  /* 陶土棕色阶（项目相关） */
+  --color-clay-1: var(--clay-1);
+  --color-clay-2: var(--clay-2);
+  --color-clay-3: var(--clay-3);
+  --color-clay-4: var(--clay-4);
+  --color-clay-5: var(--clay-5);
+  --color-clay-soft: var(--clay-soft);
+
 
   --color-chart-1: var(--mint);
   --color-chart-2: var(--sky);
@@ -136,6 +144,14 @@
   --blue-4: oklch(0.79 0.085 228);
   --blue-5: oklch(0.89 0.05 226);
   --blue-soft: oklch(0.955 0.022 226);
+
+  /* 项目相关：#8b6147 同色调，仅明度/饱和度变化 */
+  --clay-1: oklch(0.38 0.05 52.5);
+  --clay-2: oklch(0.53 0.067 52.5);
+  --clay-3: oklch(0.66 0.072 52.5);
+  --clay-4: oklch(0.79 0.055 52.5);
+  --clay-5: oklch(0.89 0.032 52.5);
+  --clay-soft: oklch(0.955 0.016 52.5);
 
 
   --shadow-soft: 0 1px 2px oklch(0.5 0.01 220 / 0.04), 0 8px 24px oklch(0.5 0.01 220 / 0.06);
