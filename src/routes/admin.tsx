@@ -87,15 +87,15 @@ function Admin() {
             segments={[
               { value: 24, tone: "mint" },
               { value: 8, tone: "sky" },
-              { value: 2, tone: "lilac" },
-              { value: 1, tone: "rose" },
+              { value: 2, tone: "mint" },
+              { value: 1, tone: "sky" },
             ]}
           />
           <div className="grid flex-1 grid-cols-2 gap-4">
-            <Stat value={35} label="总工单数" tone="sky" />
-            <Stat value={24} label="待处理" tone="apricot" />
-            <Stat value={0} label="超时工单" tone="rose" />
-            <Stat value="6%" label="解决率" tone="mint" />
+            <Stat value={35} label="总工单数" tone="mint" />
+            <Stat value={24} label="待处理" tone="sky" />
+            <Stat value={0} label="超时工单" tone="mint" />
+            <Stat value="6%" label="解决率" tone="sky" />
           </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
