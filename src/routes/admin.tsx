@@ -43,6 +43,39 @@ function SectionTitle({ title, to, action }: { title: string; to?: string; actio
   );
 }
 
+function WelcomeHeader() {
+  return (
+    <section className="mb-2 flex items-center justify-between px-1">
+      <div className="flex items-center gap-3">
+        <Avatar name="管" tone="mint" className="size-11 text-[15px]" />
+        <div>
+          <div className="text-[13px] leading-tight text-muted-foreground">Hello,</div>
+          <div className="text-[17px] font-bold leading-tight tracking-tight text-foreground">
+            管理员
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          aria-label="通知"
+          className="relative grid size-10 place-items-center rounded-full border border-border/70 bg-card text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <Bell className="size-[18px]" />
+          <span className="absolute right-2 top-2 size-2 rounded-full bg-rose" />
+        </button>
+        <button
+          type="button"
+          aria-label="菜单"
+          className="grid size-10 place-items-center rounded-full border border-border/70 bg-card text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <LayoutGrid className="size-[18px]" />
+        </button>
+      </div>
+    </section>
+  );
+}
+
 function Admin() {
   return (
     <PageShell title="后台管理">
