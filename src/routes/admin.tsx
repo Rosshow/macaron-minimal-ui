@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight, RefreshCw, FolderKanban, Database, FileBarChart, MoreHorizontal } from "lucide-react";
+import { ChevronRight, RefreshCw, FolderKanban, Database, FileBarChart, MoreHorizontal, Bell, LayoutGrid } from "lucide-react";
 import { PageShell } from "@/components/Shell";
-import { Donut, Stat } from "@/components/Bits";
+import { Donut, Stat, Avatar } from "@/components/Bits";
 import { Tag } from "@/components/Tag";
 import { stageChips } from "@/data/mock";
 
