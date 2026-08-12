@@ -59,17 +59,17 @@ function Detail() {
       </section>
 
       <section className="surface-card mt-3 flex items-center gap-3 p-4">
-        <Avatar name={t.reporter} tone="lilac" />
+        <Avatar name={t.reporter} tone="blue-3" />
         <div className="leading-tight">
           <div className="text-[10px] text-muted-foreground">发起人</div>
           <div className="text-[13px] font-medium">{t.reporter}</div>
         </div>
-        <ArrowRight className="mx-auto size-4 text-sky" />
+        <ArrowRight className="mx-auto size-4 text-blue-3" />
         <div className="text-right leading-tight">
           <div className="text-[10px] text-muted-foreground">处理人</div>
           <div className="text-[13px] font-medium">{t.owner}</div>
         </div>
-        <Avatar name={t.owner} tone="sky" />
+        <Avatar name={t.owner} tone="blue-2" />
       </section>
 
       <section className="surface-card mt-3 p-4">
@@ -93,7 +93,7 @@ function Detail() {
         </div>
 
         <div className="mt-3 rounded-3xl bg-secondary/60 p-4">
-          <div className="flex items-center gap-2 text-[12px] font-semibold text-lilac">
+          <div className="flex items-center gap-2 text-[12px] font-semibold text-blue-2">
             <Bot className="size-3.5" /> U老师
           </div>
           <p className="mt-2 text-[12.5px] leading-6">
@@ -101,15 +101,15 @@ function Detail() {
           </p>
           <ul className="mt-2 space-y-1.5 text-[12.5px] leading-6 text-muted-foreground">
             <li className="flex gap-2">
-              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-mint" />
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-blue-3" />
               在讨论区每条评论的操作区增加「引用」按钮，点击后将作者与内容摘要带入输入框。
             </li>
             <li className="flex gap-2">
-              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-sky" />
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-blue-4" />
               评论数据结构增加 quote 字段（被引用评论 ID、作者、内容快照），前端以引用卡片样式展示。
             </li>
             <li className="flex gap-2">
-              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-apricot" />
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-blue-2" />
               指定处理人评估组件复用方案与接口兼容性，建议排期纳入迭代。
             </li>
           </ul>
@@ -117,7 +117,7 @@ function Detail() {
         </div>
 
         <div className="mt-3 flex gap-2">
-          <Avatar name={t.owner} tone="sky" />
+          <Avatar name={t.owner} tone="blue-2" />
           <div className="rounded-2xl rounded-tl-md bg-card px-3 py-2 text-[12.5px] shadow-[var(--shadow-soft)]">
             <div className="text-[11px] text-muted-foreground">{t.owner} · 2 天前</div>
             <div className="mt-0.5">收到，本周排期评估。</div>
@@ -125,13 +125,13 @@ function Detail() {
         </div>
 
         <div className="mt-4">
-          <span className="inline-flex rounded-full bg-lilac-soft px-3 py-1 text-[11.5px] font-semibold text-lilac">
+          <span className="inline-flex rounded-full bg-blue-soft px-3 py-1 text-[11.5px] font-semibold text-blue-2">
             @U老师
           </span>
           <div className="mt-2 flex items-center gap-2">
             <input
               placeholder="直接评论或者 @U老师 进行讨论"
-              className="h-10 flex-1 rounded-full border border-border bg-card px-4 text-[12.5px] outline-none transition focus:border-mint"
+              className="h-10 flex-1 rounded-full border border-border bg-card px-4 text-[12.5px] outline-none transition focus:border-primary"
             />
             <button className="grid size-9 place-items-center rounded-full bg-secondary text-muted-foreground">
               <Paperclip className="size-4" />

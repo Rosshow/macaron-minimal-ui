@@ -63,17 +63,17 @@ function History() {
               </p>
               <p className="mt-2 text-[11.5px] text-muted-foreground">所属项目 · {t.project}</p>
               <div className="mt-3 flex items-center gap-3">
-                <Avatar name={t.reporter} tone="lilac" />
+                <Avatar name={t.reporter} tone="blue-3" />
                 <div className="leading-tight">
                   <div className="text-[10px] text-muted-foreground">发起人</div>
                   <div className="text-[12.5px] font-medium">{t.reporter}</div>
                 </div>
-                <ArrowRight className="mx-auto size-4 text-sky" />
+                <ArrowRight className="mx-auto size-4 text-blue-3" />
                 <div className="text-right leading-tight">
                   <div className="text-[10px] text-muted-foreground">处理人</div>
                   <div className="text-[12.5px] font-medium">{t.owner}</div>
                 </div>
-                <Avatar name={t.owner} tone="sky" />
+                <Avatar name={t.owner} tone="blue-2" />
               </div>
               <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5">
                 <Tag tone={statusTone[t.status]}>{t.status}</Tag>

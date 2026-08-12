@@ -21,7 +21,7 @@ export const Route = createFileRoute("/admin")({
 function SectionTitle({ title, to, action }: { title: string; to?: string; action?: string }) {
   return (
     <div className="mb-2 mt-6 flex items-center gap-2 px-1">
-      <span className="h-4 w-1 rounded-full bg-mint" />
+      <span className="h-4 w-1 rounded-full bg-blue-3" />
       <h2 className="text-[14px] font-bold">{title}</h2>
       {to ? (
         <Link
@@ -39,7 +39,7 @@ function WelcomeHeader() {
   return (
     <section className="mb-2 flex items-center justify-between px-1">
       <div className="flex items-center gap-3">
-        <Avatar name="管" tone="mint" className="size-11 text-[15px]" />
+        <Avatar name="管" tone="blue-3" className="size-11 text-[15px]" />
         <div>
           <div className="text-[13px] leading-tight text-muted-foreground">Hello,</div>
           <div className="text-[17px] font-bold leading-tight tracking-tight text-foreground">
@@ -54,7 +54,7 @@ function WelcomeHeader() {
           className="relative grid size-10 place-items-center rounded-full border border-border/70 bg-card text-muted-foreground transition-colors hover:text-foreground"
         >
           <Bell className="size-[18px]" />
-          <span className="absolute right-2 top-2 size-2 rounded-full bg-rose" />
+          <span className="absolute right-2 top-2 size-2 rounded-full bg-blue-2" />
         </button>
         <button
           type="button"

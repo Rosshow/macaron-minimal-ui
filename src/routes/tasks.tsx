@@ -44,7 +44,7 @@ function Tasks() {
             onClick={() => setSort(s)}
             className={cn(
               "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
-              sort === s ? "bg-rose-soft text-rose" : "bg-card text-muted-foreground",
+              sort === s ? "bg-blue-soft text-blue-2" : "bg-card text-muted-foreground",
             )}
           >
             {s}
@@ -83,17 +83,17 @@ function Tasks() {
               </div>
               <h3 className="mt-2.5 text-[15px] font-bold leading-6">{t.title}</h3>
               <div className="mt-3 flex items-center gap-3">
-                <Avatar name={t.reporter} tone="lilac" />
+                <Avatar name={t.reporter} tone="blue-3" />
                 <div className="leading-tight">
                   <div className="text-[10px] text-muted-foreground">发起人</div>
                   <div className="text-[12.5px] font-medium">{t.reporter}</div>
                 </div>
-                <ArrowRight className="mx-auto size-4 text-sky" />
+                <ArrowRight className="mx-auto size-4 text-blue-3" />
                 <div className="text-right leading-tight">
                   <div className="text-[10px] text-muted-foreground">处理人</div>
                   <div className="text-[12.5px] font-medium">{t.owner}</div>
                 </div>
-                <Avatar name={t.owner} tone="sky" />
+                <Avatar name={t.owner} tone="blue-2" />
               </div>
               <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5 text-[11px] text-muted-foreground">
                 <span className="rounded-full bg-secondary px-2 py-0.5">{t.no}</span>
