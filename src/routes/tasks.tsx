@@ -69,7 +69,7 @@ function TicketCard({ t }: { t: Ticket }) {
         </div>
 
         <div className="mt-3 flex items-center gap-2">
-          <Avatar name={t.reporter} plain size="md" className="bg-gray-light text-foreground" />
+          <Avatar name={t.reporter} plain size="md" />
           <div className="leading-tight">
             <div className="text-[10px] text-muted-foreground">发起人</div>
             <div className="text-[12px] font-medium text-foreground">{t.reporter}</div>
@@ -84,7 +84,7 @@ function TicketCard({ t }: { t: Ticket }) {
             <div className="text-[10px] text-muted-foreground">处理人</div>
             <div className="text-[12px] font-medium text-foreground">{t.owner}</div>
           </div>
-          <Avatar name={t.owner} plain size="md" className="bg-gray-light text-foreground" />
+          <Avatar name={t.owner} plain size="md" />
         </div>
 
         <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5 text-[11px] text-muted-foreground">
@@ -195,7 +195,7 @@ function Tasks() {
                 className={cn(
                   "rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
                   filter === f
-                    ? "bg-secondary text-foreground"
+                    ? "bg-gray-soft text-foreground"
                     : "bg-card text-muted-foreground",
                 )}
               >

@@ -10,6 +10,7 @@ const toneVar: Record<string, string> = {
   gray: "var(--gray)",
   "gray-light": "var(--gray-light)",
   "gray-dark": "var(--gray-dark)",
+  "gray-40": "var(--gray-40)",
   "blue-1": "var(--blue-1)",
   "blue-2": "var(--blue-2)",
   "blue-3": "var(--blue-3)",
@@ -50,7 +51,7 @@ export function Avatar({
       className={cn(
         "grid shrink-0 place-items-center rounded-full font-semibold",
         sizing,
-        plain ? "bg-secondary text-muted-foreground" : "text-card",
+        plain ? "bg-gray-40 text-white" : "text-card",
         className,
       )}
       style={plain ? undefined : { background: toneColor(String(tone)) }}

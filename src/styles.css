@@ -60,6 +60,7 @@
   --color-gray-soft: var(--gray-soft);
   --color-gray-light: var(--gray-light);
   --color-gray-dark: var(--gray-dark);
+  --color-gray-40: var(--gray-40);
 
   /* 蓝色阶（参考看板配色） */
   --color-blue-1: var(--blue-1);
@@ -137,6 +138,7 @@
   --gray-soft: oklch(0.93 0 220);
   --gray-light: oklch(0.78 0 220);
   --gray-dark: oklch(0.38 0 220);
+  --gray-40: oklch(0.40 0 220);
 
   /* 参考看板蓝色阶：深 → 浅（整体提亮，最深色不再偏暗） */
   --blue-1: oklch(0.52 0.06 234);
