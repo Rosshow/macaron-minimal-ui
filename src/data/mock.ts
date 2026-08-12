@@ -11,6 +11,7 @@ export type Ticket = {
   desc: string;
   owner: string;
   reporter: string;
+  participants: string[];
   date: string;
 };
 
@@ -26,6 +27,7 @@ export const tickets: Ticket[] = [
     desc: "讨论区需支持对其他用户的评论进行引用，主要场景为针对工单进行讨论时引用已发评论内容，方便追溯讨论。",
     owner: "张俊磊",
     reporter: "罗昊",
+    participants: ["李", "王", "陈"],
     date: "2026-08-07",
   },
   {
@@ -39,6 +41,7 @@ export const tickets: Ticket[] = [
     desc: "聊天记录可分条转发，生成一条链接，可转发到微信群。使用场景为提供工单相关的细节补充。",
     owner: "张俊磊",
     reporter: "罗昊",
+    participants: ["王", "赵"],
     date: "2026-08-07",
   },
   {
@@ -52,6 +55,7 @@ export const tickets: Ticket[] = [
     desc: "工单详情页讨论区消息传递方式更新，取消定时刷新，改为主流触发式。",
     owner: "张俊磊",
     reporter: "罗昊",
+    participants: ["孙"],
     date: "2026-08-07",
   },
   {
@@ -65,6 +69,7 @@ export const tickets: Ticket[] = [
     desc: "用户希望调整服务号工单评论区的时间显示方式，具体调整内容待进一步明确。已指定处理人为张文星。",
     owner: "张文星",
     reporter: "罗昊",
+    participants: ["周", "吴", "郑", "冯"],
     date: "2026-08-07",
   },
   {
@@ -78,6 +83,7 @@ export const tickets: Ticket[] = [
     desc: "车辆电量充足但不打断充电执行任务，2.6.3 版本两次修改未修复，且现场任务优先级配置整体不生效，怀疑后端分配优先逻辑改动导致。",
     owner: "中力-汪海波",
     reporter: "胡健楠",
+    participants: ["陈", "褚", "卫"],
     date: "2026-08-06",
   },
   {
@@ -91,6 +97,7 @@ export const tickets: Ticket[] = [
     desc: "新用户注册方式修改，增加注册链接，优化注册内容。已确认项目归属及处理人，待实施。",
     owner: "张文星",
     reporter: "罗昊",
+    participants: ["蒋", "沈"],
     date: "2026-08-06",
   },
   {
@@ -104,6 +111,7 @@ export const tickets: Ticket[] = [
     desc: "需增加提单时间截止时间框架设计功能点，项目落在摇人吧服务号，已确认需求内容，待张俊磊处理。",
     owner: "张俊磊",
     reporter: "罗昊",
+    participants: ["韩"],
     date: "2026-08-06",
   },
   {
@@ -117,6 +125,7 @@ export const tickets: Ticket[] = [
     desc: "目标点判定为不可达，车辆仍持续运动，需要现场复现并确认路径规划模块行为。",
     owner: "贾爽",
     reporter: "官伟文",
+    participants: ["杨", "朱", "秦"],
     date: "2026-08-08",
   },
 ];

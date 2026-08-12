@@ -29,24 +29,68 @@ export function toneColor(tone: string) {
 export function Avatar({
   name,
   tone = "sky",
+  size = "md",
+  plain = false,
   className,
 }: {
   name: string;
   tone?: keyof typeof toneVar | string;
+  size?: "xs" | "sm" | "md";
+  plain?: boolean;
   className?: string;
 }) {
+  const sizing =
+    size === "xs"
+      ? "size-6 text-[10px]"
+      : size === "sm"
+        ? "size-7 text-[11px]"
+        : "size-8 text-[12px]";
   return (
     <span
       className={cn(
-        "grid size-8 shrink-0 place-items-center rounded-full text-[12px] font-semibold text-card",
+        "grid shrink-0 place-items-center rounded-full font-semibold",
+        sizing,
+        plain ? "bg-secondary text-muted-foreground" : "text-card",
         className,
       )}
-      style={{ background: toneColor(String(tone)) }}
+      style={plain ? undefined : { background: toneColor(String(tone)) }}
     >
       {name.slice(0, 1)}
     </span>
   );
 }
+
+export function AvatarStack({
+  names,
+  max = 3,
+  className,
+}: {
+  names: string[];
+  max?: number;
+  className?: string;
+}) {
+  const shown = names.slice(0, max);
+  const rest = names.length - shown.length;
+  return (
+    <div className={cn("flex items-center -space-x-1.5", className)}>
+      {shown.map((n, i) => (
+        <Avatar
+          key={`${n}-${i}`}
+          name={n}
+          size="xs"
+          plain
+          className="ring-2 ring-card"
+        />
+      ))}
+      {rest > 0 ? (
+        <span className="grid size-6 shrink-0 place-items-center rounded-full bg-secondary text-[9.5px] font-semibold text-muted-foreground ring-2 ring-card">
+          +{rest}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
 
 export type DonutSegment = { value: number; tone: string; label?: string };
 
