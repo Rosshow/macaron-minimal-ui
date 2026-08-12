@@ -174,7 +174,7 @@ function Tasks() {
             onClick={() => setSort(s)}
             className={cn(
               "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
-              sort === s ? "bg-blue-soft text-blue-2" : "bg-card text-muted-foreground",
+              sort === s ? "bg-secondary text-foreground" : "bg-card text-muted-foreground",
             )}
           >
             {s}
@@ -192,7 +192,7 @@ function Tasks() {
                 className={cn(
                   "rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
                   filter === f
-                    ? "bg-black text-white"
+                    ? "bg-secondary text-foreground"
                     : "bg-card text-muted-foreground",
                 )}
               >
