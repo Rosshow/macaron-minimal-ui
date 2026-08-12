@@ -21,7 +21,7 @@
 ### 2. 精简状态标签
 - 移除状态/优先级标签的浅蓝色边框（`border-blue-3/30`）
 - 改为极浅灰底（`bg-secondary`）的圆角胶囊
-- 仅状态文字保留蓝色（`statusText` 映射），优先级文字使用 `text-muted-foreground`
+- 仅状态文字保留蓝色（`statusText` 映射），优先级标签根据紧急度使用不同深度的蓝色背景：紧急 `bg-blue-1 text-white`、高 `bg-blue-2 text-white`、中 `bg-blue-3 text-foreground`、低 `bg-blue-5 text-foreground`
 - 字号保持 `text-[11.5px]`
 
 ### 3. 重构参与人行
