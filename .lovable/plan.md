@@ -21,8 +21,8 @@
 ### 2. 两侧大姓氏圆圈字体变白
 发起人、处理人两个 `size="md"` 的姓氏圆圈：
 
-- 背景从 `bg-gray-light` 改为 `bg-gray-40`（40% 灰度）
-- 文字从 `text-foreground` 改为 `text-white`
+- 背景从 `bg-gray-light`（oklch(0.78 0 220)，浅灰底）改为 `bg-gray-40`（oklch(0.40 0 220)，40% 灰度）
+- 文字从 `text-foreground`（oklch(0.32 0.006 220)，深灰字）改为 `text-white`（oklch(1 0 0)，纯白）
 - 保持 `plain` 模式
 
 ### 3. 中间参与人小圆圈字体不变
