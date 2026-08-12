@@ -106,7 +106,7 @@ function Admin() {
       <section className="surface-card p-4">
         <div className="flex items-center">
           <h3 className="text-[13px] font-semibold text-muted-foreground">调度项目看板</h3>
-          <button className="ml-auto flex items-center gap-1 rounded-full bg-clay-soft px-3 py-1.5 text-[11.5px] font-medium text-clay-2">
+          <button className="ml-auto flex items-center gap-1 rounded-full bg-blue-soft px-3 py-1.5 text-[11.5px] font-medium text-blue-2">
             <RefreshCw className="size-3.5" /> 同步最新数据
           </button>
         </div>
@@ -114,26 +114,25 @@ function Admin() {
         <MonthBars data={projectMonthly} years={projectYears} className="mt-3" />
 
         <div className="mt-4 grid grid-cols-4 gap-2 border-t border-border/70 pt-3">
-          <Stat value={106} label="项目总数" tone="clay-1" />
-          <Stat value={0} label="本月新增" tone="clay-2" />
-          <Stat value={0} label="风险项目" tone="clay-3" />
-          <Stat value={3} label="对接人缺省" tone="clay-4" />
+          <Stat value={106} label="项目总数" tone="blue-1" />
+          <Stat value={0} label="本月新增" tone="blue-2" />
+          <Stat value={0} label="风险项目" tone="blue-3" />
+          <Stat value={3} label="对接人缺省" tone="blue-4" />
         </div>
-
 
         <h3 className="mt-5 text-[13px] font-semibold text-muted-foreground">项目紧急度看板</h3>
         <div className="mt-2 grid grid-cols-2 gap-2">
           {[
-            { v: 69, l: "重要紧急", tone: "clay-1" },
-            { v: 37, l: "重要不紧急", tone: "clay-2" },
-            { v: 0, l: "紧急不重要", tone: "clay-3" },
-            { v: 0, l: "不重要不紧急", tone: "clay-4" },
+            { v: 69, l: "重要紧急", tone: "blue-2" },
+            { v: 37, l: "重要不紧急", tone: "blue-3" },
+            { v: 0, l: "紧急不重要", tone: "blue-4" },
+            { v: 0, l: "不重要不紧急", tone: "blue-5" },
           ].map((x) => (
             <div
               key={x.l}
               className="rounded-2xl px-3 py-3 text-center"
               style={{
-                background: `color-mix(in oklab, var(--${x.tone}) 12%, var(--card))`,
+                background: `color-mix(in oklab, var(--${x.tone}) 10%, var(--card))`,
               }}
             >
               <div className="text-[20px] font-bold" style={{ color: `var(--${x.tone})` }}>
@@ -148,16 +147,16 @@ function Admin() {
       <SectionTitle title="更多功能" />
       <section className="grid grid-cols-4 gap-2">
         {[
-          { label: "项目管理", icon: FolderKanban, to: "/projects", tone: "clay-1" },
-          { label: "数据管理", icon: Database, to: "/projects", tone: "clay-2" },
-          { label: "日报周报", icon: FileBarChart, to: "/tasks", tone: "clay-3" },
-          { label: "其他", icon: MoreHorizontal, to: "/tasks", tone: "clay-4" },
+          { label: "项目管理", icon: FolderKanban, to: "/projects", tone: "blue-1" },
+          { label: "数据管理", icon: Database, to: "/projects", tone: "blue-2" },
+          { label: "日报周报", icon: FileBarChart, to: "/tasks", tone: "blue-3" },
+          { label: "其他", icon: MoreHorizontal, to: "/tasks", tone: "blue-4" },
         ].map(({ label, icon: Icon, to, tone }) => (
           <Link key={label} to={to} className="surface-card flex flex-col items-center gap-2 py-4">
             <span
               className="grid size-10 place-items-center rounded-2xl"
               style={{
-                background: `color-mix(in oklab, var(--${tone}) 18%, var(--card))`,
+                background: `color-mix(in oklab, var(--${tone}) 12%, var(--card))`,
                 color: `var(--${tone})`,
               }}
             >
