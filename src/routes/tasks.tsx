@@ -69,14 +69,14 @@ function TicketCard({ t }: { t: Ticket }) {
         </div>
 
         <div className="mt-3 flex items-center gap-2">
-          <Avatar name={t.reporter} plain size="md" />
+          <Avatar name={t.reporter} plain size="md" className="bg-gray-light text-foreground" />
           <div className="leading-tight">
             <div className="text-[10px] text-muted-foreground">发起人</div>
             <div className="text-[12px] font-medium text-foreground">{t.reporter}</div>
           </div>
 
           <div className="mx-auto flex items-center gap-1.5">
-            <AvatarStack names={t.participants} />
+            <AvatarStack names={t.participants} avatarClassName="bg-gray-soft text-foreground ring-2 ring-card" />
             <ArrowRight className="size-3.5 text-muted-foreground/70" />
           </div>
 
@@ -84,7 +84,7 @@ function TicketCard({ t }: { t: Ticket }) {
             <div className="text-[10px] text-muted-foreground">处理人</div>
             <div className="text-[12px] font-medium text-foreground">{t.owner}</div>
           </div>
-          <Avatar name={t.owner} plain size="md" />
+          <Avatar name={t.owner} plain size="md" className="bg-gray-light text-foreground" />
         </div>
 
         <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5 text-[11px] text-muted-foreground">
