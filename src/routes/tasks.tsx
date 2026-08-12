@@ -62,30 +62,32 @@ function TicketCard({ t }: { t: Ticket }) {
   return (
     <Link to="/tickets/$id" params={{ id: t.id }} className="block">
       <article className="surface-card p-4 transition-transform duration-300 active:scale-[0.99]">
-        <div className="mb-2 flex items-center gap-2">
-          <span
-            className={cn(
-              "inline-flex items-center rounded-full bg-secondary px-2.5 py-1 text-[11.5px] font-semibold",
-              statusText[t.status],
-            )}
-          >
-            {t.status}
-          </span>
-          <span
-            className={cn(
-              "inline-flex items-center rounded-full px-2 py-0.5 text-[11.5px] font-medium",
-              priorityClasses[t.priority],
-            )}
-          >
-            {t.priority}
-          </span>
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span
+              className={cn(
+                "inline-flex items-center rounded-full bg-secondary px-2.5 py-1 text-[11.5px] font-semibold",
+                statusText[t.status],
+              )}
+            >
+              {t.status}
+            </span>
+            <span
+              className={cn(
+                "inline-flex items-center rounded-full px-2 py-0.5 text-[11.5px] font-medium",
+                priorityClasses[t.priority],
+              )}
+            >
+              {t.priority}
+            </span>
+          </div>
+          <span className="shrink-0 text-[11.5px] text-muted-foreground">{t.kind}</span>
         </div>
 
         <div className="flex items-start justify-between gap-2">
           <h3 className="text-[19px] font-bold leading-tight tracking-tight text-foreground">
             {t.title}
           </h3>
-          <span className="shrink-0 text-[11.5px] text-muted-foreground">{t.kind}</span>
         </div>
 
         <div className="mt-3 flex items-center gap-2">
@@ -93,7 +95,7 @@ function TicketCard({ t }: { t: Ticket }) {
           <span className="text-[12px] font-medium text-foreground">{t.reporter}</span>
 
           <div className="mx-auto flex items-center gap-1.5">
-            <AvatarStack names={t.participants} avatarClassName="bg-gray-soft text-foreground ring-2 ring-card" />
+            <AvatarStack names={t.participants} avatarClassName="bg-gray-soft text-muted-foreground ring-2 ring-card" />
             <ArrowRight className="size-3.5 text-muted-foreground" />
           </div>
 
