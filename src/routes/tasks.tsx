@@ -195,7 +195,7 @@ function Tasks() {
                 className={cn(
                   "rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
                   filter === f
-                    ? "bg-gray-soft text-foreground"
+                    ? "bg-black text-white"
                     : "bg-card text-muted-foreground",
                 )}
               >
