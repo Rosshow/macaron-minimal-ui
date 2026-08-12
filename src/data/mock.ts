@@ -155,20 +155,20 @@ export const projects = [
 ];
 
 export const stageChips: { label: string; count: number; tone: Tone }[] = [
-  { label: "售前方案", count: 1, tone: "lilac" },
+  { label: "售前方案", count: 1, tone: "blue" },
   { label: "投标阶段", count: 0, tone: "sky" },
-  { label: "签单洽谈", count: 0, tone: "mint" },
+  { label: "签单洽谈", count: 0, tone: "blue-3" },
   { label: "已签合同", count: 8, tone: "sky" },
-  { label: "出厂测试", count: 10, tone: "butter" },
-  { label: "即将进场", count: 13, tone: "apricot" },
-  { label: "延期进场", count: 4, tone: "rose" },
-  { label: "正在实施", count: 21, tone: "mint" },
-  { label: "实施暂停", count: 2, tone: "butter" },
+  { label: "出厂测试", count: 10, tone: "gray" },
+  { label: "即将进场", count: 13, tone: "blue-3" },
+  { label: "延期进场", count: 4, tone: "blue-deep" },
+  { label: "正在实施", count: 21, tone: "blue" },
+  { label: "实施暂停", count: 2, tone: "gray" },
   { label: "试运行中", count: 8, tone: "sky" },
-  { label: "验收运营", count: 16, tone: "mint" },
-  { label: "项目暂停", count: 2, tone: "apricot" },
-  { label: "项目终止", count: 0, tone: "rose" },
-  { label: "项目变更", count: 3, tone: "lilac" },
+  { label: "验收运营", count: 16, tone: "blue" },
+  { label: "项目暂停", count: 2, tone: "blue-3" },
+  { label: "项目终止", count: 0, tone: "blue-deep" },
+  { label: "项目变更", count: 3, tone: "blue" },
   { label: "项目结束", count: 18, tone: "sky" },
 ];
 
