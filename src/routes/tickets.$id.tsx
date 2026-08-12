@@ -50,7 +50,7 @@ function MetaItem({
   label,
   value,
 }: {
-  icon: typeof User;
+  icon: React.ComponentType<{ className?: string }>;
   label: string;
   value: string;
 }) {
