@@ -55,13 +55,12 @@ function TicketCard({ t }: { t: Ticket }) {
   return (
     <Link to="/tickets/$id" params={{ id: t.id }} className="block">
       <article className="surface-card p-4 transition-transform duration-300 active:scale-[0.99]">
-        <div className="flex items-center justify-end text-[11.5px]">
-          <span className="text-muted-foreground">{t.kind}</span>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="text-[18px] font-bold leading-6 tracking-tight text-foreground">
+            {t.title}
+          </h3>
+          <span className="shrink-0 text-[11.5px] text-muted-foreground">{t.kind}</span>
         </div>
-
-        <h3 className="mt-1 text-[16px] font-bold leading-6 tracking-tight text-foreground">
-          {t.title}
-        </h3>
 
         <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-blue-3/30 px-2.5 py-1">
           <span className={cn("text-[11.5px] font-semibold", statusText[t.status])}>{t.status}</span>
