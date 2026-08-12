@@ -148,9 +148,9 @@ function Detail() {
 
         <h2 className="mt-2.5 text-[19px] font-bold leading-tight tracking-tight">{t.title}</h2>
 
-        <dl className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-          <MetaItem icon={User} label="创建人" value={t.reporter} />
-          <MetaItem icon={Target} label="处理人" value={t.owner} />
+        <PersonnelRow reporter={t.reporter} owner={t.owner} />
+
+        <dl className="mt-2 grid grid-cols-2 gap-2">
           <MetaItem icon={Folder} label="所属项目" value={t.project} />
           <MetaItem icon={AlarmClock} label="最晚解决时间" value="未设置" />
           <MetaItem icon={Clock} label="创建时间" value={time} />
