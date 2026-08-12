@@ -3,8 +3,6 @@ import {
   Paperclip,
   Send,
   Bot,
-  User,
-  Target,
   Folder,
   AlarmClock,
   Clock,
@@ -52,7 +50,7 @@ function MetaItem({
   label,
   value,
 }: {
-  icon: typeof User;
+  icon: React.ComponentType<{ className?: string }>;
   label: string;
   value: string;
 }) {
@@ -62,6 +60,28 @@ function MetaItem({
       <div className="min-w-0 leading-tight">
         <div className="text-[10.5px] text-muted-foreground">{label}</div>
         <div className="mt-0.5 truncate text-[12.5px] font-medium text-foreground">{value}</div>
+      </div>
+    </div>
+  );
+}
+
+function PersonnelRow({ reporter, owner }: { reporter: string; owner: string }) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-secondary/70 px-3 py-2.5">
+      <div className="flex flex-1 items-center gap-2">
+        <Avatar name={reporter} plain size="md" className="bg-gray-light text-white" />
+        <div className="min-w-0 leading-tight">
+          <div className="text-[10.5px] text-muted-foreground">创建人</div>
+          <div className="truncate text-[12.5px] font-medium text-foreground">{reporter}</div>
+        </div>
+      </div>
+      <div className="h-6 w-px bg-border" />
+      <div className="flex flex-1 items-center gap-2">
+        <Avatar name={owner} plain size="md" className="bg-gray-light text-white" />
+        <div className="min-w-0 leading-tight">
+          <div className="text-[10.5px] text-muted-foreground">处理人</div>
+          <div className="truncate text-[12.5px] font-medium text-foreground">{owner}</div>
+        </div>
       </div>
     </div>
   );
@@ -126,9 +146,9 @@ function Detail() {
 
         <h2 className="mt-2.5 text-[19px] font-bold leading-tight tracking-tight">{t.title}</h2>
 
-        <dl className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-          <MetaItem icon={User} label="创建人" value={t.reporter} />
-          <MetaItem icon={Target} label="处理人" value={t.owner} />
+        <PersonnelRow reporter={t.reporter} owner={t.owner} />
+
+        <dl className="mt-2 grid grid-cols-2 gap-2">
           <MetaItem icon={Folder} label="所属项目" value={t.project} />
           <MetaItem icon={AlarmClock} label="最晚解决时间" value="未设置" />
           <MetaItem icon={Clock} label="创建时间" value={time} />
