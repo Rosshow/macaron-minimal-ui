@@ -118,10 +118,10 @@ export function MonthBars({
                       style={{
                         height: Math.max(h, 4),
                         background: isActive
-                          ? toneColor("clay-2")
+                          ? toneColor("blue-3")
                           : isFuture
-                            ? "var(--gray-soft)"
-                            : toneColor("clay-4"),
+                            ? "var(--gray-light)"
+                            : toneColor("blue-5"),
                       }}
                     />
                   </span>
