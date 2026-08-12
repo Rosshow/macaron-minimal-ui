@@ -16,14 +16,16 @@ const tagVariants = cva(
         gray: "bg-gray-soft text-gray",
         blue: "bg-blue-soft text-blue-2",
         "blue-deep": "bg-blue-soft text-blue-1",
-
+        "blue-3": "bg-blue-soft text-blue-3",
+        "blue-4": "bg-[color-mix(in_oklab,var(--blue-4)_10%,var(--card))] text-blue-3",
+        "blue-5": "bg-[color-mix(in_oklab,var(--blue-5)_12%,var(--card))] text-blue-3",
       },
       size: {
         sm: "px-2 py-0 text-[10px]",
         md: "",
       },
     },
-    defaultVariants: { tone: "mint", size: "md" },
+    defaultVariants: { tone: "blue", size: "md" },
   },
 );
 

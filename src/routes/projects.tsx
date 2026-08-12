@@ -22,10 +22,10 @@ function Projects() {
     <PageShell title="项目进度管理" back>
       <div className="grid grid-cols-2 gap-3">
         <div className="surface-card py-4">
-          <Stat value={106} label="项目总数" tone="sky" />
+          <Stat value={106} label="项目总数" tone="blue-2" />
         </div>
         <div className="surface-card py-4">
-          <Stat value={86} label="活跃项目" tone="mint" />
+          <Stat value={86} label="活跃项目" tone="blue-3" />
         </div>
       </div>
 
@@ -42,7 +42,7 @@ function Projects() {
           <article key={p.name} className="surface-card p-4">
             <h3 className="text-[14.5px] font-bold leading-6">{p.name}</h3>
             <div className="mt-2 flex items-center gap-2">
-              <Tag tone="mint">{p.stage}</Tag>
+              <Tag tone="blue">{p.stage}</Tag>
               <span className="text-[11.5px] text-muted-foreground">
                 {p.code} · 项目经理：未指定
               </span>
@@ -50,14 +50,14 @@ function Projects() {
             <div className="mt-3">
               <div className="flex items-center justify-between text-[11.5px] text-muted-foreground">
                 <span>项目时间进度</span>
-                <span className="font-semibold text-sky">{p.progress}%</span>
+                <span className="font-semibold text-blue-2">{p.progress}%</span>
               </div>
               <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-secondary">
                 <div
                   className="h-full rounded-full"
                   style={{
                     width: `${p.progress}%`,
-                    background: "var(--gradient-primary)",
+                    background: "linear-gradient(90deg, var(--blue-2) 0%, var(--blue-4) 100%)",
                   }}
                 />
               </div>

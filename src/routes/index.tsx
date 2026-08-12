@@ -44,7 +44,7 @@ function Chat() {
           aria-label="历史工单"
         >
           <CalendarDays className="size-5" />
-          <span className="absolute right-1 top-1 grid size-4 place-items-center rounded-full bg-rose text-[9px] font-bold text-card">
+          <span className="absolute right-1 top-1 grid size-4 place-items-center rounded-full bg-blue-2 text-[9px] font-bold text-card">
             8
           </span>
         </Link>
@@ -67,10 +67,10 @@ function Chat() {
 
         <div className="surface-card overflow-hidden p-4">
           <div className="flex items-center gap-2">
-            <FolderClosed className="size-4 text-sky" />
-            <span className="text-[13px] font-semibold text-sky">工单 #338</span>
-            <Tag tone="sky">需求</Tag>
-            <Tag tone="apricot">中</Tag>
+            <FolderClosed className="size-4 text-blue-2" />
+            <span className="text-[13px] font-semibold text-blue-2">工单 #338</span>
+            <Tag tone="blue">需求</Tag>
+            <Tag tone="blue-3">中</Tag>
           </div>
           <h3 className="mt-2 text-[15px] font-bold">讨论区评论引用功能</h3>
           <p className="mt-1 flex items-center gap-1.5 text-[12px] text-muted-foreground">
@@ -79,7 +79,7 @@ function Chat() {
           <p className="mt-3 text-[12.5px] leading-6 text-muted-foreground">
             [指定处理人：张俊磊]【摇人吧服务号】讨论区需支持对其他用户的评论进行引用，主要场景为针对工单进行讨论时引用已发评论内容，期望效果是方便追溯讨论。已收集需求场景及预期效果，待开发实现。
           </p>
-          <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-3 text-[12px] text-mint">
+          <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-3 text-[12px] text-blue-3">
             <CheckCircle2 className="size-4" />
             已派单 · 张俊磊
           </div>
@@ -97,7 +97,7 @@ function Chat() {
             </button>
             <input
               placeholder="发消息…"
-              className="h-10 flex-1 rounded-full border border-border bg-card px-4 text-[13px] outline-none transition focus:border-mint"
+              className="h-10 flex-1 rounded-full border border-border bg-card px-4 text-[13px] outline-none transition focus:border-primary"
             />
             <button
               className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-soft)]"
@@ -106,7 +106,7 @@ function Chat() {
               <ArrowUp className="size-4" />
             </button>
             <button
-              className="grid size-10 shrink-0 place-items-center rounded-full bg-lilac-soft text-lilac"
+              className="grid size-10 shrink-0 place-items-center rounded-full bg-blue-soft text-blue-2"
               aria-label="转工单"
             >
               <Sparkles className="size-4" />

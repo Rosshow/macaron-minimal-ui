@@ -57,7 +57,7 @@ export function BottomNav() {
               <span
                 className={cn(
                   "grid size-9 place-items-center rounded-2xl transition-all duration-300",
-                  active ? "bg-mint-soft text-mint" : "text-muted-foreground",
+                  active ? "bg-blue-soft text-blue-2" : "text-muted-foreground",
                 )}
               >
                 <Icon className="size-[18px]" />

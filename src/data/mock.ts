@@ -1,4 +1,4 @@
-export type Tone = "mint" | "sky" | "rose" | "butter" | "lilac" | "apricot";
+export type Tone = "blue" | "blue-deep" | "blue-3" | "gray" | "muted" | "sky";
 
 export type Ticket = {
   id: string;
@@ -122,26 +122,26 @@ export const tickets: Ticket[] = [
 ];
 
 export const kindTone: Record<Ticket["kind"], Tone> = {
-  需求: "sky",
-  问题: "rose",
-  功能: "lilac",
-  支持: "mint",
+  需求: "blue",
+  问题: "gray",
+  功能: "blue-deep",
+  支持: "muted",
 };
 
 export const priorityTone: Record<Ticket["priority"], Tone> = {
-  低: "mint",
-  中: "sky",
-  高: "apricot",
-  紧急: "rose",
+  低: "sky",
+  中: "blue",
+  高: "blue-deep",
+  紧急: "blue-deep",
 };
 
 export const statusTone: Record<Ticket["status"], Tone> = {
   新建: "sky",
-  处理中: "mint",
-  进行中: "mint",
-  已解决: "lilac",
-  已关闭: "butter",
-  已取消: "rose",
+  处理中: "blue",
+  进行中: "blue",
+  已解决: "blue-deep",
+  已关闭: "gray",
+  已取消: "gray",
 };
 
 export const projects = [
