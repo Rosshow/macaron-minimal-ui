@@ -67,6 +67,28 @@ function MetaItem({
   );
 }
 
+function PersonnelRow({ reporter, owner }: { reporter: string; owner: string }) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-secondary/70 px-3 py-2.5">
+      <div className="flex flex-1 items-center gap-2">
+        <Avatar name={reporter} plain size="md" className="bg-gray-light text-white" />
+        <div className="min-w-0 leading-tight">
+          <div className="text-[10.5px] text-muted-foreground">创建人</div>
+          <div className="truncate text-[12.5px] font-medium text-foreground">{reporter}</div>
+        </div>
+      </div>
+      <div className="h-6 w-px bg-border" />
+      <div className="flex flex-1 items-center gap-2">
+        <Avatar name={owner} plain size="md" className="bg-gray-light text-white" />
+        <div className="min-w-0 leading-tight">
+          <div className="text-[10.5px] text-muted-foreground">处理人</div>
+          <div className="truncate text-[12.5px] font-medium text-foreground">{owner}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SectionCard({
   title,
   right,
