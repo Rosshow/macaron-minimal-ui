@@ -90,39 +90,39 @@
   --font-rounded: "Quicksand", "PingFang SC", "HarmonyOS Sans SC", "Hiragino Sans GB",
     "Microsoft YaHei UI Rounded", "Microsoft YaHei", system-ui, sans-serif;
 
-  --background: oklch(0.981 0.002 200);
-  --foreground: oklch(0.26 0.008 220);
+  --background: oklch(0.985 0.001 200);
+  --foreground: oklch(0.32 0.006 220);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.26 0.008 220);
+  --card-foreground: oklch(0.32 0.006 220);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.26 0.008 220);
+  --popover-foreground: oklch(0.32 0.006 220);
 
   /* 蒂芙尼蓝 */
-  --primary: oklch(0.66 0.115 230);
+  --primary: oklch(0.72 0.105 230);
   --primary-foreground: oklch(0.99 0.003 200);
 
-  --secondary: oklch(0.958 0.004 210);
+  --secondary: oklch(0.965 0.003 210);
   --secondary-foreground: oklch(0.38 0.008 220);
 
-  --muted: oklch(0.962 0.003 210);
-  --muted-foreground: oklch(0.58 0.008 220);
+  --muted: oklch(0.968 0.002 210);
+  --muted-foreground: oklch(0.64 0.006 220);
 
-  --accent: oklch(0.94 0.035 228);
+  --accent: oklch(0.95 0.028 228);
   --accent-foreground: oklch(0.38 0.05 195);
 
   --destructive: oklch(0.55 0.02 220);
   --destructive-foreground: oklch(0.99 0.003 200);
 
-  --border: oklch(0.922 0.003 210);
-  --input: oklch(0.94 0.003 210);
-  --ring: oklch(0.72 0.08 230);
+  --border: oklch(0.935 0.002 210);
+  --input: oklch(0.95 0.002 210);
+  --ring: oklch(0.76 0.07 230);
 
   /* 单色调蒂芙尼蓝阶 + 中性灰，仅明度/饱和度变化 */
-  --mint: oklch(0.66 0.115 230);
-  --mint-soft: oklch(0.955 0.028 228);
-  --sky: oklch(0.52 0.095 232);
-  --sky-soft: oklch(0.945 0.024 230);
+  --mint: oklch(0.72 0.105 230);
+  --mint-soft: oklch(0.965 0.022 228);
+  --sky: oklch(0.60 0.085 232);
+  --sky-soft: oklch(0.96 0.018 230);
   --rose: oklch(0.45 0.012 215);
   --rose-soft: oklch(0.93 0.004 215);
   --butter: oklch(0.83 0.06 185);
@@ -132,18 +132,18 @@
   --apricot: oklch(0.62 0.02 215);
   --apricot-soft: oklch(0.955 0.005 215);
 
-  --gray: oklch(0.55 0 220);
-  --gray-soft: oklch(0.92 0 220);
-  --gray-light: oklch(0.72 0 220);
-  --gray-dark: oklch(0.32 0 220);
+  --gray: oklch(0.60 0 220);
+  --gray-soft: oklch(0.93 0 220);
+  --gray-light: oklch(0.78 0 220);
+  --gray-dark: oklch(0.38 0 220);
 
   /* 参考看板蓝色阶：深 → 浅 */
-  --blue-1: oklch(0.36 0.062 234);
-  --blue-2: oklch(0.52 0.095 232);
-  --blue-3: oklch(0.66 0.115 230);
-  --blue-4: oklch(0.79 0.085 228);
-  --blue-5: oklch(0.89 0.05 226);
-  --blue-soft: oklch(0.955 0.022 226);
+  --blue-1: oklch(0.44 0.055 234);
+  --blue-2: oklch(0.60 0.085 232);
+  --blue-3: oklch(0.74 0.10 230);
+  --blue-4: oklch(0.86 0.07 228);
+  --blue-5: oklch(0.93 0.04 226);
+  --blue-soft: oklch(0.965 0.018 226);
 
   /* 项目相关：#8b6147 同色调，仅明度/饱和度变化 */
   --clay-1: oklch(0.38 0.05 52.5);
