@@ -66,10 +66,12 @@ export function AvatarStack({
   names,
   max = 3,
   className,
+  avatarClassName,
 }: {
   names: string[];
   max?: number;
   className?: string;
+  avatarClassName?: string;
 }) {
   const shown = names.slice(0, max);
   const rest = names.length - shown.length;
@@ -81,7 +83,7 @@ export function AvatarStack({
           name={n}
           size="xs"
           plain
-          className="bg-gray-25 ring-2 ring-card"
+          className={cn("bg-gray-25 ring-2 ring-card", avatarClassName)}
         />
       ))}
       {rest > 0 ? (
