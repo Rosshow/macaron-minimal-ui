@@ -55,18 +55,21 @@ function TicketCard({ t }: { t: Ticket }) {
   return (
     <Link to="/tickets/$id" params={{ id: t.id }} className="block">
       <article className="surface-card p-4 transition-transform duration-300 active:scale-[0.99]">
-        <div className="flex items-center gap-3 text-[11.5px]">
-          <span className={cn("font-semibold", statusText[t.status])}>{t.status}</span>
-          <span className="text-muted-foreground">{t.priority}</span>
-          <span className="ml-auto text-muted-foreground">{t.kind}</span>
+        <div className="flex items-center justify-end text-[11.5px]">
+          <span className="text-muted-foreground">{t.kind}</span>
         </div>
 
-        <h3 className="mt-2 text-[16px] font-semibold leading-6 tracking-tight text-foreground">
+        <h3 className="mt-1 text-[16px] font-bold leading-6 tracking-tight text-foreground">
           {t.title}
         </h3>
 
+        <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-blue-3/30 px-2.5 py-1">
+          <span className={cn("text-[11.5px] font-semibold", statusText[t.status])}>{t.status}</span>
+          <span className="text-[11.5px] text-muted-foreground">{t.priority}</span>
+        </div>
+
         <div className="mt-3 flex items-center gap-2">
-          <Avatar name={t.reporter} plain size="sm" />
+          <Avatar name={t.reporter} plain size="md" className="bg-gray-light text-foreground" />
           <div className="leading-tight">
             <div className="text-[10px] text-muted-foreground">发起人</div>
             <div className="text-[12px] font-medium text-foreground">{t.reporter}</div>
@@ -81,11 +84,11 @@ function TicketCard({ t }: { t: Ticket }) {
             <div className="text-[10px] text-muted-foreground">处理人</div>
             <div className="text-[12px] font-medium text-foreground">{t.owner}</div>
           </div>
-          <Avatar name={t.owner} plain size="sm" />
+          <Avatar name={t.owner} plain size="md" className="bg-gray-light text-foreground" />
         </div>
 
         <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5 text-[11px] text-muted-foreground">
-          <span className="rounded-full bg-secondary px-2 py-0.5">{t.no}</span>
+          <span className="rounded-full bg-foreground px-2 py-0.5 text-background">{t.no}</span>
           <span className="truncate">{t.project}</span>
           <span className="ml-auto flex shrink-0 items-center gap-1">
             <Calendar className="size-3" />
