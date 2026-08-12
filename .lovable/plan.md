@@ -28,8 +28,8 @@
 ### 3. 中间参与人小圆圈字体不变
 `AvatarStack` 中间的小圆圈保持当前样式：
 
-- 背景 `bg-gray-soft`
-- 文字 `text-foreground`
+- 背景 `bg-gray-soft`（oklch(0.93 0 220)，浅灰底）
+- 文字 `text-foreground`（oklch(0.32 0.006 220)，深灰字）
 - 仅确保不被两侧大圆圈的新样式覆盖
 
 ## 验收标准
