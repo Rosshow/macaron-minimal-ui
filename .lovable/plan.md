@@ -20,7 +20,7 @@
 
 ### 2. 精简状态标签
 - 移除状态/优先级标签的浅蓝色边框（`border-blue-3/30`）
-- 改为无背景或极浅灰底（`bg-secondary`）的圆角胶囊
+- 改为极浅灰底（`bg-secondary`）的圆角胶囊
 - 仅状态文字保留蓝色（`statusText` 映射），优先级文字使用 `text-muted-foreground`
 - 字号保持 `text-[11.5px]`
 
