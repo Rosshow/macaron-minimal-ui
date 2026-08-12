@@ -95,7 +95,7 @@ function TicketCard({ t }: { t: Ticket }) {
           <span className="text-[12px] font-medium text-foreground">{t.reporter}</span>
 
           <div className="mx-auto flex items-center gap-1.5">
-            <AvatarStack names={t.participants} avatarClassName="bg-gray-soft text-foreground ring-2 ring-card" />
+            <AvatarStack names={t.participants} avatarClassName="bg-gray-soft text-muted-foreground ring-2 ring-card" />
             <ArrowRight className="size-3.5 text-muted-foreground" />
           </div>
 
