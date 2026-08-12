@@ -11,6 +11,7 @@ const toneVar: Record<string, string> = {
   "gray-light": "var(--gray-light)",
   "gray-dark": "var(--gray-dark)",
   "gray-40": "var(--gray-40)",
+  "gray-25": "var(--gray-25)",
   "blue-1": "var(--blue-1)",
   "blue-2": "var(--blue-2)",
   "blue-3": "var(--blue-3)",
@@ -80,7 +81,7 @@ export function AvatarStack({
           name={n}
           size="xs"
           plain
-          className="ring-2 ring-card"
+          className="bg-gray-25 ring-2 ring-card"
         />
       ))}
       {rest > 0 ? (
