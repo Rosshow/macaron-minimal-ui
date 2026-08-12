@@ -192,14 +192,14 @@ function Tasks() {
                 className={cn(
                   "rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
                   filter === f
-                    ? "bg-primary text-primary-foreground"
+                    ? "bg-black text-white"
                     : "bg-card text-muted-foreground",
                 )}
               >
                 {f}
               </button>
               {n > 0 ? (
-                <span className="pointer-events-none absolute -right-1.5 -top-1.5 grid min-w-[17px] place-items-center rounded-full bg-blue-1 px-1 py-px text-[10px] font-bold leading-4 text-card">
+                <span className="pointer-events-none absolute -right-1.5 -top-1.5 grid min-w-[17px] place-items-center rounded-full bg-primary px-1 py-px text-[10px] font-bold leading-4 text-primary-foreground">
                   {n > 99 ? "99+" : n}
                 </span>
               ) : null}
