@@ -56,8 +56,8 @@ function Chat() {
             <div
               className={
                 m.me
-                  ? "max-w-[85%] rounded-3xl rounded-br-lg bg-primary px-4 py-3 text-[13px] leading-6 text-primary-foreground shadow-[var(--shadow-soft)]"
-                  : "surface-card max-w-[85%] rounded-3xl rounded-bl-lg px-4 py-3 text-[13px] leading-6"
+                  ? "max-w-[85%] rounded-2xl rounded-br-sm bg-blue-soft px-4 py-3 text-[13px] leading-6 text-foreground border border-border/60"
+                  : "surface-card max-w-[85%] rounded-2xl rounded-bl-sm px-4 py-3 text-[13px] leading-6"
               }
             >
               {m.text}
