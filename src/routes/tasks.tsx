@@ -52,42 +52,57 @@ function matches(t: Ticket, f: string) {
 }
 
 function TicketCard({ t }: { t: Ticket }) {
+  const priorityClasses: Record<Ticket["priority"], string> = {
+    紧急: "bg-blue-1 text-white",
+    高: "bg-blue-2 text-white",
+    中: "bg-blue-3 text-foreground",
+    低: "bg-blue-5 text-foreground",
+  };
+
   return (
     <Link to="/tickets/$id" params={{ id: t.id }} className="block">
       <article className="surface-card p-4 transition-transform duration-300 active:scale-[0.99]">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-[18px] font-bold leading-6 tracking-tight text-foreground">
+          <h3 className="text-[19px] font-bold leading-tight tracking-tight text-foreground">
             {t.title}
           </h3>
           <span className="shrink-0 text-[11.5px] text-muted-foreground">{t.kind}</span>
         </div>
 
-        <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-blue-3/30 px-2.5 py-1">
-          <span className={cn("text-[11.5px] font-semibold", statusText[t.status])}>{t.status}</span>
-          <span className="text-[11.5px] text-muted-foreground">{t.priority}</span>
+        <div className="mt-2 flex items-center gap-2">
+          <span
+            className={cn(
+              "inline-flex items-center rounded-full bg-secondary px-2.5 py-1 text-[11.5px] font-semibold",
+              statusText[t.status],
+            )}
+          >
+            {t.status}
+          </span>
+          <span
+            className={cn(
+              "inline-flex items-center rounded-full px-2 py-0.5 text-[11.5px] font-medium",
+              priorityClasses[t.priority],
+            )}
+          >
+            {t.priority}
+          </span>
         </div>
 
         <div className="mt-3 flex items-center gap-2">
           <Avatar name={t.reporter} plain size="md" className="bg-gray-light text-foreground" />
-          <div className="leading-tight">
-            <div className="text-[10px] text-muted-foreground">发起人</div>
-            <div className="text-[12px] font-medium text-foreground">{t.reporter}</div>
-          </div>
+          <span className="text-[12px] font-medium text-foreground">{t.reporter}</span>
 
           <div className="mx-auto flex items-center gap-1.5">
             <AvatarStack names={t.participants} avatarClassName="bg-gray-soft text-foreground ring-2 ring-card" />
-            <ArrowRight className="size-3.5 text-muted-foreground/70" />
+            <ArrowRight className="size-3.5 text-muted-foreground" />
           </div>
 
-          <div className="text-right leading-tight">
-            <div className="text-[10px] text-muted-foreground">处理人</div>
-            <div className="text-[12px] font-medium text-foreground">{t.owner}</div>
-          </div>
+          <span className="text-[12px] font-medium text-foreground">{t.owner}</span>
           <Avatar name={t.owner} plain size="md" className="bg-gray-light text-foreground" />
         </div>
 
         <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5 text-[11px] text-muted-foreground">
-          <span className="rounded-full bg-foreground px-2 py-0.5 text-background">{t.no}</span>
+          <span className="rounded-full bg-secondary px-2 py-0.5 text-muted-foreground">{t.no}</span>
           <span className="truncate">{t.project}</span>
           <span className="ml-auto flex shrink-0 items-center gap-1">
             <Calendar className="size-3" />
