@@ -3,8 +3,6 @@ import {
   Paperclip,
   Send,
   Bot,
-  User,
-  Target,
   Folder,
   AlarmClock,
   Clock,
