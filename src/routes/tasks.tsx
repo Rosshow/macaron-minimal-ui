@@ -62,14 +62,7 @@ function TicketCard({ t }: { t: Ticket }) {
   return (
     <Link to="/tickets/$id" params={{ id: t.id }} className="block">
       <article className="surface-card p-4 transition-transform duration-300 active:scale-[0.99]">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="text-[19px] font-bold leading-tight tracking-tight text-foreground">
-            {t.title}
-          </h3>
-          <span className="shrink-0 text-[11.5px] text-muted-foreground">{t.kind}</span>
-        </div>
-
-        <div className="mt-2 flex items-center gap-2">
+        <div className="mb-2 flex items-center gap-2">
           <span
             className={cn(
               "inline-flex items-center rounded-full bg-secondary px-2.5 py-1 text-[11.5px] font-semibold",
@@ -88,8 +81,15 @@ function TicketCard({ t }: { t: Ticket }) {
           </span>
         </div>
 
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="text-[19px] font-bold leading-tight tracking-tight text-foreground">
+            {t.title}
+          </h3>
+          <span className="shrink-0 text-[11.5px] text-muted-foreground">{t.kind}</span>
+        </div>
+
         <div className="mt-3 flex items-center gap-2">
-          <Avatar name={t.reporter} plain size="md" className="bg-gray-light text-foreground" />
+          <Avatar name={t.reporter} plain size="md" className="bg-gray-light text-white" />
           <span className="text-[12px] font-medium text-foreground">{t.reporter}</span>
 
           <div className="mx-auto flex items-center gap-1.5">
@@ -98,7 +98,7 @@ function TicketCard({ t }: { t: Ticket }) {
           </div>
 
           <span className="text-[12px] font-medium text-foreground">{t.owner}</span>
-          <Avatar name={t.owner} plain size="md" className="bg-gray-light text-foreground" />
+          <Avatar name={t.owner} plain size="md" className="bg-gray-light text-white" />
         </div>
 
         <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5 text-[11px] text-muted-foreground">
