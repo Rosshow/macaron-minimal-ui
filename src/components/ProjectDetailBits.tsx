@@ -25,11 +25,11 @@ export function SectionCard({
 export function FieldRow({
   label,
   value,
-  kind = "edit",
+  kind,
 }: {
   label: string;
   value: string;
-  kind?: "edit" | "select";
+  kind?: "edit" | "select" | undefined;
 }) {
   const empty = value === "未设置" || value === "未填写" || value === "未指定" || value === "无";
   return (
@@ -47,7 +47,7 @@ export function FieldRow({
         >
           {value}
         </span>
-        {kind === "select" ? (
+        {(kind ?? "edit") === "select" ? (
           <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
         ) : (
           <Pencil className="size-3.5 shrink-0 text-muted-foreground" />
