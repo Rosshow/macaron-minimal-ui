@@ -37,7 +37,9 @@ function Chat() {
   return (
     <PageShell
       title="摇人吧服务号评论引用提单"
+      left={<HistorySessions />}
       right={
+
         <Link
           to="/history"
           className="relative grid size-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-secondary"
