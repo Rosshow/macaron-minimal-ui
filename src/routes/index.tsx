@@ -1,8 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plus, ArrowUp, CalendarDays, MessageSquarePlus, FolderClosed, CheckCircle2 } from "lucide-react";
+import {
+  Plus,
+  ArrowUp,
+  CalendarDays,
+  MessageSquarePlus,
+  FolderClosed,
+  CheckCircle2,
+  ThumbsUp,
+  ThumbsDown,
+  Copy,
+  Pencil,
+} from "lucide-react";
+import { useState } from "react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { HistorySessions } from "@/components/HistorySessions";
+import { cn } from "@/lib/utils";
 
 
 export const Route = createFileRoute("/")({
@@ -36,6 +49,28 @@ const messages = [
 ];
 
 function Chat() {
+  const [inputValue, setInputValue] = useState("");
+  const [feedback, setFeedback] = useState<Record<number, "like" | "dislike" | null>>({});
+
+  const handleCopy = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleEdit = (text: string) => {
+    setInputValue(text);
+  };
+
+  const toggleFeedback = (index: number, kind: "like" | "dislike") => {
+    setFeedback((prev) => ({
+      ...prev,
+      [index]: prev[index] === kind ? null : kind,
+    }));
+  };
+
   return (
     <PageShell
       title="摇人吧服务号评论引用提单"
@@ -57,14 +92,66 @@ function Chat() {
       <div className="space-y-3">
         {messages.map((m, i) => (
           <div key={i} className={m.me ? "flex justify-end" : "flex justify-start"}>
-            <div
-              className={
-                m.me
-                  ? "max-w-[85%] rounded-2xl rounded-br-sm bg-primary px-4 py-3 text-[13px] leading-6 text-primary-foreground shadow-[var(--shadow-soft)]"
-                  : "surface-card max-w-[85%] rounded-2xl rounded-bl-sm px-4 py-3 text-[13px] leading-6"
-              }
-            >
-              {m.text}
+            <div className={m.me ? "flex max-w-[85%] flex-col items-end gap-1" : "flex max-w-[85%] flex-col items-start gap-1"}>
+              <div
+                className={
+                  m.me
+                    ? "rounded-2xl rounded-br-sm bg-primary px-4 py-3 text-[13px] leading-6 text-primary-foreground shadow-[var(--shadow-soft)]"
+                    : "surface-card rounded-2xl rounded-bl-sm px-4 py-3 text-[13px] leading-6"
+                }
+              >
+                {m.text}
+              </div>
+              <div className={m.me ? "flex items-center gap-0.5 pr-1" : "flex items-center gap-0.5 pl-1"}>
+                {m.me ? (
+                  <>
+                    <button
+                      onClick={() => handleCopy(m.text)}
+                      className="grid size-[22px] place-items-center rounded-full text-muted-foreground/70 transition-colors hover:bg-secondary hover:text-foreground"
+                      aria-label="复制"
+                    >
+                      <Copy className="size-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleEdit(m.text)}
+                      className="grid size-[22px] place-items-center rounded-full text-muted-foreground/70 transition-colors hover:bg-secondary hover:text-foreground"
+                      aria-label="编辑"
+                    >
+                      <Pencil className="size-3.5" />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => toggleFeedback(i, "like")}
+                      className={cn(
+                        "grid size-[22px] place-items-center rounded-full transition-colors hover:bg-secondary",
+                        feedback[i] === "like" ? "text-blue-2" : "text-muted-foreground/70 hover:text-foreground"
+                      )}
+                      aria-label="点赞"
+                    >
+                      <ThumbsUp className="size-3.5" />
+                    </button>
+                    <button
+                      onClick={() => toggleFeedback(i, "dislike")}
+                      className={cn(
+                        "grid size-[22px] place-items-center rounded-full transition-colors hover:bg-secondary",
+                        feedback[i] === "dislike" ? "text-blue-2" : "text-muted-foreground/70 hover:text-foreground"
+                      )}
+                      aria-label="点踩"
+                    >
+                      <ThumbsDown className="size-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleCopy(m.text)}
+                      className="grid size-[22px] place-items-center rounded-full text-muted-foreground/70 transition-colors hover:bg-secondary hover:text-foreground"
+                      aria-label="复制"
+                    >
+                      <Copy className="size-3.5" />
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -102,6 +189,8 @@ function Chat() {
               <Plus className="size-4" />
             </button>
             <input
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
               placeholder="发消息…"
               className="h-10 flex-1 rounded-full border border-border bg-card px-4 text-[13px] outline-none transition focus:border-primary"
             />
