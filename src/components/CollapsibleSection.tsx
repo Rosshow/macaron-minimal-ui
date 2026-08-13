@@ -7,6 +7,7 @@ export function CollapsibleSection({
   icon,
   count,
   defaultOpen = false,
+  variant = "card",
   children,
   className,
 }: {
@@ -14,23 +15,41 @@ export function CollapsibleSection({
   icon?: React.ReactNode;
   count?: number | undefined;
   defaultOpen?: boolean;
+  variant?: "card" | "nested";
   children: React.ReactNode;
   className?: string;
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const id = useId();
+  const nested = variant === "nested";
 
   return (
-    <section className={cn("surface-card overflow-hidden", className)}>
+    <section
+      className={cn(
+        "overflow-hidden",
+        nested ? "border-t border-border/60" : "surface-card",
+        className,
+      )}
+    >
       <button
         type="button"
         aria-expanded={open}
         aria-controls={id}
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center gap-2 px-4 py-3.5 text-left transition-colors hover:bg-secondary/40"
+        className={cn(
+          "flex w-full items-center gap-2 text-left transition-colors hover:bg-secondary/40",
+          nested ? "px-1 py-3" : "px-4 py-3.5",
+        )}
       >
         {icon ? <span className="text-muted-foreground">{icon}</span> : null}
-        <span className="text-[13.5px] font-semibold text-foreground">{title}</span>
+        <span
+          className={cn(
+            "font-semibold text-foreground",
+            nested ? "text-[12.5px]" : "text-[13.5px]",
+          )}
+        >
+          {title}
+        </span>
         {typeof count === "number" ? (
           <span className="grid min-w-[18px] place-items-center rounded-full bg-muted-foreground px-1 text-[10px] font-semibold leading-4 text-white">
             {count}
@@ -51,9 +70,14 @@ export function CollapsibleSection({
         )}
       >
         <div className="overflow-hidden">
-          <div className="border-t border-border/60 px-4 py-4">{children}</div>
+          <div
+            className={cn(nested ? "px-1 pb-4" : "border-t border-border/60 px-4 py-4")}
+          >
+            {children}
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
