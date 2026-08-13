@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Check, ChevronRight, Plus, RefreshCw } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Check, ChevronRight, KeyRound, Plus, RefreshCw } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { FieldRow, MetaRow, SectionCard } from "@/components/ProjectDetailBits";
