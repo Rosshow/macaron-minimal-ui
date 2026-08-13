@@ -67,10 +67,10 @@ function Chat() {
 
         <div className="surface-card overflow-hidden p-4">
           <div className="flex items-center gap-2">
-            <FolderClosed className="size-4 text-blue-2" />
-            <span className="text-[13px] font-semibold text-blue-2">工单 #338</span>
-            <Tag tone="blue">需求</Tag>
-            <Tag tone="blue-3">中</Tag>
+            <FolderClosed className="size-4 text-muted-foreground" />
+            <span className="text-[13px] font-semibold text-foreground">工单 #338</span>
+            <Tag tone="blue-muted">需求</Tag>
+            <Tag tone="blue-muted">中</Tag>
           </div>
           <h3 className="mt-2 text-[15px] font-bold">讨论区评论引用功能</h3>
           <p className="mt-1 flex items-center gap-1.5 text-[12px] text-muted-foreground">
