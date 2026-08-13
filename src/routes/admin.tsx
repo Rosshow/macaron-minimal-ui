@@ -3,7 +3,7 @@ import { ChevronRight, RefreshCw, FolderKanban, Database, FileBarChart, MoreHori
 import { PageShell } from "@/components/Shell";
 import { Donut, Stat, Avatar, Legend } from "@/components/Bits";
 import { MonthBars } from "@/components/MonthBars";
-import { ticketStatusSegments, projectMonthly, projectYears } from "@/data/mock";
+import { ticketStatusSegments, projectMonthly, projectYears, projects } from "@/data/mock";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
