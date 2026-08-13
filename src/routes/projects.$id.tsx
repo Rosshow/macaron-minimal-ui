@@ -172,9 +172,16 @@ function ProjectDetail() {
         </div>
       </SectionCard>
 
-      <div className="mt-3 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
-        更多项目信息 <ChevronRight className="size-3" />
-      </div>
+      <Link
+        to="/projects/auth/$id"
+        params={{ id: p.code }}
+        className="surface-card mt-3 flex items-center gap-2 p-4 transition-shadow hover:shadow-md"
+      >
+        <KeyRound className="size-4 text-muted-foreground" />
+        <span className="text-[13px] font-semibold">项目授权管理</span>
+        <span className="text-[11px] text-muted-foreground">licences · 人员</span>
+        <ChevronRight className="ml-auto size-4 text-muted-foreground" />
+      </Link>
     </PageShell>
   );
 }
