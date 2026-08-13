@@ -52,7 +52,8 @@ export function BottomNav() {
             <Link
               key={to}
               to={to}
-              className="flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium"
+              aria-label={label}
+              className="flex flex-1 flex-col items-center py-3"
             >
               <span
                 className={cn(
@@ -60,10 +61,7 @@ export function BottomNav() {
                   active ? "bg-blue-soft text-blue-2" : "text-muted-foreground",
                 )}
               >
-                <Icon className="size-[18px]" />
-              </span>
-              <span className={cn(active ? "text-foreground" : "text-muted-foreground")}>
-                {label}
+                <Icon className="size-[22px]" />
               </span>
             </Link>
           );
