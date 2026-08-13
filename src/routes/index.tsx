@@ -1,8 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plus, ArrowUp, CalendarDays, MessageSquarePlus, FolderClosed, CheckCircle2 } from "lucide-react";
+import {
+  Plus,
+  ArrowUp,
+  CalendarDays,
+  MessageSquarePlus,
+  FolderClosed,
+  CheckCircle2,
+  ThumbsUp,
+  ThumbsDown,
+  Copy,
+  Pencil,
+} from "lucide-react";
+import { useState } from "react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { HistorySessions } from "@/components/HistorySessions";
+import { cn } from "@/lib/utils";
 
 
 export const Route = createFileRoute("/")({
