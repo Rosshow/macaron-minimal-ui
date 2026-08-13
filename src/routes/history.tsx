@@ -4,7 +4,7 @@ import { Search, ArrowRight } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { Avatar } from "@/components/Bits";
-import { tickets, kindTone, priorityTone, statusTone } from "@/data/mock";
+import { tickets, kindTone } from "@/data/mock";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/history")({
@@ -76,15 +76,17 @@ function History() {
                 <Avatar name={t.owner} tone="blue-2" />
               </div>
               <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5">
-                <Tag tone={statusTone[t.status]}>{t.status}</Tag>
-                <Tag tone={priorityTone[t.priority]} size="sm">
+                <Tag tone="blue" className="bg-secondary">
+                  {t.status}
+                </Tag>
+                <Tag tone="blue" className="bg-secondary">
                   {t.priority}
                 </Tag>
                 <div className="ml-auto flex gap-1.5">
                   {["催办", "上报", "撤回"].map((a) => (
                     <span
                       key={a}
-                      className="rounded-full bg-secondary px-2.5 py-1 text-[11px] text-muted-foreground"
+                      className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold text-blue-2"
                     >
                       {a}
                     </span>
