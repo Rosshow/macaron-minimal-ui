@@ -10,6 +10,7 @@ import {
   ThumbsDown,
   Copy,
   Pencil,
+  Ticket,
 } from "lucide-react";
 import { useState } from "react";
 import { PageShell } from "@/components/Shell";
@@ -200,12 +201,20 @@ function Chat() {
             >
               <ArrowUp className="size-4" />
             </button>
-            <button
-              className="grid size-10 shrink-0 place-items-center rounded-full bg-blue-soft text-blue-2"
-              aria-label="新建会话"
-            >
-              <MessageSquarePlus className="size-4" />
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-soft)]"
+                aria-label="转工单"
+              >
+                <Ticket className="size-4" />
+              </button>
+              <button
+                className="grid size-10 shrink-0 place-items-center rounded-full bg-blue-soft text-blue-2"
+                aria-label="新建会话"
+              >
+                <MessageSquarePlus className="size-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
