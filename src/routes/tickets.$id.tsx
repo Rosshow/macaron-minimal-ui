@@ -135,10 +135,10 @@ function Detail() {
             <span className="truncate text-[11.5px] text-muted-foreground">{t.no}</span>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <button className="rounded-full bg-secondary px-3 py-1.5 text-[11.5px] font-medium text-foreground">
+            <button className="rounded-md bg-secondary px-3 py-1.5 text-[11.5px] font-medium text-foreground">
               暂停任务
             </button>
-            <button className="rounded-full bg-primary px-3 py-1.5 text-[11.5px] font-medium text-primary-foreground">
+            <button className="rounded-md bg-primary px-3 py-1.5 text-[11.5px] font-medium text-primary-foreground">
               处理完成
             </button>
           </div>
@@ -192,7 +192,7 @@ function Detail() {
       <section className="surface-card mt-3 p-4">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
           <h3 className="truncate text-[13px] font-semibold">讨论（1）</h3>
-          <button className="flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-[12px] font-medium text-primary-foreground">
+          <button className="flex shrink-0 items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-[12px] font-medium text-primary-foreground">
             <Bot className="size-3.5" /> 帮我分析
           </button>
         </div>
@@ -261,7 +261,7 @@ function Detail() {
         {["修改工单", "退回工单", "重新指派", "升级上报"].map((label) => (
           <button
             key={label}
-            className="rounded-full bg-blue-3 px-3.5 py-1.5 text-[12px] font-medium text-white shadow-sm transition-colors hover:bg-blue-2"
+            className="rounded-md bg-blue-3 px-3.5 py-1.5 text-[12px] font-medium text-white shadow-sm transition-colors hover:bg-blue-2"
           >
             {label}
           </button>
