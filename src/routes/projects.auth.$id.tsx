@@ -72,7 +72,7 @@ function ProjectAuth() {
     <PageShell title="项目授权管理" back>
       <div className="space-y-3">
         {/* 项目导入 */}
-        <CollapsibleSection title="项目导入" icon={<FolderClosed className="size-4" />}>
+        <CollapsibleSection title="项目导入" icon={<FolderClosed className="size-4" />} defaultOpen>
           <div className="grid grid-cols-2 gap-2">
             {(
               [
@@ -87,8 +87,8 @@ function ProjectAuth() {
                 className={cn(
                   "rounded-md py-2.5 text-[13px] font-semibold transition-colors",
                   tab === t.key
-                    ? "bg-foreground text-background"
-                    : "bg-secondary/70 text-muted-foreground hover:bg-secondary",
+                    ? "bg-blue-2 text-white"
+                    : "border border-blue-2 bg-card text-blue-2 hover:bg-blue-soft",
                 )}
               >
                 {t.label}
