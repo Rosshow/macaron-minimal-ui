@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plus, ArrowUp, CalendarDays, MessageSquarePlus, FolderClosed, CheckCircle2 } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
+import { HistorySessions } from "@/components/HistorySessions";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
