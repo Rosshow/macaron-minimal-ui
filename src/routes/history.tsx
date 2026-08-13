@@ -53,7 +53,7 @@ function History() {
         {tickets.map((t) => (
           <Link key={t.id} to="/tickets/$id" params={{ id: t.id }} className="block">
             <article className="surface-card p-4">
-              <div className="flex items-start gap-2">
+              <div className="flex items-center gap-2">
                 <Tag tone={kindTone[t.kind]}>{t.kind}</Tag>
                 <h3 className="flex-1 text-[14.5px] font-bold leading-6">{t.title}</h3>
                 <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] text-muted-foreground">{t.no}</span>
