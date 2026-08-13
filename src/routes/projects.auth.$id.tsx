@@ -155,7 +155,7 @@ function ProjectAuth() {
         </CollapsibleSection>
 
         {/* 项目授权：选择项目 */}
-        <CollapsibleSection title="项目授权" icon={<Wallet className="size-4" />} defaultOpen>
+        <CollapsibleSection title="项目授权" icon={<Wallet className="size-4" />}>
           <button
             type="button"
             onClick={() => setPicker(true)}
