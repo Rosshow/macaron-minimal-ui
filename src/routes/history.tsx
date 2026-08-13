@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Search, ArrowRight } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
@@ -21,8 +21,28 @@ export const Route = createFileRoute("/history")({
 
 const tabs = ["全部", "新建", "处理中", "待处理", "已解决", "已取消", "已关闭"];
 
+function statusForTab(label: string) {
+  if (label === "全部") return null;
+  if (label === "待处理") return "进行中";
+  return label;
+}
+
 function History() {
   const [tab, setTab] = useState("全部");
+
+  const counts = useMemo(() => {
+    const map: Record<string, number> = { 全部: tickets.length };
+    for (const t of tickets) {
+      for (const label of tabs) {
+        if (label === "全部") continue;
+        const status = statusForTab(label);
+        if (status && t.status === status) {
+          map[label] = (map[label] ?? 0) + 1;
+        }
+      }
+    }
+    return map;
+  }, []);
 
   return (
     <PageShell title="历史工单" back>
@@ -34,19 +54,26 @@ function History() {
         />
       </div>
 
-      <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1">
-        {tabs.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={cn(
-              "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
-              tab === t ? "bg-foreground text-background" : "bg-card text-muted-foreground",
-            )}
-          >
-            {t}
-          </button>
-        ))}
+      <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1 pt-2">
+        {tabs.map((t) => {
+          const n = counts[t] ?? 0;
+          return (
+            <div key={t} className="relative shrink-0">
+              <button
+                onClick={() => setTab(t)}
+                className={cn(
+                  "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
+                  tab === t ? "bg-foreground text-background" : "bg-card text-muted-foreground",
+                )}
+              >
+                {t}
+              </button>
+              <span className="pointer-events-none absolute -right-1.5 -top-1.5 grid min-w-[17px] place-items-center rounded-full bg-muted-foreground px-1 py-px text-[10px] font-bold leading-4 text-white">
+                {n}
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       <div className="mt-3 space-y-3">
