@@ -43,9 +43,9 @@ const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsIdRoute = ProjectsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => ProjectsRoute,
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const TicketsIdRoute = TicketsIdRouteImport.update({
   id: '/tickets/$id',
@@ -116,6 +116,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   HistoryRoute: typeof HistoryRoute
   TasksRoute: typeof TasksRoute
+  ProjectsIdRoute: typeof ProjectsIdRoute
   TicketsIdRoute: typeof TicketsIdRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
@@ -159,10 +160,10 @@ declare module '@tanstack/react-router' {
     }
     '/projects/$id': {
       id: '/projects/$id'
-      path: '/$id'
+      path: '/projects/$id'
       fullPath: '/projects/$id'
       preLoaderRoute: typeof ProjectsIdRouteImport
-      parentRoute: typeof ProjectsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/tickets/$id': {
       id: '/tickets/$id'
@@ -179,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   HistoryRoute: HistoryRoute,
   TasksRoute: TasksRoute,
+  ProjectsIdRoute: ProjectsIdRoute,
   TicketsIdRoute: TicketsIdRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
 }
