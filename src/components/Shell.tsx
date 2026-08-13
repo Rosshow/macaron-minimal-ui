@@ -12,16 +12,20 @@ export function TopBar({
   title,
   back,
   right,
+  left,
 }: {
   title: string;
   back?: boolean | undefined;
   right?: React.ReactNode | undefined;
+  left?: React.ReactNode | undefined;
 }) {
   const router = useRouter();
   return (
     <header className="glass-bar sticky top-0 z-20 border-b border-border/60">
       <div className="mx-auto flex h-14 max-w-3xl items-center gap-2 px-4">
-        {back ? (
+        {left ? (
+          <div className="flex min-w-9 items-center">{left}</div>
+        ) : back ? (
           <button
             type="button"
             onClick={() => router.history.back()}
@@ -39,6 +43,7 @@ export function TopBar({
     </header>
   );
 }
+
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -77,16 +82,19 @@ export function PageShell({
   title,
   back,
   right,
+  left,
   children,
 }: {
   title: string;
   back?: boolean | undefined;
   right?: React.ReactNode | undefined;
+  left?: React.ReactNode | undefined;
   children: React.ReactNode;
 }) {
   return (
     <div className="min-h-screen pb-24">
-      <TopBar title={title} back={back} right={right} />
+      <TopBar title={title} back={back} right={right} left={left} />
+
       <main className="mx-auto max-w-3xl px-4 py-4">{children}</main>
       <BottomNav />
     </div>
