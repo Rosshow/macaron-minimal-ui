@@ -11,10 +11,10 @@
 - 所有颜色、尺寸、字号、间距一律不变
 
 ## 涉及文件
-- `src/routes/history.tsx`：三个操作按钮、筛选 Tab、搜索框
-- `src/routes/tasks.tsx`：排序与筛选按钮、筛选入口、搜索框
-- `src/routes/tickets.$id.tsx`：顶部按钮、AI 分析按钮、底部四个蓝色操作按钮、评论输入框（发送圆按钮保持圆形）
-- `src/routes/index.tsx`：输入框与工具按钮（图标圆按钮保持圆形）
+- `src/routes/history.tsx`：三个操作按钮
+- `src/routes/tasks.tsx`：排序与筛选按钮、筛选入口
+- `src/routes/tickets.$id.tsx`：顶部按钮、AI 分析按钮、底部四个蓝色操作按钮（发送圆按钮保持圆形）
+- `src/routes/index.tsx`：工具按钮（图标圆按钮保持圆形）
 - `src/routes/admin.tsx`：右上角小按钮（图标圆按钮保持圆形）
 - `src/components/MonthBars.tsx`：年份筛选下拉框
 
