@@ -7,7 +7,7 @@
 - 文件：`src/routes/index.tsx`
 - 位置：聊天输入框右侧的「转工单」按钮
 - 当前：圆形图标按钮，图标为 Sparkles
-- 改为：圆形文字按钮，文案为「新建会话」，形状与左侧发送按钮一致
+- 改为：圆形图标按钮，图标改为表示「新建会话」的图标（如 MessageSquarePlus / PenSquare）
 
 ## 不变的部分
 - 按钮颜色保持现状（淡蓝色背景 `bg-blue-soft` / `bg-blue-3`、蓝色文字 `text-blue-2`）
