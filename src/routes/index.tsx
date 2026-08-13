@@ -68,8 +68,8 @@ function Chat() {
         <div className="surface-card overflow-hidden p-4">
           <div className="flex items-center gap-2">
             <FolderClosed className="size-4 text-muted-foreground" />
-            <span className="text-[13px] font-semibold text-foreground">
-              工单 <span className="text-muted-foreground">#338</span>
+            <span className="text-[13px] font-semibold text-muted-foreground">
+              工单 <span>#338</span>
             </span>
             <Tag tone="blue-muted">需求</Tag>
             <Tag tone="blue-muted">中</Tag>
