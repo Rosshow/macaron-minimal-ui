@@ -107,9 +107,9 @@ function Chat() {
             </button>
             <button
               className="grid size-10 shrink-0 place-items-center rounded-full bg-blue-soft text-blue-2"
-              aria-label="转工单"
+              aria-label="新建会话"
             >
-              <Sparkles className="size-4" />
+              <MessageSquarePlus className="size-4" />
             </button>
           </div>
         </div>
