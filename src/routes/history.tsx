@@ -54,19 +54,26 @@ function History() {
         />
       </div>
 
-      <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1">
-        {tabs.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={cn(
-              "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
-              tab === t ? "bg-foreground text-background" : "bg-card text-muted-foreground",
-            )}
-          >
-            {t}
-          </button>
-        ))}
+      <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1 pt-2">
+        {tabs.map((t) => {
+          const n = counts[t] ?? 0;
+          return (
+            <div key={t} className="relative shrink-0">
+              <button
+                onClick={() => setTab(t)}
+                className={cn(
+                  "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
+                  tab === t ? "bg-foreground text-background" : "bg-card text-muted-foreground",
+                )}
+              >
+                {t}
+              </button>
+              <span className="pointer-events-none absolute -right-1.5 -top-1.5 grid min-w-[17px] place-items-center rounded-full bg-muted-foreground px-1 py-px text-[10px] font-bold leading-4 text-white">
+                {n}
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       <div className="mt-3 space-y-3">
