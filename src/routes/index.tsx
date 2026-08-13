@@ -189,6 +189,8 @@ function Chat() {
               <Plus className="size-4" />
             </button>
             <input
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
               placeholder="发消息…"
               className="h-10 flex-1 rounded-full border border-border bg-card px-4 text-[13px] outline-none transition focus:border-primary"
             />
