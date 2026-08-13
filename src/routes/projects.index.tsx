@@ -5,7 +5,7 @@ import { Tag } from "@/components/Tag";
 import { Stat } from "@/components/Bits";
 import { projects } from "@/data/mock";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/projects/")({
   head: () => ({
     meta: [
       { title: "项目进度管理 · 摇人吧" },
