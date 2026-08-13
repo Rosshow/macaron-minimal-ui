@@ -21,8 +21,28 @@ export const Route = createFileRoute("/history")({
 
 const tabs = ["全部", "新建", "处理中", "待处理", "已解决", "已取消", "已关闭"];
 
+function statusForTab(label: string) {
+  if (label === "全部") return null;
+  if (label === "待处理") return "进行中";
+  return label;
+}
+
 function History() {
   const [tab, setTab] = useState("全部");
+
+  const counts = useMemo(() => {
+    const map: Record<string, number> = { 全部: tickets.length };
+    for (const t of tickets) {
+      for (const label of tabs) {
+        if (label === "全部") continue;
+        const status = statusForTab(label);
+        if (status && t.status === status) {
+          map[label] = (map[label] ?? 0) + 1;
+        }
+      }
+    }
+    return map;
+  }, []);
 
   return (
     <PageShell title="历史工单" back>
