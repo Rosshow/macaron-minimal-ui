@@ -52,31 +52,68 @@ export function FloatingTicketButton({ onClick }: { onClick?: () => void }) {
   if (!pos) return null;
 
   return (
-    <button
-      type="button"
-      aria-label="转工单"
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
-      onClick={() => {
-        if (moved.current) return;
-        onClick?.();
-      }}
+    <div
       style={{
         left: pos.x,
         top: pos.y,
         width: SIZE,
-        height: SIZE,
-        touchAction: "none",
-        backgroundColor: "color-mix(in oklab, var(--primary) 70%, transparent)",
       }}
-      className={`fixed z-50 grid select-none place-items-center rounded-full text-primary-foreground shadow-[var(--shadow-soft)] backdrop-blur-md transition-transform ${
-        dragging ? "scale-105 cursor-grabbing" : "cursor-grab active:scale-95"
-      }`}
+      className="fixed z-50 select-none"
     >
-      <TicketPlus className="size-4" />
-      <span className="mt-0.5 text-[10px] font-semibold leading-none">转工单</span>
-    </button>
+      <button
+        type="button"
+        aria-label="转工单"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onClick={() => {
+          if (moved.current) return;
+          onClick?.();
+        }}
+        style={{
+          width: SIZE,
+          height: SIZE,
+          touchAction: "none",
+        }}
+        className={`relative grid place-items-center rounded-full text-primary-foreground transition-transform ${
+          dragging ? "scale-105 cursor-grabbing" : "cursor-grab active:scale-95"
+        }`}
+      >
+        {/* 液态玻璃底层 */}
+        <span
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: "color-mix(in oklab, var(--primary) 26%, transparent)",
+            backdropFilter: "saturate(1.6) blur(28px)",
+            border: "1px solid color-mix(in oklab, rgba(255,255,255,0.42), rgba(255,255,255,0.12))",
+            boxShadow: `
+              inset 0 1.5px 1px rgba(255,255,255,0.28),
+              inset 0 -1px 1px rgba(0,0,0,0.04),
+              0 2px 4px rgba(0,0,0,0.04),
+              0 14px 34px color-mix(in oklab, var(--primary) 16%, rgba(0,0,0,0.08))
+            `,
+          }}
+        />
+        {/* 顶部高光，模拟液态玻璃折射 */}
+        <span
+          className="pointer-events-none absolute inset-x-1.5 top-1.5 h-[36%] rounded-t-full"
+          style={{
+            background: "linear-gradient(180deg, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0) 100%)",
+          }}
+        />
+        <TicketPlus
+          className="relative z-10 size-5"
+          style={{ filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.12))" }}
+        />
+      </button>
+
+      {/* 标签独立显示在按钮正下方 */}
+      <span
+        className="pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
+      >
+        转工单
+      </span>
+    </div>
   );
 }
