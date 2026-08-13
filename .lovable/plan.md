@@ -4,17 +4,17 @@
 参考图（修改工单 / 退回工单 / 重新指派 / 升级上报）的按钮形状：小圆角矩形（方圆角），不是胶囊形。历史工单的「催办 / 上报 / 撤回」先改成这个形状，颜色保持现状不变；同时整套 UI 的按钮统一改为同一种方圆角（标签形状不变）。
 
 ## 统一规则
-- 按钮、筛选/排序 Tab、下拉筛选框：`rounded-full` → `rounded-md`（约 6px 圆角）
+- 按钮：`rounded-full` → `rounded-md`（约 6px 圆角）
 - 标签（状态、优先级、编号徽标等非按钮元素）形状不变，保持现有胶囊形与颜色
-- 输入框（搜索框、评论输入框）：改为 `rounded-lg`，与按钮同一语言
+- 输入框（搜索框、评论输入框）、筛选/排序 Tab、下拉筛选框形状不变
 - 保持圆形不变：头像、参与人圆圈、状态小圆点、通知角标数字、进度条、开关/滑块等 shadcn 原生控件
 - 所有颜色、尺寸、字号、间距一律不变
 
 ## 涉及文件
-- `src/routes/history.tsx`：三个操作按钮、筛选 Tab、搜索框
-- `src/routes/tasks.tsx`：排序与筛选按钮、筛选入口、搜索框
-- `src/routes/tickets.$id.tsx`：顶部按钮、AI 分析按钮、底部四个蓝色操作按钮、评论输入框（发送圆按钮保持圆形）
-- `src/routes/index.tsx`：输入框与工具按钮（图标圆按钮保持圆形）
+- `src/routes/history.tsx`：三个操作按钮
+- `src/routes/tasks.tsx`：排序与筛选按钮、筛选入口
+- `src/routes/tickets.$id.tsx`：顶部按钮、AI 分析按钮、底部四个蓝色操作按钮（发送圆按钮保持圆形）
+- `src/routes/index.tsx`：工具按钮（图标圆按钮保持圆形）
 - `src/routes/admin.tsx`：右上角小按钮（图标圆按钮保持圆形）
 - `src/components/MonthBars.tsx`：年份筛选下拉框
 
