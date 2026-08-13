@@ -10,6 +10,7 @@ import {
   ThumbsDown,
   Copy,
   Pencil,
+  Ticket,
 } from "lucide-react";
 import { useState } from "react";
 import { PageShell } from "@/components/Shell";
