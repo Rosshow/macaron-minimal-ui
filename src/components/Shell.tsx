@@ -82,16 +82,19 @@ export function PageShell({
   title,
   back,
   right,
+  left,
   children,
 }: {
   title: string;
   back?: boolean | undefined;
   right?: React.ReactNode | undefined;
+  left?: React.ReactNode | undefined;
   children: React.ReactNode;
 }) {
   return (
     <div className="min-h-screen pb-24">
-      <TopBar title={title} back={back} right={right} />
+      <TopBar title={title} back={back} right={right} left={left} />
+
       <main className="mx-auto max-w-3xl px-4 py-4">{children}</main>
       <BottomNav />
     </div>
