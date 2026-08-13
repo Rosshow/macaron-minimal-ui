@@ -4,7 +4,7 @@ import { Search, ArrowRight } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { Avatar } from "@/components/Bits";
-import { tickets, kindTone, priorityTone, statusTone } from "@/data/mock";
+import { tickets, kindTone } from "@/data/mock";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/history")({
