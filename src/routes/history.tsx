@@ -56,6 +56,7 @@ function History() {
               <div className="flex items-start gap-2">
                 <Tag tone={kindTone[t.kind]}>{t.kind}</Tag>
                 <h3 className="flex-1 text-[14.5px] font-bold leading-6">{t.title}</h3>
+                <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] text-muted-foreground">{t.no}</span>
                 <span className="shrink-0 text-[11px] text-muted-foreground">{t.date}</span>
               </div>
               <p className="mt-2 line-clamp-2 text-[12.5px] leading-6 text-muted-foreground">
