@@ -20,7 +20,7 @@ rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold text-blue-2
 改为：
 
 ```text
-rounded-full bg-blue-2 px-2.5 py-1 text-[11px] font-semibold text-white
+rounded-lg bg-blue-2 px-3.5 py-1.5 text-[12px] font-semibold text-white
 ```
 
 ## 不变的部分
