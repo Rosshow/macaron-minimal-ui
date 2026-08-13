@@ -106,7 +106,7 @@ function Admin() {
       <section className="surface-card p-4">
         <div className="flex items-center">
           <h3 className="text-[13px] font-semibold text-muted-foreground">调度项目看板</h3>
-          <button className="ml-auto flex items-center gap-1 rounded-full bg-blue-soft px-3 py-1.5 text-[11.5px] font-medium text-blue-2">
+          <button className="ml-auto flex items-center gap-1 rounded-md bg-blue-soft px-3 py-1.5 text-[11.5px] font-medium text-blue-2">
             <RefreshCw className="size-3.5" /> 同步最新数据
           </button>
         </div>
