@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Search, ArrowRight } from "lucide-react";
+import { Search, ArrowRight, Bell, ArrowUp, Undo2 } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { Avatar } from "@/components/Bits";
