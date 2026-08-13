@@ -15,6 +15,8 @@ import { useState } from "react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { HistorySessions } from "@/components/HistorySessions";
+import { FloatingTicketButton } from "@/components/FloatingTicketButton";
+
 import { cn } from "@/lib/utils";
 
 
