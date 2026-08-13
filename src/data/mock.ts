@@ -204,3 +204,65 @@ export const projectMonthly: { key: string; year: number; month: number; value: 
 }));
 
 export const projectYears = [2024, 2025, 2026];
+
+/** 项目详情（模拟数据） */
+export const projectLifecycleStages = [
+  "售前方案",
+  "签单洽谈",
+  "已签合同",
+  "出厂测试",
+  "即将进场",
+  "延期进场",
+  "正在实施",
+  "实施暂停",
+  "实施运行",
+  "试运行中",
+  "验收运营",
+  "项目结束",
+];
+
+export type ProjectField = { label: string; value: string; kind?: "edit" | "select" };
+
+export const projectDetail = {
+  name: "国铁集团无人正面吊车西南交大合作申报项目",
+  code: "92",
+  wecomId: "rNqFS6",
+  manager: "未指定",
+  contact: "刘青源",
+  progress: 27,
+  deployAt: "2026-07-15",
+  nearDelivery: "2026-08-07",
+  finalDelivery: "-",
+  tags: ["搬运效率分析"],
+  urgent: "重要紧急",
+  stage: "出厂测试",
+  syncedAt: "00:05:52",
+  basics: [
+    { label: "项目名称", value: "国铁集团无人正面吊车西南交大合作申报项目", kind: "edit" },
+    { label: "项目编号", value: "92", kind: "edit" },
+    { label: "内部编号", value: "未填写", kind: "edit" },
+    { label: "项目描述", value: "缺前置承接", kind: "edit" },
+    { label: "项目类型", value: "受关注项目", kind: "select" },
+    { label: "项目区域/地点", value: "大陆（China Mainland）", kind: "select" },
+    { label: "总车数", value: "1", kind: "edit" },
+    { label: "车型&车数", value: "特种行业定制无人正面吊车", kind: "edit" },
+    { label: "控制器选择", value: "未设置", kind: "select" },
+    { label: "系统/外设对接", value: "未设置", kind: "select" },
+    { label: "服务器部署", value: "未设置", kind: "select" },
+    { label: "部署版本", value: "未填写", kind: "edit" },
+  ] as ProjectField[],
+  duty: [
+    { label: "销售", value: "未指定", kind: "edit" },
+    { label: "售前", value: "未指定", kind: "edit" },
+    { label: "项目经理", value: "未指定", kind: "edit" },
+    { label: "实施工程师", value: "未指定", kind: "edit" },
+    { label: "人员计划", value: "无", kind: "edit" },
+  ] as ProjectField[],
+  risk: [
+    { label: "风险承接", value: "未设置", kind: "select" },
+    { label: "特别关注", value: "无", kind: "edit" },
+    { label: "风险和任务描述", value: "无", kind: "edit" },
+    { label: "项目管理策略", value: "无", kind: "edit" },
+    { label: "预期走向", value: "未设置", kind: "edit" },
+  ] as ProjectField[],
+};

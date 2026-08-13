@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { Stat } from "@/components/Bits";
 import { projects } from "@/data/mock";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/projects/")({
   head: () => ({
     meta: [
       { title: "项目进度管理 · 摇人吧" },
@@ -39,7 +39,12 @@ function Projects() {
 
       <div className="mt-3 space-y-3">
         {projects.map((p) => (
-          <article key={p.name} className="surface-card p-4">
+          <Link
+            key={p.name}
+            to="/projects/$id"
+            params={{ id: p.code }}
+            className="surface-card block p-4 transition-shadow hover:shadow-md"
+          >
             <h3 className="text-[14.5px] font-bold leading-6">{p.name}</h3>
             <div className="mt-2 flex items-center gap-2">
               <Tag tone="blue">{p.stage}</Tag>
@@ -70,7 +75,7 @@ function Projects() {
                 </div>
               ))}
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </PageShell>
