@@ -175,14 +175,16 @@ function ProjectAuth() {
             </div>
             <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
           </button>
-        </CollapsibleSection>
 
-        {/* licences 授权 */}
-        <CollapsibleSection
-          title="项目 licences 授权"
-          icon={<KeyRound className="size-4" />}
-          count={selected ? licenses.length : undefined}
-        >
+          {/* licences 授权 */}
+          <CollapsibleSection
+            variant="nested"
+            className="mt-3"
+            title="项目 licences 授权"
+            icon={<KeyRound className="size-4" />}
+            count={selected ? licenses.length : undefined}
+          >
+
           {!selected ? (
             <EmptyHint />
           ) : (
