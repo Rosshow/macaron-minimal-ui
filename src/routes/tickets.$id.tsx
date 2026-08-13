@@ -253,19 +253,20 @@ function Detail() {
             </button>
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-2">
-            {["修改工单", "退回工单", "重新指派", "升级上报"].map((label) => (
-              <button
-                key={label}
-                className="rounded-full border border-border bg-secondary px-3.5 py-1.5 text-[12px] font-medium text-foreground transition-colors hover:border-primary hover:text-blue-2"
-              >
-                {label}
-              </button>
-            ))}
-          </div>
         </div>
 
       </section>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        {["修改工单", "退回工单", "重新指派", "升级上报"].map((label) => (
+          <button
+            key={label}
+            className="rounded-full bg-blue-3 px-3.5 py-1.5 text-[12px] font-medium text-white shadow-sm transition-colors hover:bg-blue-2"
+          >
+            {label}
+          </button>
+        ))}
+      </div>
     </PageShell>
   );
 }
