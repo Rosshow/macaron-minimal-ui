@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plus, ArrowUp, CalendarDays, Sparkles, FolderClosed, CheckCircle2 } from "lucide-react";
+import { Plus, ArrowUp, CalendarDays, MessageSquarePlus, FolderClosed, CheckCircle2 } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 
