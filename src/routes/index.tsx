@@ -209,6 +209,9 @@ function Chat() {
           </div>
         </div>
       </div>
+
+      <FloatingTicketButton />
     </PageShell>
+
   );
 }
