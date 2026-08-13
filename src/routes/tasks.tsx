@@ -192,7 +192,7 @@ function Tasks() {
             key={s}
             onClick={() => setSort(s)}
             className={cn(
-              "shrink-0 rounded-md px-3 py-1.5 text-[12px] font-medium transition-colors",
+              "shrink-0 rounded px-3 py-1.5 text-[12px] font-medium transition-colors",
               sort === s ? "bg-gray-soft text-foreground" : "bg-card text-muted-foreground",
             )}
           >
@@ -209,7 +209,7 @@ function Tasks() {
               <button
                 onClick={() => setFilter(f)}
                 className={cn(
-                  "rounded-md px-3 py-1.5 text-[12px] font-medium transition-colors",
+                  "rounded px-3 py-1.5 text-[12px] font-medium transition-colors",
                   filter === f
                     ? "bg-black text-white"
                     : "bg-card text-muted-foreground",
@@ -225,7 +225,7 @@ function Tasks() {
             </div>
           );
         })}
-        <button className="ml-auto flex shrink-0 items-center gap-1 rounded-md bg-card px-3 py-1.5 text-[12px] text-muted-foreground">
+        <button className="ml-auto flex shrink-0 items-center gap-1 rounded bg-card px-3 py-1.5 text-[12px] text-muted-foreground">
           <SlidersHorizontal className="size-3.5" /> 筛选
         </button>
       </div>

@@ -70,7 +70,7 @@ export function MonthBars({
           onChange={(e) =>
             setYear(e.target.value === "recent" ? "recent" : Number(e.target.value))
           }
-          className="ml-auto rounded-md border border-border bg-card px-3 py-1.5 text-[11.5px] font-medium text-foreground outline-none"
+          className="ml-auto rounded border border-border bg-card px-3 py-1.5 text-[11.5px] font-medium text-foreground outline-none"
           aria-label="按年筛选"
         >
           <option value="recent">近半年前后</option>
