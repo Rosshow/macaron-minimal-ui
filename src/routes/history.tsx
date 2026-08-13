@@ -87,7 +87,7 @@ function History() {
                   {["催办", "上报", "撤回"].map((a) => (
                     <span
                       key={a}
-                      className="whitespace-nowrap rounded-md border border-border bg-card px-3 py-1 text-[12px] font-medium text-muted-foreground"
+                      className="whitespace-nowrap rounded border border-border bg-card px-3 py-1 text-[12px] font-medium text-muted-foreground"
                     >
                       {a}
                     </span>
