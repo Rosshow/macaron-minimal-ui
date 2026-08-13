@@ -266,3 +266,67 @@ export const projectDetail = {
     { label: "预期走向", value: "未设置", kind: "edit" },
   ] as ProjectField[],
 };
+
+/** 项目授权（模拟数据） */
+export type ProjectLicense = {
+  code: string;
+  machine: string;
+  from: string;
+  to: string;
+  applicant: string;
+  maxCars: string;
+};
+
+export const projectAuthProject = { name: "江苏常州多摩川混场项目", code: "13" };
+
+export const projectLicenses: ProjectLicense[] = [
+  {
+    code: "HRYrVxaTzf...",
+    machine: "tLRkFp58Aq...",
+    from: "2026-08-07 15:05:13",
+    to: "2026-12-31",
+    applicant: "汪海波",
+    maxCars: "不限制",
+  },
+  {
+    code: "QF7YY4QFQM...",
+    machine: "7X4On2P5C7...",
+    from: "2026-08-01 14:45:31",
+    to: "2026-08-01",
+    applicant: "张文星",
+    maxCars: "不限制",
+  },
+  {
+    code: "gZnfGADDrw...",
+    machine: "7X4On2P5C7...",
+    from: "2026-08-01 14:44:02",
+    to: "2026-08-01",
+    applicant: "管理员",
+    maxCars: "不限制",
+  },
+  {
+    code: "xw+kZV+iRh...",
+    machine: "vGFCFxbhcQ...",
+    from: "2026-07-31 16:52:20",
+    to: "2026-07-31",
+    applicant: "张文星",
+    maxCars: "不限制",
+  },
+  {
+    code: "EqQ0Z7HsD2...",
+    machine: "bN5JRWhOGG...",
+    from: "2026-07-29 13:11:10",
+    to: "2026-11-28",
+    applicant: "—",
+    maxCars: "不限制",
+  },
+];
+
+export const projectMembers: { name: string; wechat: string; role: string }[] = [
+  { name: "白永奇", wechat: "wechat_oD5oY3bC57", role: "实施" },
+  { name: "毛梦晴", wechat: "wechat_oD5oY3e8Lp", role: "项目经理" },
+  { name: "张俊磊", wechat: "wechat_oD5oY3ehhs", role: "调度研发" },
+  { name: "罗昊", wechat: "wechat_oD5oY3RNsD", role: "项目经理" },
+  { name: "董华来", wechat: "wechat_oD5oY3UFID", role: "项目经理" },
+  { name: "汪海波", wechat: "wechat_oD5oY3YFm7", role: "调度研发" },
+];
