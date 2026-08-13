@@ -83,16 +83,17 @@ function History() {
                 <Tag tone="blue" className="bg-secondary">
                   {t.priority}
                 </Tag>
-                <div className="ml-auto flex gap-1.5">
+                <div className="ml-auto flex gap-2">
                   {["催办", "上报", "撤回"].map((a) => (
                     <span
                       key={a}
-                      className="rounded-lg bg-blue-2 px-3.5 py-1.5 text-[12px] font-semibold text-white"
+                      className="whitespace-nowrap rounded-md border border-border bg-card px-3 py-1 text-[12px] font-medium text-muted-foreground"
                     >
                       {a}
                     </span>
                   ))}
                 </div>
+
               </div>
             </article>
           </Link>
