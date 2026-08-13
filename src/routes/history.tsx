@@ -83,14 +83,20 @@ function History() {
                 <Tag tone="blue" className="bg-secondary">
                   {t.priority}
                 </Tag>
-                <div className="ml-auto flex gap-2">
-                  {["催办", "上报", "撤回"].map((a) => (
-                    <span
-                      key={a}
-                      className="whitespace-nowrap rounded-md border border-border bg-card px-3 py-1 text-[12px] font-medium text-muted-foreground"
+                <div className="ml-auto flex items-center gap-2">
+                  {[
+                    { icon: Bell, label: "催办" },
+                    { icon: ArrowUp, label: "上报" },
+                    { icon: Undo2, label: "撤回" },
+                  ].map(({ icon: Icon, label }) => (
+                    <button
+                      key={label}
+                      type="button"
+                      aria-label={label}
+                      className="grid size-9 place-items-center rounded-md border border-border bg-card text-muted-foreground transition-colors hover:bg-secondary"
                     >
-                      {a}
-                    </span>
+                      <Icon className="size-5" />
+                    </button>
                   ))}
                 </div>
 
