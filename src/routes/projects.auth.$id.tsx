@@ -263,51 +263,54 @@ function ProjectAuth() {
               </div>
             </>
           )}
+          </CollapsibleSection>
+
+          {/* 人员授权 */}
+          <CollapsibleSection
+            variant="nested"
+            title="项目人员授权"
+            icon={<Users className="size-4" />}
+            count={selected ? members.length : undefined}
+          >
+            {!selected ? (
+              <EmptyHint />
+            ) : (
+              <>
+                <div className="mb-2.5 flex items-center gap-2">
+                  <span className="text-[12.5px] font-semibold">已关联人员</span>
+                  <span className="text-[11px] text-muted-foreground">长按卡片可移除</span>
+                  <GhostButton onClick={() => toast("请选择要关联的人员")} className="ml-auto">
+                    + 添加关联人员
+                  </GhostButton>
+                </div>
+                <ul className="space-y-1.5">
+                  {members.map((m) => (
+                    <li
+                      key={m.wechat}
+                      className="flex items-center gap-2 rounded-lg bg-secondary/60 px-3 py-2.5"
+                    >
+                      <span className="text-[13.5px] font-bold">{m.name}</span>
+                      <span className="ml-auto truncate text-[11px] text-muted-foreground">
+                        {m.wechat}
+                      </span>
+                      <Tag tone="muted" size="sm">
+                        {m.role}
+                      </Tag>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </CollapsibleSection>
+
+          {/* 导出 */}
+          <div className="space-y-2 border-t border-border/60 pt-3">
+            {exportBtn("导出 licence 授权")}
+            {exportBtn("导出人员授权")}
+            {exportBtn("导出完整授权", true)}
+          </div>
         </CollapsibleSection>
 
-        {/* 人员授权 */}
-        <CollapsibleSection
-          title="项目人员授权"
-          icon={<Users className="size-4" />}
-          count={selected ? members.length : undefined}
-        >
-          {!selected ? (
-            <EmptyHint />
-          ) : (
-            <>
-              <div className="mb-2.5 flex items-center gap-2">
-                <span className="text-[12.5px] font-semibold">已关联人员</span>
-                <span className="text-[11px] text-muted-foreground">长按卡片可移除</span>
-                <GhostButton onClick={() => toast("请选择要关联的人员")} className="ml-auto">
-                  + 添加关联人员
-                </GhostButton>
-              </div>
-              <ul className="space-y-1.5">
-                {members.map((m) => (
-                  <li
-                    key={m.wechat}
-                    className="flex items-center gap-2 rounded-lg bg-secondary/60 px-3 py-2.5"
-                  >
-                    <span className="text-[13.5px] font-bold">{m.name}</span>
-                    <span className="ml-auto truncate text-[11px] text-muted-foreground">
-                      {m.wechat}
-                    </span>
-                    <Tag tone="muted" size="sm">
-                      {m.role}
-                    </Tag>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-        </CollapsibleSection>
-
-        {/* 导出 */}
-        <div className="space-y-2 pt-1">
-          {exportBtn("导出 licence 授权")}
-          {exportBtn("导出人员授权")}
-          {exportBtn("导出完整授权", true)}
-        </div>
       </div>
 
       <Sheet open={picker} onOpenChange={setPicker}>
