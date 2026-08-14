@@ -148,7 +148,7 @@ function Admin() {
       <section className="grid grid-cols-4 gap-2">
         {[
           { label: "项目管理", icon: FolderKanban, to: "/projects/auth/$id", params: { id: projects[0]?.code ?? "" }, tone: "blue-1" },
-          { label: "数据管理", icon: Database, to: "/projects", tone: "blue-2" },
+          { label: "数据管理", icon: Database, to: "/data", tone: "blue-2" },
           { label: "日报周报", icon: FileBarChart, to: "/tasks", tone: "blue-3" },
           { label: "其他", icon: MoreHorizontal, to: "/tasks", tone: "blue-4" },
         ].map(({ label, icon: Icon, to, params, tone }) => (
