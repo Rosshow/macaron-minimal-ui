@@ -96,33 +96,63 @@ function useToggle<T>(initial: T[] = []) {
 
 function ProjectFirst() {
   const [project, setProject] = useState<string | null>(null);
+  const [picking, setPicking] = useState(false);
   const [people, togglePerson] = useToggle<string>();
   const [role, setRole] = useState<string | null>(null);
 
   return (
     <>
-      <SectionTitle title="选择项目" />
-      <section className="grid gap-2">
-        {projects.slice(0, 5).map((p) => (
-          <button
-            key={p.code}
-            type="button"
-            onClick={() => setProject(p.name)}
+      <section className="surface-card mt-3 p-4">
+        <p className="text-[11.5px] text-muted-foreground">项目</p>
+        <button
+          type="button"
+          onClick={() => setPicking(true)}
+          className="mt-2 flex w-full items-center justify-between gap-2 rounded-lg bg-secondary/60 px-3 py-3 text-left transition-colors hover:bg-secondary"
+        >
+          <span
             className={cn(
-              "surface-card flex items-center justify-between gap-3 p-3.5 text-left transition-colors",
-              project === p.name ? "ring-1 ring-blue-2" : "hover:bg-secondary/40",
+              "truncate text-[13.5px]",
+              project ? "font-semibold" : "text-muted-foreground",
             )}
           >
-            <span className="min-w-0">
-              <span className="block truncate text-[13.5px] font-semibold">{p.name}</span>
-              <span className="mt-0.5 block text-[11px] text-muted-foreground">
-                编号 {p.code} · {p.stage}
-              </span>
-            </span>
-            {project === p.name ? <Check className="size-4 shrink-0 text-blue-2" /> : null}
-          </button>
-        ))}
+            {project ?? "请先选择项目"}
+          </span>
+          <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+        </button>
       </section>
+
+      <Sheet open={picking} onOpenChange={setPicking}>
+        <SheetContent side="bottom" className="rounded-t-2xl">
+          <SheetHeader>
+            <SheetTitle className="text-[15px]">选择项目</SheetTitle>
+          </SheetHeader>
+          <div className="mt-3 grid max-h-[50vh] gap-1.5 overflow-y-auto pb-4">
+            {projects.map((p) => (
+              <button
+                key={p.code}
+                type="button"
+                onClick={() => {
+                  setProject(p.name);
+                  setPicking(false);
+                }}
+                className="flex items-center justify-between gap-3 rounded-lg px-3 py-3 text-left transition-colors hover:bg-secondary/60"
+              >
+                <span className="min-w-0">
+                  <span className="block truncate text-[13.5px] font-semibold">{p.name}</span>
+                  <span className="mt-0.5 block text-[11px] text-muted-foreground">
+                    编号 {p.code} · {p.stage}
+                  </span>
+                </span>
+                {project === p.name ? <Check className="size-4 shrink-0 text-blue-2" /> : null}
+              </button>
+            ))}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {!project ? null : (
+        <>
+
 
       <SectionTitle title="选择人员" hint={people.length ? `已选 ${people.length} 人` : undefined} />
       <div className="flex flex-wrap gap-1.5 px-0.5">
