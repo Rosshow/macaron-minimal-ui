@@ -36,7 +36,11 @@ function Other() {
             key={label}
             type="button"
             onClick={() =>
-              label === "用户管理" ? navigate({ to: "/users" }) : toast(`${label}（功能开发中）`)
+              label === "用户管理"
+                ? navigate({ to: "/users" })
+                : label === "角色管理"
+                  ? navigate({ to: "/roles" })
+                  : toast(`${label}（功能开发中）`)
             }
             className="surface-card flex items-center gap-3 p-4 text-left transition-colors hover:bg-secondary/40"
           >
