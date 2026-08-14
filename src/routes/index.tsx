@@ -215,13 +215,20 @@ function Chat() {
             >
               <Plus className="size-4" />
             </button>
-            <input
+            <textarea
+              ref={textareaRef}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                resizeTextarea();
+              }}
+              onKeyDown={handleKeyDown}
               placeholder="发消息…"
-              className="h-10 flex-1 rounded-full border border-border bg-card px-4 text-[13px] outline-none transition focus:border-primary"
+              rows={1}
+              className="min-h-[40px] flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-2.5 text-[13px] leading-6 outline-none transition focus:border-primary"
             />
             <button
+              onClick={handleSend}
               className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-soft)]"
               aria-label="发送"
             >
