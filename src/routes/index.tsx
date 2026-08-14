@@ -52,7 +52,31 @@ const initialMessages = [
 
 function Chat() {
   const [inputValue, setInputValue] = useState("");
+  const [messages, setMessages] = useState(initialMessages);
   const [feedback, setFeedback] = useState<Record<number, "like" | "dislike" | null>>({});
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const resizeTextarea = () => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
+  };
+
+  const handleSend = () => {
+    const text = inputValue.trim();
+    if (!text) return;
+    setMessages((prev) => [...prev, { me: true, text }]);
+    setInputValue("");
+    requestAnimationFrame(resizeTextarea);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
 
   const handleCopy = async (text: string) => {
     try {
@@ -64,6 +88,7 @@ function Chat() {
 
   const handleEdit = (text: string) => {
     setInputValue(text);
+    requestAnimationFrame(resizeTextarea);
   };
 
   const toggleFeedback = (index: number, kind: "like" | "dislike") => {
