@@ -71,7 +71,9 @@ const users: User[] = [
   { name: "微信用户", account: "@wechat_oD5oY3clDv", active: true, level: "一线" },
 ];
 
-function UserCard({ u }: { u: User }) {
+const levels = ["一线", "管理/审核", "仅兜底"];
+
+function UserCard({ u, onEdit }: { u: User; onEdit: () => void }) {
   return (
     <article className="surface-card p-4">
       <div className="flex items-start gap-3">
@@ -120,7 +122,7 @@ function UserCard({ u }: { u: User }) {
         <div className="flex shrink-0 items-center gap-2">
           <button
             type="button"
-            onClick={() => toast(`编辑 ${u.name}（功能开发中）`)}
+            onClick={onEdit}
             className="rounded-md border border-border px-2.5 py-1 text-[11.5px] text-muted-foreground transition-colors hover:bg-secondary"
           >
             编辑
@@ -138,8 +140,194 @@ function UserCard({ u }: { u: User }) {
   );
 }
 
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-start gap-4 border-b border-border/70 py-3">
+      <span className="w-16 shrink-0 pt-1 text-right text-[12.5px] text-muted-foreground">{label}</span>
+      <div className="min-w-0 flex-1">{children}</div>
+    </div>
+  );
+}
+
+function UserEditSheet({
+  open,
+  onOpenChange,
+  user,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  user: User | null;
+}) {
+  const [name, setName] = useState("");
+  const [dept, setDept] = useState("");
+  const [level, setLevel] = useState("一线");
+  const [modules, setModules] = useState<string[]>([]);
+  const [duty, setDuty] = useState("");
+  const [moduleDraft, setModuleDraft] = useState("");
+  const [adding, setAdding] = useState(false);
+
+  // 同步当前编辑对象
+  const key = user ? `${user.name}-${user.account}` : "new";
+  const [syncedKey, setSyncedKey] = useState<string | null>(null);
+  if (open && syncedKey !== key) {
+    setSyncedKey(key);
+    setName(user?.name ?? "");
+    setDept(user?.dept ?? "");
+    setLevel(user?.level ?? "一线");
+    setModules(user?.skills ?? []);
+    setDuty(user?.duty ?? "");
+    setAdding(false);
+    setModuleDraft("");
+  }
+
+  return (
+    <Sheet
+      open={open}
+      onOpenChange={(v) => {
+        if (!v) setSyncedKey(null);
+        onOpenChange(v);
+      }}
+    >
+      <SheetContent side="bottom" className="max-h-[88vh] overflow-y-auto rounded-t-3xl px-4 pb-6">
+        <SheetHeader className="px-0">
+          <SheetTitle className="text-[15px]">{user ? "编辑用户" : "新建用户"}</SheetTitle>
+        </SheetHeader>
+
+        <div className="mt-1">
+          <Field label="姓名">
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="真实姓名"
+              className="w-full bg-transparent text-[13.5px] outline-none placeholder:text-muted-foreground"
+            />
+          </Field>
+
+          <Field label="部门">
+            <input
+              value={dept}
+              onChange={(e) => setDept(e.target.value)}
+              placeholder="部门/团队"
+              className="w-full bg-transparent text-[13.5px] outline-none placeholder:text-muted-foreground"
+            />
+          </Field>
+
+          <Field label="职级">
+            <div className="space-y-1">
+              {levels.map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => setLevel(l)}
+                  className="flex w-full items-center gap-2.5 py-2 text-left"
+                >
+                  <span
+                    className={
+                      "flex size-[18px] items-center justify-center rounded-full border transition-colors " +
+                      (level === l ? "border-blue-2 bg-blue-2" : "border-border bg-card")
+                    }
+                  >
+                    {level === l ? <Check className="size-3 text-white" strokeWidth={3} /> : null}
+                  </span>
+                  <span className="text-[13.5px]">{l}</span>
+                </button>
+              ))}
+            </div>
+          </Field>
+
+          <Field label="责任模块">
+            {modules.length ? (
+              <div className="mb-2 flex flex-wrap gap-1.5">
+                {modules.map((m) => (
+                  <span
+                    key={m}
+                    className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-1 text-[11.5px] text-muted-foreground"
+                  >
+                    {m}
+                    <button type="button" onClick={() => setModules(modules.filter((x) => x !== m))}>
+                      <X className="size-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="mb-2 text-[11.5px] text-muted-foreground">暂未设置，点击下方按钮添加</p>
+            )}
+
+            {adding ? (
+              <div className="flex items-center gap-2">
+                <input
+                  autoFocus
+                  value={moduleDraft}
+                  onChange={(e) => setModuleDraft(e.target.value)}
+                  placeholder="模块名称"
+                  className="flex-1 rounded-md border border-border bg-card px-2.5 py-1.5 text-[12.5px] outline-none placeholder:text-muted-foreground"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const v = moduleDraft.trim();
+                    if (v && !modules.includes(v)) setModules([...modules, v]);
+                    setModuleDraft("");
+                    setAdding(false);
+                  }}
+                  className="rounded-md bg-blue-2 px-3 py-1.5 text-[12.5px] font-medium text-white"
+                >
+                  添加
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setAdding(true)}
+                className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2.5 py-1.5 text-[12.5px] font-medium text-foreground transition-colors hover:bg-secondary"
+              >
+                <Plus className="size-3.5" />
+                添加模块
+              </button>
+            )}
+          </Field>
+
+          <Field label="职责画像">
+            <textarea
+              value={duty}
+              onChange={(e) => setDuty(e.target.value)}
+              rows={3}
+              placeholder="供 AI 派单匹配参考的职责"
+              className="w-full resize-none bg-transparent text-[13px] leading-6 outline-none placeholder:text-muted-foreground"
+            />
+          </Field>
+        </div>
+
+        <div className="mt-4 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            className="rounded-md border border-border bg-card px-5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-secondary"
+          >
+            取消
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              toast.success(user ? `已保存 ${name || user.name}` : "已创建用户");
+              onOpenChange(false);
+            }}
+            className="rounded-md bg-blue-2 px-5 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            保存
+          </button>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 function UsersPage() {
   const [q, setQ] = useState("");
+  const [editOpen, setEditOpen] = useState(false);
+  const [editing, setEditing] = useState<User | null>(null);
+
   const list = useMemo(() => {
     const k = q.trim().toLowerCase();
     if (!k) return users;
@@ -153,7 +341,10 @@ function UsersPage() {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          onClick={() => toast("新建用户（功能开发中）")}
+          onClick={() => {
+            setEditing(null);
+            setEditOpen(true);
+          }}
           className="flex-1 rounded-md bg-blue-2 py-2.5 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
         >
           新建用户
@@ -184,12 +375,22 @@ function UsersPage() {
 
       <section className="mt-3 space-y-2.5">
         {list.map((u, i) => (
-          <UserCard key={`${u.name}-${i}`} u={u} />
+          <UserCard
+            key={`${u.name}-${i}`}
+            u={u}
+            onEdit={() => {
+              setEditing(u);
+              setEditOpen(true);
+            }}
+          />
         ))}
         {list.length === 0 ? (
           <p className="py-10 text-center text-[12.5px] text-muted-foreground">未找到匹配的用户</p>
         ) : null}
       </section>
+
+      <UserEditSheet open={editOpen} onOpenChange={setEditOpen} user={editing} />
     </PageShell>
   );
 }
+
