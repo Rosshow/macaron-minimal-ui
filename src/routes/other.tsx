@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Users, Tags, KeyRound, UserCog, Shuffle, ScrollText } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { toast } from "sonner";
@@ -27,6 +27,7 @@ const items = [
 ] as const;
 
 function Other() {
+  const navigate = useNavigate();
   return (
     <PageShell title="其他" back>
       <section className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -34,7 +35,9 @@ function Other() {
           <button
             key={label}
             type="button"
-            onClick={() => toast(`${label}（功能开发中）`)}
+            onClick={() =>
+              label === "用户管理" ? navigate({ to: "/users" }) : toast(`${label}（功能开发中）`)
+            }
             className="surface-card flex items-center gap-3 p-4 text-left transition-colors hover:bg-secondary/40"
           >
             <span
