@@ -330,3 +330,80 @@ export const projectMembers: { name: string; wechat: string; role: string }[] = 
   { name: "董华来", wechat: "wechat_oD5oY3UFID", role: "项目经理" },
   { name: "汪海波", wechat: "wechat_oD5oY3YFm7", role: "调度研发" },
 ];
+
+/** 历史工单详情：讨论区（模拟数据） */
+export type DiscussionMessage = {
+  id: string;
+  side: "me" | "other";
+  author: string;
+  time?: string;
+  text: string;
+  quote?: { author: string; text: string };
+  read?: boolean;
+};
+
+export type DiscussionGroup = { time: string; messages: DiscussionMessage[] };
+
+export const ticketDiscussion: DiscussionGroup[] = [
+  {
+    time: "8月13日 20:48",
+    messages: [
+      { id: "m1", side: "me", author: "罗昊", text: "向外转发的时候可以转成图片", read: true },
+      {
+        id: "m2",
+        side: "me",
+        author: "罗昊",
+        text: "那你转给爽，直接从数据库取，然后转成 md 格式文件在前端显示 @胡健楠",
+        read: true,
+      },
+    ],
+  },
+  {
+    time: "8月13日 20:54",
+    messages: [
+      {
+        id: "m3",
+        side: "other",
+        author: "胡健楠",
+        time: "20:48:23",
+        text: "@罗昊 这是何意，向外转发的时候又要成图片，又要前端显示 md",
+      },
+      { id: "m4", side: "other", author: "胡健楠", text: "我这边工单附带还没做好，做不做了那" },
+      {
+        id: "m5",
+        side: "me",
+        author: "罗昊",
+        quote: {
+          author: "胡健楠",
+          text: "@罗昊 这是何意，向外转发的时候又要成图片，又要前端显示 md",
+        },
+        text: "向外转发成图片就好，作为附件的时候转成 md 格式文档给对接单人",
+        read: true,
+      },
+      { id: "m6", side: "me", author: "罗昊", text: "@胡健楠", read: true },
+    ],
+  },
+  {
+    time: "8月13日 21:03",
+    messages: [
+      {
+        id: "m7",
+        side: "other",
+        author: "胡健楠",
+        time: "21:03:49",
+        text: "那现在是缺少向外转发的功能的吧",
+      },
+      {
+        id: "m8",
+        side: "other",
+        author: "胡健楠",
+        text: "@罗昊 附件这个我可以弄，向外转发这块要涉及前端选中之类的",
+      },
+      { id: "m9", side: "other", author: "胡健楠", text: "明天当面说" },
+      { id: "m10", side: "me", author: "罗昊", text: "好", read: false },
+    ],
+  },
+];
+
+export const ticketSummary =
+  "聊天记录已存入数据库，工单附件由胡健楠将数据库记录转成 MD 格式文档给对接人，向外转发则转成图片。新增讨论确认：向外转发功能尚缺，涉及前端选中逻辑，胡健楠负责附件部分，转发功能待与罗昊明天当面沟通解决。";
