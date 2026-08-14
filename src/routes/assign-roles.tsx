@@ -186,63 +186,157 @@ function ProjectFirst() {
   );
 }
 
-function UserFirst() {
-  const [people, togglePerson] = useToggle<string>();
-  const [role, setRole] = useState<string | null>(null);
-  const [projs, toggleProj] = useToggle<string>();
+function PickList({
+  title,
+  placeholder,
+  allLabel,
+  items,
+  selected,
+  onToggle,
+  onToggleAll,
+}: {
+  title: string;
+  placeholder: string;
+  allLabel: string;
+  items: { key: string; label: string; sub?: string }[];
+  selected: string[];
+  onToggle: (k: string) => void;
+  onToggleAll: () => void;
+}) {
+  const [q, setQ] = useState("");
+  const list = items.filter(
+    (i) => !q || i.label.includes(q) || (i.sub ?? "").toLowerCase().includes(q.toLowerCase()),
+  );
+  const allOn = selected.length === items.length && items.length > 0;
 
   return (
-    <>
-      <SectionTitle title="选择用户" hint={people.length ? `已选 ${people.length} 人` : undefined} />
-      <div className="flex flex-wrap gap-1.5 px-0.5">
-        {projectMembers.map((m) => (
-          <Chip
-            key={m.name}
-            label={m.name}
-            active={people.includes(m.name)}
-            onClick={() => togglePerson(m.name)}
+    <section className="surface-card mt-3 overflow-hidden">
+      <h2 className="px-4 pt-4 text-[13.5px] font-bold">{title}</h2>
+      <div className="px-4 pb-1 pt-3">
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder={placeholder}
+          className="w-full bg-transparent text-[13px] outline-none placeholder:text-muted-foreground/70"
+        />
+      </div>
+      <div className="max-h-[46vh] overflow-y-auto">
+        <Row checked={allOn} onClick={onToggleAll} label={allLabel} bold={false} />
+        {list.map((i) => (
+          <Row
+            key={i.key}
+            checked={selected.includes(i.key)}
+            onClick={() => onToggle(i.key)}
+            label={i.label}
+            {...(i.sub !== undefined ? { sub: i.sub } : {})}
           />
         ))}
       </div>
+    </section>
+  );
+}
 
-      <SectionTitle title="选择角色" />
-      <div className="flex flex-wrap gap-1.5 px-0.5">
-        {roles.map((r) => (
-          <Chip key={r} label={r} active={role === r} onClick={() => setRole(r === role ? null : r)} />
-        ))}
-      </div>
+function Row({
+  checked,
+  onClick,
+  label,
+  sub,
+  bold = true,
+}: {
+  checked: boolean;
+  onClick: () => void;
+  label: string;
+  sub?: string;
+  bold?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-center gap-3 border-t border-border/60 px-4 py-3 text-left transition-colors hover:bg-secondary/40"
+    >
+      <span
+        className={cn(
+          "grid size-[18px] shrink-0 place-items-center rounded-full border transition-colors",
+          checked ? "border-blue-2 bg-blue-2" : "border-border",
+        )}
+      >
+        {checked ? <Check className="size-3 text-white" /> : null}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className={cn("block truncate text-[13px]", bold && "font-semibold")}>{label}</span>
+        {sub ? (
+          <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">{sub}</span>
+        ) : null}
+      </span>
+    </button>
+  );
+}
 
-      <SectionTitle title="批量授权到项目" hint={projs.length ? `已选 ${projs.length} 个项目` : undefined} />
-      <section className="grid gap-2">
-        {projects.slice(0, 5).map((p) => (
-          <button
-            key={p.code}
-            type="button"
-            onClick={() => toggleProj(p.name)}
-            className={cn(
-              "surface-card flex items-center justify-between gap-3 p-3.5 text-left transition-colors",
-              projs.includes(p.name) ? "ring-1 ring-blue-2" : "hover:bg-secondary/40",
-            )}
-          >
-            <span className="min-w-0">
-              <span className="block truncate text-[13.5px] font-semibold">{p.name}</span>
-              <span className="mt-0.5 block text-[11px] text-muted-foreground">
-                编号 {p.code} · {p.stage}
-              </span>
-            </span>
-            {projs.includes(p.name) ? <Check className="size-4 shrink-0 text-blue-2" /> : null}
-          </button>
-        ))}
-      </section>
+function UserFirst() {
+  const [people, togglePerson, setPeople] = useToggle<string>();
+  const [pickedRoles, toggleRole, setRoles] = useToggle<string>();
+  const [projs, toggleProj, setProjs] = useToggle<string>();
+
+  const userItems = projectMembers.map((m, i) => ({
+    key: m.name,
+    label: m.name,
+    sub: `wechat_oD5oY3${(i + 10).toString(36)}${m.name.length}x`,
+  }));
+  const roleItems = roles.map((r) => ({ key: r, label: r }));
+  const projItems = projects.map((p) => ({ key: p.name, label: p.name, sub: p.code }));
+
+  return (
+    <>
+      <PickList
+        title="选择用户"
+        placeholder="搜索姓名 / 用户名"
+        allLabel={`全选（${userItems.length} 人）`}
+        items={userItems}
+        selected={people}
+        onToggle={togglePerson}
+        onToggleAll={() =>
+          setPeople(people.length === userItems.length ? [] : userItems.map((u) => u.key))
+        }
+      />
+
+      <PickList
+        title="选择角色"
+        placeholder="搜索角色名称"
+        allLabel={`全选（${roleItems.length} 个角色）`}
+        items={roleItems}
+        selected={pickedRoles}
+        onToggle={toggleRole}
+        onToggleAll={() =>
+          setRoles(pickedRoles.length === roleItems.length ? [] : roleItems.map((r) => r.key))
+        }
+      />
+
+      <PickList
+        title="选择项目"
+        placeholder="搜索项目名称 / 编码"
+        allLabel={`全选（${projItems.length} 个项目）`}
+        items={projItems}
+        selected={projs}
+        onToggle={toggleProj}
+        onToggleAll={() =>
+          setProjs(projs.length === projItems.length ? [] : projItems.map((p) => p.key))
+        }
+      />
 
       <Actions
-        disabled={!people.length || !role || !projs.length}
-        onGrant={() => toast.success(`已在 ${projs.length} 个项目中授予「${role}」`)}
-        onRevoke={() => toast(`已在 ${projs.length} 个项目中移除「${role}」`)}
+        disabled={!people.length || !pickedRoles.length || !projs.length}
+        onGrant={() =>
+          toast.success(`已在 ${projs.length} 个项目中为 ${people.length} 人授予 ${pickedRoles.length} 个角色`)
+        }
+        onRevoke={() =>
+          toast(`已在 ${projs.length} 个项目中移除 ${people.length} 人的 ${pickedRoles.length} 个角色`)
+        }
       />
     </>
   );
 }
+
 
 function Actions({
   disabled,
