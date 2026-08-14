@@ -11,7 +11,7 @@ import {
   Copy,
   Pencil,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { HistorySessions } from "@/components/HistorySessions";
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
   component: Chat,
 });
 
-const messages = [
+const initialMessages = [
   { me: true, text: "给张俊磊提单 摇人吧服务号讨论区对其他用户的评论进行引用 项目名称：摇人吧服务号" },
   {
     me: false,
@@ -52,7 +52,31 @@ const messages = [
 
 function Chat() {
   const [inputValue, setInputValue] = useState("");
+  const [messages, setMessages] = useState(initialMessages);
   const [feedback, setFeedback] = useState<Record<number, "like" | "dislike" | null>>({});
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const resizeTextarea = () => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
+  };
+
+  const handleSend = () => {
+    const text = inputValue.trim();
+    if (!text) return;
+    setMessages((prev) => [...prev, { me: true, text }]);
+    setInputValue("");
+    requestAnimationFrame(resizeTextarea);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
 
   const handleCopy = async (text: string) => {
     try {
@@ -64,6 +88,7 @@ function Chat() {
 
   const handleEdit = (text: string) => {
     setInputValue(text);
+    requestAnimationFrame(resizeTextarea);
   };
 
   const toggleFeedback = (index: number, kind: "like" | "dislike") => {
@@ -190,13 +215,20 @@ function Chat() {
             >
               <Plus className="size-4" />
             </button>
-            <input
+            <textarea
+              ref={textareaRef}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                resizeTextarea();
+              }}
+              onKeyDown={handleKeyDown}
               placeholder="发消息…"
-              className="h-10 flex-1 rounded-full border border-border bg-card px-4 text-[13px] outline-none transition focus:border-primary"
+              rows={1}
+              className="min-h-[40px] flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-2.5 text-[13px] leading-6 outline-none transition focus:border-primary"
             />
             <button
+              onClick={handleSend}
               className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-soft)]"
               aria-label="发送"
             >
