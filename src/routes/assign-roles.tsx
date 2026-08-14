@@ -311,7 +311,7 @@ function AssignRolesPage() {
             className="flex items-center gap-1 px-1 text-[12px] text-muted-foreground transition-colors hover:text-foreground"
           >
             <ChevronLeft className="size-3.5" />
-            {mode === "project" ? "项目优先" : "用户优先"} · 切换方式
+            返回选择授权方式
           </button>
           {mode === "project" ? <ProjectFirst /> : <UserFirst />}
         </>
