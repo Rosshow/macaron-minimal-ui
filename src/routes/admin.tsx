@@ -149,7 +149,7 @@ function Admin() {
         {[
           { label: "项目管理", icon: FolderKanban, to: "/projects/auth/$id", params: { id: projects[0]?.code ?? "" }, tone: "blue-1" },
           { label: "数据管理", icon: Database, to: "/data", tone: "blue-2" },
-          { label: "日报周报", icon: FileBarChart, to: "/tasks", tone: "blue-3" },
+          { label: "日报周报", icon: FileBarChart, to: "/reports", tone: "blue-3" },
           { label: "其他", icon: MoreHorizontal, to: "/tasks", tone: "blue-4" },
         ].map(({ label, icon: Icon, to, params, tone }) => (
           <Link key={label} to={to} params={params as never} className="surface-card flex flex-col items-center gap-2 py-4">
