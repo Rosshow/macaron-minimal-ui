@@ -15,6 +15,7 @@ import { Route as AssignRolesRouteImport } from './routes/assign-roles'
 import { Route as DataRouteImport } from './routes/data'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as OtherRouteImport } from './routes/other'
+import { Route as PermissionsRouteImport } from './routes/permissions'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RolesRouteImport } from './routes/roles'
 import { Route as TasksRouteImport } from './routes/tasks'
@@ -53,6 +54,11 @@ const HistoryRoute = HistoryRouteImport.update({
 const OtherRoute = OtherRouteImport.update({
   id: '/other',
   path: '/other',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PermissionsRoute = PermissionsRouteImport.update({
+  id: '/permissions',
+  path: '/permissions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportsRoute = ReportsRouteImport.update({
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/other': typeof OtherRoute
+  '/permissions': typeof PermissionsRoute
   '/reports': typeof ReportsRoute
   '/roles': typeof RolesRoute
   '/tasks': typeof TasksRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/other': typeof OtherRoute
+  '/permissions': typeof PermissionsRoute
   '/reports': typeof ReportsRoute
   '/roles': typeof RolesRoute
   '/tasks': typeof TasksRoute
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/other': typeof OtherRoute
+  '/permissions': typeof PermissionsRoute
   '/reports': typeof ReportsRoute
   '/roles': typeof RolesRoute
   '/tasks': typeof TasksRoute
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
     | '/data'
     | '/history'
     | '/other'
+    | '/permissions'
     | '/reports'
     | '/roles'
     | '/tasks'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/data'
     | '/history'
     | '/other'
+    | '/permissions'
     | '/reports'
     | '/roles'
     | '/tasks'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/data'
     | '/history'
     | '/other'
+    | '/permissions'
     | '/reports'
     | '/roles'
     | '/tasks'
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   DataRoute: typeof DataRoute
   HistoryRoute: typeof HistoryRoute
   OtherRoute: typeof OtherRoute
+  PermissionsRoute: typeof PermissionsRoute
   ReportsRoute: typeof ReportsRoute
   RolesRoute: typeof RolesRoute
   TasksRoute: typeof TasksRoute
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/other'
       fullPath: '/other'
       preLoaderRoute: typeof OtherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/permissions': {
+      id: '/permissions'
+      path: '/permissions'
+      fullPath: '/permissions'
+      preLoaderRoute: typeof PermissionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reports': {
@@ -342,6 +362,7 @@ const rootRouteChildren: RootRouteChildren = {
   DataRoute: DataRoute,
   HistoryRoute: HistoryRoute,
   OtherRoute: OtherRoute,
+  PermissionsRoute: PermissionsRoute,
   ReportsRoute: ReportsRoute,
   RolesRoute: RolesRoute,
   TasksRoute: TasksRoute,

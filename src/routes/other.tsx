@@ -42,7 +42,9 @@ function Other() {
                   ? navigate({ to: "/roles" })
                   : label === "分配角色"
                     ? navigate({ to: "/assign-roles" })
-                    : toast(`${label}（功能开发中）`)
+                    : label === "权限管理"
+                      ? navigate({ to: "/permissions" })
+                      : toast(`${label}（功能开发中）`)
             }
             className="surface-card flex items-center gap-3 p-4 text-left transition-colors hover:bg-secondary/40"
           >
