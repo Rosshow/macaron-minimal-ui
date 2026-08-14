@@ -12,7 +12,7 @@ import {
 } from "@/data/mock";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/history/$id")({
+export const Route = createFileRoute("/history_/$id")({
   loader: ({ params }) => {
     const ticket = tickets.find((t) => t.id === params.id);
     if (!ticket) throw notFound();
