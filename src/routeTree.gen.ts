@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AssignRolesRouteImport } from './routes/assign-roles'
 import { Route as DataRouteImport } from './routes/data'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as OtherRouteImport } from './routes/other'
@@ -32,6 +33,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssignRolesRoute = AssignRolesRouteImport.update({
+  id: '/assign-roles',
+  path: '/assign-roles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DataRoute = DataRouteImport.update({
@@ -98,6 +104,7 @@ const ProjectsAuthIdRoute = ProjectsAuthIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/assign-roles': typeof AssignRolesRoute
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/other': typeof OtherRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/assign-roles': typeof AssignRolesRoute
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/other': typeof OtherRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/assign-roles': typeof AssignRolesRoute
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/other': typeof OtherRoute
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/assign-roles'
     | '/data'
     | '/history'
     | '/other'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/assign-roles'
     | '/data'
     | '/history'
     | '/other'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/assign-roles'
     | '/data'
     | '/history'
     | '/other'
@@ -198,6 +210,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  AssignRolesRoute: typeof AssignRolesRoute
   DataRoute: typeof DataRoute
   HistoryRoute: typeof HistoryRoute
   OtherRoute: typeof OtherRoute
@@ -226,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assign-roles': {
+      id: '/assign-roles'
+      path: '/assign-roles'
+      fullPath: '/assign-roles'
+      preLoaderRoute: typeof AssignRolesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/data': {
@@ -318,6 +338,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  AssignRolesRoute: AssignRolesRoute,
   DataRoute: DataRoute,
   HistoryRoute: HistoryRoute,
   OtherRoute: OtherRoute,

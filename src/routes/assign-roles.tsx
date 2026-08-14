@@ -77,7 +77,7 @@ function Chip({
   );
 }
 
-function SectionTitle({ title, hint }: { title: string; hint?: string }) {
+function SectionTitle({ title, hint }: { title: string; hint?: string | undefined }) {
   return (
     <div className="mb-2 mt-5 flex items-baseline gap-2 px-1">
       <span className="h-4 w-1 self-center rounded-full bg-blue-3" />
