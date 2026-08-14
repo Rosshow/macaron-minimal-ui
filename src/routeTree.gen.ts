@@ -16,6 +16,7 @@ import { Route as HistoryRouteImport } from './routes/history'
 import { Route as OtherRouteImport } from './routes/other'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as UsersRouteImport } from './routes/users'
 import { Route as HistoryIdRouteImport } from './routes/history_.$id'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
@@ -57,6 +58,11 @@ const TasksRoute = TasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HistoryIdRoute = HistoryIdRouteImport.update({
   id: '/history_/$id',
   path: '/history/$id',
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/other': typeof OtherRoute
   '/reports': typeof ReportsRoute
   '/tasks': typeof TasksRoute
+  '/users': typeof UsersRoute
   '/history/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
@@ -105,6 +112,7 @@ export interface FileRoutesByTo {
   '/other': typeof OtherRoute
   '/reports': typeof ReportsRoute
   '/tasks': typeof TasksRoute
+  '/users': typeof UsersRoute
   '/history/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
@@ -120,6 +128,7 @@ export interface FileRoutesById {
   '/other': typeof OtherRoute
   '/reports': typeof ReportsRoute
   '/tasks': typeof TasksRoute
+  '/users': typeof UsersRoute
   '/history_/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/other'
     | '/reports'
     | '/tasks'
+    | '/users'
     | '/history/$id'
     | '/projects/$id'
     | '/tickets/$id'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/other'
     | '/reports'
     | '/tasks'
+    | '/users'
     | '/history/$id'
     | '/projects/$id'
     | '/tickets/$id'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/other'
     | '/reports'
     | '/tasks'
+    | '/users'
     | '/history_/$id'
     | '/projects/$id'
     | '/tickets/$id'
@@ -179,6 +191,7 @@ export interface RootRouteChildren {
   OtherRoute: typeof OtherRoute
   ReportsRoute: typeof ReportsRoute
   TasksRoute: typeof TasksRoute
+  UsersRoute: typeof UsersRoute
   HistoryIdRoute: typeof HistoryIdRoute
   ProjectsIdRoute: typeof ProjectsIdRoute
   TicketsIdRoute: typeof TicketsIdRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TasksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/history_/$id': {
       id: '/history_/$id'
       path: '/history/$id'
@@ -283,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   OtherRoute: OtherRoute,
   ReportsRoute: ReportsRoute,
   TasksRoute: TasksRoute,
+  UsersRoute: UsersRoute,
   HistoryIdRoute: HistoryIdRoute,
   ProjectsIdRoute: ProjectsIdRoute,
   TicketsIdRoute: TicketsIdRoute,

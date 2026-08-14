@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Users, Tags, KeyRound, UserCog, Shuffle, ScrollText } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { toast } from "sonner";
