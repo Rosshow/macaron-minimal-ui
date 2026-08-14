@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as HistoryIdRouteImport } from './routes/history.$id'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as TicketsIdRouteImport } from './routes/tickets.$id'
@@ -38,6 +39,11 @@ const TasksRoute = TasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HistoryIdRoute = HistoryIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => HistoryRoute,
+} as any)
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   id: '/projects/',
   path: '/projects/',
@@ -62,8 +68,9 @@ const ProjectsAuthIdRoute = ProjectsAuthIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/history': typeof HistoryRoute
+  '/history': typeof HistoryRouteWithChildren
   '/tasks': typeof TasksRoute
+  '/history/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/projects/': typeof ProjectsIndexRoute
@@ -72,8 +79,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/history': typeof HistoryRoute
+  '/history': typeof HistoryRouteWithChildren
   '/tasks': typeof TasksRoute
+  '/history/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/projects': typeof ProjectsIndexRoute
@@ -83,8 +91,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/history': typeof HistoryRoute
+  '/history': typeof HistoryRouteWithChildren
   '/tasks': typeof TasksRoute
+  '/history/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/projects/': typeof ProjectsIndexRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/history'
     | '/tasks'
+    | '/history/$id'
     | '/projects/$id'
     | '/tickets/$id'
     | '/projects/'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/history'
     | '/tasks'
+    | '/history/$id'
     | '/projects/$id'
     | '/tickets/$id'
     | '/projects'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/history'
     | '/tasks'
+    | '/history/$id'
     | '/projects/$id'
     | '/tickets/$id'
     | '/projects/'
@@ -126,7 +138,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  HistoryRoute: typeof HistoryRoute
+  HistoryRoute: typeof HistoryRouteWithChildren
   TasksRoute: typeof TasksRoute
   ProjectsIdRoute: typeof ProjectsIdRoute
   TicketsIdRoute: typeof TicketsIdRoute
@@ -164,6 +176,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TasksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/history/$id': {
+      id: '/history/$id'
+      path: '/$id'
+      fullPath: '/history/$id'
+      preLoaderRoute: typeof HistoryIdRouteImport
+      parentRoute: typeof HistoryRoute
+    }
     '/projects/': {
       id: '/projects/'
       path: '/projects'
@@ -195,10 +214,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface HistoryRouteChildren {
+  HistoryIdRoute: typeof HistoryIdRoute
+}
+
+const HistoryRouteChildren: HistoryRouteChildren = {
+  HistoryIdRoute: HistoryIdRoute,
+}
+
+const HistoryRouteWithChildren =
+  HistoryRoute._addFileChildren(HistoryRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  HistoryRoute: HistoryRoute,
+  HistoryRoute: HistoryRouteWithChildren,
   TasksRoute: TasksRoute,
   ProjectsIdRoute: ProjectsIdRoute,
   TicketsIdRoute: TicketsIdRoute,
