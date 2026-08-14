@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as DataRouteImport } from './routes/data'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as HistoryIdRouteImport } from './routes/history_.$id'
@@ -27,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataRoute = DataRouteImport.update({
+  id: '/data',
+  path: '/data',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoryRoute = HistoryRouteImport.update({
@@ -68,6 +74,7 @@ const ProjectsAuthIdRoute = ProjectsAuthIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/tasks': typeof TasksRoute
   '/history/$id': typeof HistoryIdRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/tasks': typeof TasksRoute
   '/history/$id': typeof HistoryIdRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/data': typeof DataRoute
   '/history': typeof HistoryRoute
   '/tasks': typeof TasksRoute
   '/history_/$id': typeof HistoryIdRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/data'
     | '/history'
     | '/tasks'
     | '/history/$id'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/data'
     | '/history'
     | '/tasks'
     | '/history/$id'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/data'
     | '/history'
     | '/tasks'
     | '/history_/$id'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  DataRoute: typeof DataRoute
   HistoryRoute: typeof HistoryRoute
   TasksRoute: typeof TasksRoute
   HistoryIdRoute: typeof HistoryIdRoute
@@ -161,6 +174,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data': {
+      id: '/data'
+      path: '/data'
+      fullPath: '/data'
+      preLoaderRoute: typeof DataRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/history': {
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  DataRoute: DataRoute,
   HistoryRoute: HistoryRoute,
   TasksRoute: TasksRoute,
   HistoryIdRoute: HistoryIdRoute,
