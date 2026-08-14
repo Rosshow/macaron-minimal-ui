@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
   component: Chat,
 });
 
-const messages = [
+const initialMessages = [
   { me: true, text: "给张俊磊提单 摇人吧服务号讨论区对其他用户的评论进行引用 项目名称：摇人吧服务号" },
   {
     me: false,
