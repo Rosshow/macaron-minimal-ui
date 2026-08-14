@@ -5,6 +5,7 @@ import { PageShell } from "@/components/Shell";
 import { toast } from "sonner";
 import { projects, projectMembers } from "@/data/mock";
 import { cn } from "@/lib/utils";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 export const Route = createFileRoute("/assign-roles")({
   head: () => ({
