@@ -11,7 +11,7 @@ import {
   Copy,
   Pencil,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { HistorySessions } from "@/components/HistorySessions";
