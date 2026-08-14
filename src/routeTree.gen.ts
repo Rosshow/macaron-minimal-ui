@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as DataRouteImport } from './routes/data'
 import { Route as HistoryRouteImport } from './routes/history'
+import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as HistoryIdRouteImport } from './routes/history_.$id'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
@@ -38,6 +39,11 @@ const DataRoute = DataRouteImport.update({
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TasksRoute = TasksRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
+  '/reports': typeof ReportsRoute
   '/tasks': typeof TasksRoute
   '/history/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
+  '/reports': typeof ReportsRoute
   '/tasks': typeof TasksRoute
   '/history/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/data': typeof DataRoute
   '/history': typeof HistoryRoute
+  '/reports': typeof ReportsRoute
   '/tasks': typeof TasksRoute
   '/history_/$id': typeof HistoryIdRoute
   '/projects/$id': typeof ProjectsIdRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/data'
     | '/history'
+    | '/reports'
     | '/tasks'
     | '/history/$id'
     | '/projects/$id'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/data'
     | '/history'
+    | '/reports'
     | '/tasks'
     | '/history/$id'
     | '/projects/$id'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/data'
     | '/history'
+    | '/reports'
     | '/tasks'
     | '/history_/$id'
     | '/projects/$id'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   DataRoute: typeof DataRoute
   HistoryRoute: typeof HistoryRoute
+  ReportsRoute: typeof ReportsRoute
   TasksRoute: typeof TasksRoute
   HistoryIdRoute: typeof HistoryIdRoute
   ProjectsIdRoute: typeof ProjectsIdRoute
@@ -188,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/history'
       fullPath: '/history'
       preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tasks': {
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   DataRoute: DataRoute,
   HistoryRoute: HistoryRoute,
+  ReportsRoute: ReportsRoute,
   TasksRoute: TasksRoute,
   HistoryIdRoute: HistoryIdRoute,
   ProjectsIdRoute: ProjectsIdRoute,
