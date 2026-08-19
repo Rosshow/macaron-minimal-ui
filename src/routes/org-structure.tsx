@@ -210,26 +210,28 @@ function OrgStructure() {
 
   const allCollapsed = openKeys.length === 0;
 
+  const titleRight = (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={() => setOpenKeys(allCollapsed ? people.filter((p) => p.reports).map((p) => p.name) : [])}
+        className="rounded-md border border-border bg-card px-2.5 py-1 text-[11.5px] font-medium text-muted-foreground transition-colors hover:bg-secondary"
+      >
+        {allCollapsed ? "全部展开" : "全部折叠"}
+      </button>
+      <GhostButton active={grouped} onClick={() => setGrouped(!grouped)}>
+        {grouped ? "列表视图" : "切换分组视图"}
+      </GhostButton>
+    </div>
+  );
+
   return (
-    <PageShell title="人员结构配置" back>
+    <PageShell title="人员结构配置" back right={titleRight}>
       <p className="rounded-md bg-muted px-3 py-2 text-[11.5px] leading-5 text-muted-foreground">
         拖拽用户到目标人上即可设置汇报关系；点击用户卡片可选择 / 修改上级。
       </p>
 
-      <div className="mt-3 flex items-center justify-end gap-2">
-        <button
-          type="button"
-          onClick={() => setOpenKeys(allCollapsed ? people.filter((p) => p.reports).map((p) => p.name) : [])}
-          className="rounded-md border border-border bg-card px-2.5 py-1 text-[11.5px] font-medium text-muted-foreground transition-colors hover:bg-secondary"
-        >
-          {allCollapsed ? "全部展开" : "全部折叠"}
-        </button>
-        <GhostButton active={grouped} onClick={() => setGrouped(!grouped)}>
-          {grouped ? "列表视图" : "切换分组视图"}
-        </GhostButton>
-      </div>
-
-      <div className="mt-2 flex items-center gap-2">
+      <div className="mt-3 flex items-center gap-2">
         <div className="surface-card flex flex-1 items-center gap-2 px-3 py-2">
           <Search className="size-4 text-muted-foreground" />
           <input
