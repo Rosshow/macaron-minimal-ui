@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { ChevronRight, Crown, Link2, Search, User, Users } from "lucide-react";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { ChevronLeft, ChevronRight, Crown, Link2, Search, User, Users } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
