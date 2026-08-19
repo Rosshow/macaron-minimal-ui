@@ -140,7 +140,7 @@ function PersonRow({
 
           {p.manager ? (
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <GhostButton active onClick={() => toast.success(`已自动挂靠 ${p.name} 同部门人员`)}>
+              <GhostButton emphasis onClick={() => toast.success(`已自动挂靠 ${p.name} 同部门人员`)}>
                 <Link2 className="size-3" />
                 自动挂靠（同部门人员）
               </GhostButton>
