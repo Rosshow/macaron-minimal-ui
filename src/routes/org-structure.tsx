@@ -71,10 +71,12 @@ function GhostButton({
   children,
   onClick,
   active,
+  emphasis,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   active?: boolean;
+  emphasis?: boolean;
 }) {
   return (
     <button
@@ -82,9 +84,11 @@ function GhostButton({
       onClick={onClick}
       className={cn(
         "inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-[11.5px] font-medium transition-colors",
-        active
-          ? "border-blue-3/60 bg-blue-soft text-blue-2"
-          : "border-border bg-card text-muted-foreground hover:bg-secondary",
+        emphasis
+          ? "border-blue-2/70 bg-blue-2/90 text-white hover:bg-blue-1"
+          : active
+            ? "border-blue-3/60 bg-blue-soft text-blue-2"
+            : "border-border bg-card text-muted-foreground hover:bg-secondary",
       )}
     >
       {children}
