@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { ChevronRight, Crown, Link2, Search, User, Users } from "lucide-react";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { ChevronLeft, ChevronRight, Crown, Link2, Search, User, Users } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -209,8 +209,9 @@ function OrgStructure() {
   }, [q]);
 
   const allCollapsed = openKeys.length === 0;
+  const router = useRouter();
 
-  const titleRight = (
+  const subHeaderRight = (
     <div className="flex items-center gap-2">
       <button
         type="button"
@@ -226,7 +227,20 @@ function OrgStructure() {
   );
 
   return (
-    <PageShell title="人员结构配置" back right={titleRight}>
+    <PageShell title="后台管理">
+      <div className="glass-bar -mx-4 mb-3 flex h-14 items-center gap-2 border-b border-border/60 px-4">
+        <button
+          type="button"
+          onClick={() => router.history.back()}
+          className="flex min-w-9 items-center gap-1 rounded-full text-muted-foreground transition-colors hover:bg-secondary"
+        >
+          <ChevronLeft className="size-5" />
+          <span className="text-[13px]">返回</span>
+        </button>
+        <h2 className="flex-1 text-center text-[15px] font-semibold tracking-wide">人员结构配置</h2>
+        <div className="flex min-w-9 items-center justify-end">{subHeaderRight}</div>
+      </div>
+
       <p className="rounded-md bg-muted px-3 py-2 text-[11.5px] leading-5 text-muted-foreground">
         拖拽用户到目标人上即可设置汇报关系；点击用户卡片可选择 / 修改上级。
       </p>
