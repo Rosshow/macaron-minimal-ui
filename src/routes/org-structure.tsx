@@ -71,10 +71,12 @@ function GhostButton({
   children,
   onClick,
   active,
+  emphasis,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   active?: boolean;
+  emphasis?: boolean;
 }) {
   return (
     <button
@@ -82,9 +84,11 @@ function GhostButton({
       onClick={onClick}
       className={cn(
         "inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-[11.5px] font-medium transition-colors",
-        active
-          ? "border-blue-3/60 bg-blue-soft text-blue-2"
-          : "border-border bg-card text-muted-foreground hover:bg-secondary",
+        emphasis
+          ? "border-blue-2/70 bg-blue-2/90 text-white hover:bg-blue-1"
+          : active
+            ? "border-blue-3/60 bg-blue-soft text-blue-2"
+            : "border-border bg-card text-muted-foreground hover:bg-secondary",
       )}
     >
       {children}
@@ -136,7 +140,7 @@ function PersonRow({
 
           {p.manager ? (
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <GhostButton active onClick={() => toast.success(`已自动挂靠 ${p.name} 同部门人员`)}>
+              <GhostButton emphasis onClick={() => toast.success(`已自动挂靠 ${p.name} 同部门人员`)}>
                 <Link2 className="size-3" />
                 自动挂靠（同部门人员）
               </GhostButton>
@@ -207,10 +211,12 @@ function OrgStructure() {
   const allCollapsed = openKeys.length === 0;
 
   return (
-    <PageShell
-      title="人员结构配置"
-      back
-      right={
+    <PageShell title="人员结构配置" back>
+      <p className="rounded-md bg-muted px-3 py-2 text-[11.5px] leading-5 text-muted-foreground">
+        拖拽用户到目标人上即可设置汇报关系；点击用户卡片可选择 / 修改上级。
+      </p>
+
+      <div className="mt-3 flex items-center justify-end gap-2">
         <button
           type="button"
           onClick={() => setOpenKeys(allCollapsed ? people.filter((p) => p.reports).map((p) => p.name) : [])}
@@ -218,13 +224,12 @@ function OrgStructure() {
         >
           {allCollapsed ? "全部展开" : "全部折叠"}
         </button>
-      }
-    >
-      <p className="rounded-md bg-muted px-3 py-2 text-[11.5px] leading-5 text-muted-foreground">
-        拖拽用户到目标人上即可设置汇报关系；点击用户卡片可选择 / 修改上级。
-      </p>
+        <GhostButton active={grouped} onClick={() => setGrouped(!grouped)}>
+          {grouped ? "列表视图" : "切换分组视图"}
+        </GhostButton>
+      </div>
 
-      <div className="mt-3 flex items-center gap-2">
+      <div className="mt-2 flex items-center gap-2">
         <div className="surface-card flex flex-1 items-center gap-2 px-3 py-2">
           <Search className="size-4 text-muted-foreground" />
           <input
@@ -234,9 +239,6 @@ function OrgStructure() {
             className="w-full bg-transparent text-[13px] outline-none placeholder:text-muted-foreground"
           />
         </div>
-        <GhostButton active={grouped} onClick={() => setGrouped(!grouped)}>
-          {grouped ? "列表视图" : "切换分组视图"}
-        </GhostButton>
       </div>
 
       {grouped ? (
