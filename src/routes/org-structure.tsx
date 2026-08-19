@@ -239,23 +239,57 @@ function OrgStructure() {
         </GhostButton>
       </div>
 
-      <section className="mt-3 space-y-2.5">
-        {list.map((p, i) => (
-          <PersonRow
-            key={`${p.name}-${i}`}
-            p={p}
-            open={openKeys.includes(p.name)}
-            onToggle={() =>
-              setOpenKeys((keys) =>
-                keys.includes(p.name) ? keys.filter((k) => k !== p.name) : [...keys, p.name],
-              )
-            }
-          />
-        ))}
-        {list.length === 0 ? (
-          <p className="py-10 text-center text-[12.5px] text-muted-foreground">未找到匹配的人员</p>
-        ) : null}
-      </section>
+      {grouped ? (
+        <div className="mt-3 space-y-4">
+          {Array.from(new Set(list.map((p) => p.dept ?? "未分配部门"))).map((dept) => (
+            <section key={dept}>
+              <h2 className="mb-2 px-1 text-[11.5px] font-semibold tracking-wide text-muted-foreground">
+                {dept}
+                <span className="ml-1.5 font-normal">
+                  {list.filter((p) => (p.dept ?? "未分配部门") === dept).length} 人
+                </span>
+              </h2>
+              <div className="space-y-2.5">
+                {list
+                  .filter((p) => (p.dept ?? "未分配部门") === dept)
+                  .map((p, i) => (
+                    <PersonRow
+                      key={`${p.name}-${i}`}
+                      p={p}
+                      open={openKeys.includes(p.name)}
+                      onToggle={() =>
+                        setOpenKeys((keys) =>
+                          keys.includes(p.name)
+                            ? keys.filter((k) => k !== p.name)
+                            : [...keys, p.name],
+                        )
+                      }
+                    />
+                  ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <section className="mt-3 space-y-2.5">
+          {list.map((p, i) => (
+            <PersonRow
+              key={`${p.name}-${i}`}
+              p={p}
+              open={openKeys.includes(p.name)}
+              onToggle={() =>
+                setOpenKeys((keys) =>
+                  keys.includes(p.name) ? keys.filter((k) => k !== p.name) : [...keys, p.name],
+                )
+              }
+            />
+          ))}
+        </section>
+      )}
+      {list.length === 0 ? (
+        <p className="py-10 text-center text-[12.5px] text-muted-foreground">未找到匹配的人员</p>
+      ) : null}
+
     </PageShell>
   );
 }
