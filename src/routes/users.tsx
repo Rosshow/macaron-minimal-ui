@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Search, Building2, ClipboardList, Check, Plus, X } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
@@ -324,6 +324,7 @@ function UserEditSheet({
 }
 
 function UsersPage() {
+  const navigate = useNavigate();
   const [q, setQ] = useState("");
   const [editOpen, setEditOpen] = useState(false);
   const [editing, setEditing] = useState<User | null>(null);
@@ -351,7 +352,7 @@ function UsersPage() {
         </button>
         <button
           type="button"
-          onClick={() => toast("人员结构（功能开发中）")}
+          onClick={() => navigate({ to: "/org-structure" })}
           className="rounded-md border border-border bg-card px-4 py-2.5 text-[13px] font-medium text-foreground transition-colors hover:bg-secondary"
         >
           人员结构
