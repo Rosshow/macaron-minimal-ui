@@ -322,7 +322,7 @@ function NodeMenu({ node, isLeaf, titleOptions, depthText, onEdit, onSave, onDel
         <DropdownMenuSeparator />
         {isLeaf ? (
           (Object.keys(typeNames) as ContentType[]).map((type) => (
-            <DropdownMenuItem key={type} onSelect={() => onSave(node.id, { contentType: type, value: type === "select" ? { selected: "", options: [] } : null })}>
+            <DropdownMenuItem key={type} onSelect={() => onSave(node.id, { contentType: type, value: type === "select" ? { selected: "", options: [] } : type === "text" ? "" : {} })}>
               {typeNames[type]}{node.content_type === type ? " · 当前" : ""}
             </DropdownMenuItem>
           ))
@@ -332,7 +332,7 @@ function NodeMenu({ node, isLeaf, titleOptions, depthText, onEdit, onSave, onDel
               const input = window.prompt("标题备选项（用逗号分隔，留空则改回手动输入）", titleOptions.join("，"));
               if (input === null) return;
               const options = input.split(/[,，]/).map((item) => item.trim()).filter(Boolean);
-              onSave(node.id, { value: options.length ? { titleOptions: options } : null });
+              onSave(node.id, { value: options.length ? { titleOptions: options } : {} });
             }}
           >
             标题改为下拉选择
@@ -375,7 +375,9 @@ function NodeContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps
 function FileContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps["onSave"] }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const file = nodeValue<FileValue | null>(node.value, null);
+  const stored = nodeValue<Partial<FileValue>>(node.value, {});
+  const file = stored.path ? (stored as FileValue) : null;
+
   useEffect(() => {
     if (!file?.path) { setPreview(null); return; }
     supabase.storage.from("project-files").createSignedUrl(file.path, 3600).then(({ data }) => setPreview(data?.signedUrl ?? null));
