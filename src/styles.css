@@ -154,11 +154,12 @@
   --blue-5: oklch(0.94 0.06 226);
   --blue-soft: oklch(0.965 0.03 226);
 
-  /* 项目信息树：同一蒂芙尼蓝色调，随层级减弱 */
-  --tree-depth-1: oklch(0.64 0.095 232);
-  --tree-depth-2: oklch(0.79 0.065 230);
-  --tree-depth-3: oklch(0.91 0.033 228);
-  --tree-depth-4: oklch(0.965 0.014 226);
+  /* 项目信息树：白底卡片，层级用马卡龙蓝边框与标题色区分 */
+  --tree-depth-1: oklch(0.60 0.095 232);
+  --tree-depth-2: oklch(0.68 0.082 230);
+  --tree-depth-3: oklch(0.755 0.068 228);
+  --tree-depth-4: oklch(0.82 0.055 226);
+
 
   /* 项目相关：#8b6147 同色调，仅明度/饱和度变化 */
   --clay-1: oklch(0.38 0.05 52.5);
@@ -198,10 +199,11 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 14%);
   --ring: oklch(0.6 0.06 189);
-  --tree-depth-1: oklch(0.49 0.075 232);
-  --tree-depth-2: oklch(0.34 0.045 230);
-  --tree-depth-3: oklch(0.28 0.025 228);
-  --tree-depth-4: oklch(0.245 0.012 226);
+  --tree-depth-1: oklch(0.74 0.09 232);
+  --tree-depth-2: oklch(0.68 0.075 230);
+  --tree-depth-3: oklch(0.62 0.06 228);
+  --tree-depth-4: oklch(0.56 0.045 226);
+
   --mint: oklch(0.78 0.1 189);
   --mint-soft: oklch(0.32 0.04 189);
   --sky: oklch(0.72 0.08 196);
