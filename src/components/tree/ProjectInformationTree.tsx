@@ -375,7 +375,9 @@ function NodeContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps
 function FileContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps["onSave"] }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const file = nodeValue<FileValue | null>(node.value, null);
+  const stored = nodeValue<Partial<FileValue>>(node.value, {});
+  const file = stored.path ? (stored as FileValue) : null;
+
   useEffect(() => {
     if (!file?.path) { setPreview(null); return; }
     supabase.storage.from("project-files").createSignedUrl(file.path, 3600).then(({ data }) => setPreview(data?.signedUrl ?? null));
