@@ -240,8 +240,9 @@ function TreeRow(props: TreeRowProps) {
   const isLeaf = children.length === 0;
   const isCollapsed = collapsed.has(node.id);
   const activeDrop = dropTarget?.id === node.id;
-  const depthBorder = ["", "border-tree-depth-1", "border-tree-depth-2", "border-tree-depth-3", "border-tree-depth-4"][depth];
-  const depthText = ["", "text-tree-depth-1", "text-tree-depth-2", "text-tree-depth-3", "text-tree-depth-4"][depth];
+  const depthBorder = ["", "border-tree-depth-1", "border-tree-depth-2", "border-tree-depth-3", "border-tree-depth-4"][depth] ?? "border-tree-depth-4";
+  const depthText = ["", "text-tree-depth-1", "text-tree-depth-2", "text-tree-depth-3", "text-tree-depth-4"][depth] ?? "text-tree-depth-4";
+
   const titleOptions = nodeValue<{ titleOptions?: string[] }>(node.value, {}).titleOptions ?? [];
   const nodeLookup = (id: string) => [...byParent.values()].flat().find((item) => item.id === id);
   const pointerTarget = (clientX: number, clientY: number) => {
