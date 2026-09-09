@@ -237,9 +237,13 @@ type TreeRowProps = {
 function TreeRow(props: TreeRowProps) {
   const { node, depth, byParent, collapsed, editingId, draggingId, dropTarget } = props;
   const children = byParent.get(node.id) ?? [];
+  const isLeaf = children.length === 0;
   const isCollapsed = collapsed.has(node.id);
   const activeDrop = dropTarget?.id === node.id;
-  const depthClass = ["", "bg-tree-depth-1 text-primary-foreground", "bg-tree-depth-2 text-foreground", "bg-tree-depth-3 text-foreground", "bg-tree-depth-4 text-foreground"][depth];
+  const depthBorder = ["", "border-tree-depth-1", "border-tree-depth-2", "border-tree-depth-3", "border-tree-depth-4"][depth] ?? "border-tree-depth-4";
+  const depthText = ["", "text-tree-depth-1", "text-tree-depth-2", "text-tree-depth-3", "text-tree-depth-4"][depth] ?? "text-tree-depth-4";
+
+  const titleOptions = nodeValue<{ titleOptions?: string[] }>(node.value, {}).titleOptions ?? [];
   const nodeLookup = (id: string) => [...byParent.values()].flat().find((item) => item.id === id);
   const pointerTarget = (clientX: number, clientY: number) => {
     const element = document.elementFromPoint(clientX, clientY)?.closest<HTMLElement>("[data-tree-node]");
@@ -251,12 +255,12 @@ function TreeRow(props: TreeRowProps) {
   };
 
   return (
-    <div className={cn(depth > 1 && "ml-4 border-l border-blue-3/30 pl-2")}>
+    <div className={cn(depth > 1 && "ml-4 border-l border-blue-4/50 pl-2")}>
       <div
         data-tree-node={node.id}
         className={cn(
-          "relative mb-1.5 touch-pan-y rounded-lg border border-border/50 px-2 py-2 shadow-sm transition-all",
-          depthClass,
+          "relative mb-1.5 touch-pan-y rounded-lg border-2 bg-card px-2 py-2 shadow-sm transition-all",
+          depthBorder,
           draggingId === node.id && "scale-[1.015] opacity-70 shadow-lg",
           activeDrop && dropTarget.mode === "child" && "ring-2 ring-blue-2",
           activeDrop && dropTarget.mode === "before" && "before:absolute before:inset-x-1 before:-top-1 before:h-0.5 before:bg-blue-2",
@@ -276,40 +280,64 @@ function TreeRow(props: TreeRowProps) {
         onPointerCancel={props.onHoldEnd}
       >
         <div className="flex min-h-9 items-center gap-1.5">
-          <GripVertical className="size-3.5 shrink-0 opacity-35" aria-hidden />
-          <Button variant="ghost" size="icon" className="size-8 shrink-0 bg-card/30 hover:bg-card/50" disabled={!children.length} onPointerDown={(event) => event.stopPropagation()} onClick={() => props.onToggle(node.id)} aria-label={isCollapsed ? "展开" : "收起"}>
+          <GripVertical className="size-3.5 shrink-0 text-muted-foreground/50" aria-hidden />
+          <Button variant="ghost" size="icon" className={cn("size-8 shrink-0", depthText)} disabled={isLeaf} onPointerDown={(event) => event.stopPropagation()} onClick={() => props.onToggle(node.id)} aria-label={isCollapsed ? "展开" : "收起"}>
             {children.length ? (isCollapsed ? <ChevronRight /> : <ChevronDown />) : <span className="size-4" />}
           </Button>
           {editingId === node.id ? (
-            <input autoFocus defaultValue={node.title} className="min-w-0 flex-1 rounded-md bg-card px-2 py-1.5 text-[13px] text-foreground outline-none ring-1 ring-blue-2" onPointerDown={(event) => event.stopPropagation()} onBlur={(event) => { const title = event.target.value.trim(); if (title && title !== node.title) props.onSave(node.id, { title }); props.onEdit(null); }} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur(); }} />
+            <input autoFocus defaultValue={node.title} className="min-w-0 flex-1 rounded-md border border-border bg-card px-2 py-1.5 text-[13px] text-foreground outline-none ring-1 ring-blue-2" onPointerDown={(event) => event.stopPropagation()} onBlur={(event) => { const title = event.target.value.trim(); if (title && title !== node.title) props.onSave(node.id, { title }); props.onEdit(null); }} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur(); }} />
+          ) : !isLeaf && titleOptions.length ? (
+            <select
+              aria-label={`${node.title}标题`}
+              value={titleOptions.includes(node.title) ? node.title : ""}
+              onPointerDown={(event) => event.stopPropagation()}
+              onChange={(event) => props.onSave(node.id, { title: event.target.value })}
+              className={cn("min-w-0 flex-1 rounded-md border border-border bg-card px-2 py-1.5 text-[12.5px] font-semibold outline-none", depthText)}
+            >
+              <option value="" disabled>{node.title}</option>
+              {titleOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+            </select>
           ) : (
-            <span className={cn("min-w-0 font-semibold", depth === 1 ? "text-[14px]" : "text-[12.5px]")}>{node.title}</span>
+            <span className={cn("min-w-0 font-semibold", depthText, depth === 1 ? "text-[14px]" : "text-[12.5px]")}>{node.title}</span>
           )}
           <div className="ml-auto flex items-center gap-0.5" onPointerDown={(event) => event.stopPropagation()}>
-            <Button variant="ghost" size="icon" className="size-8 bg-card/25 hover:bg-card/50" onClick={() => props.onAdd(node)} aria-label={`在${node.title}下新增`}><Plus /></Button>
-            <NodeMenu node={node} depth={depth} onEdit={() => props.onEdit(node.id)} onSave={props.onSave} onDelete={props.onDelete} />
+            <Button variant="ghost" size="icon" className={cn("size-8", depthText)} onClick={() => props.onAdd(node)} aria-label={`在${node.title}下新增`}><Plus /></Button>
+            <NodeMenu node={node} isLeaf={isLeaf} titleOptions={titleOptions} depthText={depthText} onEdit={() => props.onEdit(node.id)} onSave={props.onSave} onDelete={props.onDelete} />
           </div>
         </div>
-        <NodeContent node={node} depth={depth} onSave={props.onSave} />
+        {isLeaf ? <NodeContent node={node} onSave={props.onSave} /> : null}
       </div>
       {!isCollapsed && children.map((child) => <TreeRow key={child.id} {...props} node={child} depth={depth + 1} />)}
     </div>
   );
 }
 
-function NodeMenu({ node, depth, onEdit, onSave, onDelete }: { node: ProjectNode; depth: number; onEdit: () => void; onSave: TreeRowProps["onSave"]; onDelete: (id: string) => void }) {
+function NodeMenu({ node, isLeaf, titleOptions, depthText, onEdit, onSave, onDelete }: { node: ProjectNode; isLeaf: boolean; titleOptions: string[]; depthText: string; onEdit: () => void; onSave: TreeRowProps["onSave"]; onDelete: (id: string) => void }) {
   const typeNames: Record<ContentType, string> = { text: "文字输入", select: "下拉选择", file: "上传文件", image: "上传图片" };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="size-8 bg-card/25 hover:bg-card/50" aria-label="更多操作"><MoreHorizontal /></Button></DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className={cn("size-8", depthText)} aria-label="更多操作"><MoreHorizontal /></Button></DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onSelect={onEdit}>修改名称</DropdownMenuItem>
         <DropdownMenuSeparator />
-        {(Object.keys(typeNames) as ContentType[]).map((type) => (
-          <DropdownMenuItem key={type} disabled={depth <= 2 && type !== "text"} onSelect={() => onSave(node.id, { contentType: type, value: type === "select" ? { selected: "", options: [] } : null })}>
-            {typeNames[type]}{node.content_type === type ? " · 当前" : ""}
+        {isLeaf ? (
+          (Object.keys(typeNames) as ContentType[]).map((type) => (
+            <DropdownMenuItem key={type} onSelect={() => onSave(node.id, { contentType: type, value: type === "select" ? { selected: "", options: [] } : null })}>
+              {typeNames[type]}{node.content_type === type ? " · 当前" : ""}
+            </DropdownMenuItem>
+          ))
+        ) : (
+          <DropdownMenuItem
+            onSelect={() => {
+              const input = window.prompt("标题备选项（用逗号分隔，留空则改回手动输入）", titleOptions.join("，"));
+              if (input === null) return;
+              const options = input.split(/[,，]/).map((item) => item.trim()).filter(Boolean);
+              onSave(node.id, { value: options.length ? { titleOptions: options } : null });
+            }}
+          >
+            标题改为下拉选择
           </DropdownMenuItem>
-        ))}
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="text-destructive" onSelect={() => { if (window.confirm(`删除“${node.title}”及其所有子节点？`)) onDelete(node.id); }}><Trash2 />删除节点</DropdownMenuItem>
       </DropdownMenuContent>
@@ -317,15 +345,15 @@ function NodeMenu({ node, depth, onEdit, onSave, onDelete }: { node: ProjectNode
   );
 }
 
-function NodeContent({ node, depth, onSave }: { node: ProjectNode; depth: number; onSave: TreeRowProps["onSave"] }) {
+function NodeContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps["onSave"] }) {
   if (node.content_type === "select") {
     const data = nodeValue<SelectValue>(node.value, { selected: "", options: [] });
     return (
       <div className="mt-2 flex gap-1.5 pl-10" onPointerDown={(event) => event.stopPropagation()}>
-        <select value={data.selected} onChange={(event) => onSave(node.id, { value: { ...data, selected: event.target.value } })} className="min-w-0 flex-1 rounded-md bg-card/75 px-2 py-2 text-[12px] text-foreground outline-none">
+        <select value={data.selected} onChange={(event) => onSave(node.id, { value: { ...data, selected: event.target.value } })} className="min-w-0 flex-1 rounded-md border border-border bg-card px-2 py-2 text-[12px] text-foreground outline-none">
           <option value="">请选择</option>{data.options.map((option) => <option key={option}>{option}</option>)}
         </select>
-        <Button size="sm" variant="secondary" onClick={() => { const option = window.prompt("输入新选项"); if (option?.trim()) onSave(node.id, { value: { selected: data.selected, options: [...data.options, option.trim()] } }); }}>管理</Button>
+        <Button size="sm" variant="outline" onClick={() => { const option = window.prompt("输入新选项"); if (option?.trim()) onSave(node.id, { value: { selected: data.selected, options: [...data.options, option.trim()] } }); }}>管理</Button>
       </div>
     );
   }
@@ -334,14 +362,15 @@ function NodeContent({ node, depth, onSave }: { node: ProjectNode; depth: number
     <textarea
       aria-label={`${node.title}内容`}
       defaultValue={typeof node.value === "string" ? node.value : ""}
-      placeholder={depth <= 2 ? "填写内容" : "未填写"}
+      placeholder="填写内容"
       rows={1}
-      className="mt-2 ml-10 block w-[calc(100%-2.5rem)] resize-none rounded-md bg-card/70 px-2.5 py-2 text-[12px] text-foreground outline-none placeholder:text-muted-foreground focus:ring-1 focus:ring-blue-2"
+      className="mt-2 ml-10 block w-[calc(100%-2.5rem)] resize-none rounded-md border border-border bg-card px-2.5 py-2 text-[12px] text-foreground outline-none placeholder:text-muted-foreground focus:ring-1 focus:ring-blue-2"
       onPointerDown={(event) => event.stopPropagation()}
       onBlur={(event) => { if (event.target.value !== node.value) onSave(node.id, { value: event.target.value }); }}
     />
   );
 }
+
 
 function FileContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps["onSave"] }) {
   const inputRef = useRef<HTMLInputElement>(null);
