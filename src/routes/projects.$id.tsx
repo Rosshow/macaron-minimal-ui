@@ -28,6 +28,7 @@ function ProjectDetail() {
         projectCode={id}
         projectName={projectName}
         overview={{
+          client: projectDetail.client,
           wecomId: projectDetail.wecomId,
           manager: projectDetail.manager,
           contact: projectDetail.contact,

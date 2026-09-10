@@ -36,6 +36,7 @@ type ContentType = "text" | "select" | "file" | "image";
 type FileValue = { path: string; name: string; size: number };
 type SelectValue = { selected: string; options: string[] };
 type ProjectOverview = {
+  client: string;
   wecomId: string;
   manager: string;
   contact: string;
@@ -188,7 +189,7 @@ export function ProjectInformationTree({
     return next;
   });
 
-  function editSummary(key: "name" | "manager" | "contact", label: string) {
+  function editSummary(key: "name" | "client" | "manager" | "contact", label: string) {
     const value = window.prompt(`修改${label}`, summary[key]);
     if (value?.trim()) setSummary((current) => ({ ...current, [key]: value.trim() }));
   }
