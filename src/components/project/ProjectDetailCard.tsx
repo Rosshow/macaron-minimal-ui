@@ -100,13 +100,15 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
         </div>
       </div>
 
-      <div className="mt-3 flex items-center justify-between">
-        <span className="text-[12px] font-semibold">显示内容</span>
-        <div className="flex gap-1">
-          <Button size="sm" variant="ghost" onClick={() => setSelected(new Set(roots.map((node) => node.id)))}>全选</Button>
-          <Button size="sm" variant="ghost" onClick={() => setSelected(new Set())}>清空</Button>
+      {!collapsed && (
+        <div className="mt-3 flex items-center justify-between">
+          <span className="text-[12px] font-semibold">显示内容</span>
+          <div className="flex gap-1">
+            <Button size="sm" variant="ghost" onClick={() => setSelected(new Set(roots.map((node) => node.id)))}>全选</Button>
+            <Button size="sm" variant="ghost" onClick={() => setSelected(new Set())}>清空</Button>
+          </div>
         </div>
-      </div>
+      )}
       <div className="mt-2 flex flex-wrap gap-2">
         {roots.map((node) => (
           <Button key={node.id} size="sm" variant={selected.has(node.id) ? "default" : "outline"} onClick={() => toggle(node.id)}>
@@ -114,18 +116,20 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
           </Button>
         ))}
       </div>
-      <p className="mt-2 text-[10.5px] text-muted-foreground">不选择标签时显示全部内容</p>
 
       {!collapsed && (
-        isPending ? (
-          <div className="py-10 text-center text-sm text-muted-foreground">正在加载项目信息…</div>
-        ) : visibleRoots.length === 0 ? (
-          <div className="py-10 text-center text-[12px] text-muted-foreground">暂无内容，点击右上角「编辑」添加信息节点</div>
-        ) : (
-          <article className="mt-4">
-            {visibleRoots.map((root) => <DocSection key={root.id} node={root} depth={1} byParent={byParent} />)}
-          </article>
-        )
+        <>
+          <p className="mt-2 text-[10.5px] text-muted-foreground">不选择标签时显示全部内容</p>
+          {isPending ? (
+            <div className="py-10 text-center text-sm text-muted-foreground">正在加载项目信息…</div>
+          ) : visibleRoots.length === 0 ? (
+            <div className="py-10 text-center text-[12px] text-muted-foreground">暂无内容，点击右上角「编辑」添加信息节点</div>
+          ) : (
+            <article className="mt-4">
+              {visibleRoots.map((root) => <DocSection key={root.id} node={root} depth={1} byParent={byParent} />)}
+            </article>
+          )}
+        </>
       )}
     </section>
   );
