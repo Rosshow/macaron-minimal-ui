@@ -16,6 +16,7 @@ import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { HistorySessions } from "@/components/HistorySessions";
 import { FloatingTicketButton } from "@/components/FloatingTicketButton";
+import { TicketCreateSheet } from "@/components/ticket/TicketCreateSheet";
 
 import { cn } from "@/lib/utils";
 
@@ -52,6 +53,7 @@ const initialMessages = [
 
 function Chat() {
   const [inputValue, setInputValue] = useState("");
+  const [ticketOpen, setTicketOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
   const [feedback, setFeedback] = useState<Record<number, "like" | "dislike" | null>>({});
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -244,7 +246,8 @@ function Chat() {
         </div>
       </div>
 
-      <FloatingTicketButton />
+      <FloatingTicketButton onClick={() => setTicketOpen(true)} />
+      <TicketCreateSheet open={ticketOpen} onOpenChange={setTicketOpen} />
     </PageShell>
 
   );
