@@ -115,7 +115,7 @@ export function ProjectOverviewCard({
             </Button>
           </div>
         ))}
-        <Button size="sm" variant="secondary" className="w-full gap-1.5 text-[11.5px]">
+        <Button size="sm" className="w-full gap-1.5 bg-primary text-[11.5px] text-primary-foreground hover:bg-primary/90">
           <BarChart3 className="size-3.5" />搬运效率分析
         </Button>
       </div>
