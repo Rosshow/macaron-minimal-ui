@@ -2,11 +2,20 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Download, FileText, Image as ImageIcon, Pencil } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { getProjectNodes, type ProjectNode } from "@/lib/project-tree.functions";
 import { cn } from "@/lib/utils";
+
+function readStoredBool(key: string) {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(key) === "1";
+  } catch {
+    return false;
+  }
+}
 
 type FileValue = { path: string; name: string; size: number };
 
