@@ -154,11 +154,11 @@
   --blue-5: oklch(0.94 0.06 226);
   --blue-soft: oklch(0.965 0.03 226);
 
-  /* 项目信息树：白底卡片，层级用马卡龙蓝边框与标题色区分 */
-  --tree-depth-1: oklch(0.60 0.095 232);
-  --tree-depth-2: oklch(0.68 0.082 230);
-  --tree-depth-3: oklch(0.755 0.068 228);
-  --tree-depth-4: oklch(0.82 0.055 226);
+  /* 项目信息树：一级蓝底，后续层级以高对比马卡龙蓝区分 */
+  --tree-depth-1: oklch(0.62 0.11 232);
+  --tree-depth-2: oklch(0.57 0.105 232);
+  --tree-depth-3: oklch(0.69 0.09 229);
+  --tree-depth-4: oklch(0.80 0.07 226);
 
 
   /* 项目相关：#8b6147 同色调，仅明度/饱和度变化 */
@@ -199,10 +199,10 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 14%);
   --ring: oklch(0.6 0.06 189);
-  --tree-depth-1: oklch(0.74 0.09 232);
-  --tree-depth-2: oklch(0.68 0.075 230);
-  --tree-depth-3: oklch(0.62 0.06 228);
-  --tree-depth-4: oklch(0.56 0.045 226);
+  --tree-depth-1: oklch(0.59 0.105 232);
+  --tree-depth-2: oklch(0.76 0.09 230);
+  --tree-depth-3: oklch(0.68 0.075 228);
+  --tree-depth-4: oklch(0.61 0.06 226);
 
   --mint: oklch(0.78 0.1 189);
   --mint-soft: oklch(0.32 0.04 189);
@@ -257,4 +257,24 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+@utility project-progress {
+  appearance: none;
+  background: var(--secondary);
+
+  &::-webkit-progress-bar {
+    background: var(--secondary);
+    border-radius: 999px;
+  }
+
+  &::-webkit-progress-value {
+    background: var(--primary);
+    border-radius: 999px;
+  }
+
+  &::-moz-progress-bar {
+    background: var(--primary);
+    border-radius: 999px;
+  }
 }

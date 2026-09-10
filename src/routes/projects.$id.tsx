@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/Shell";
 import { ProjectInformationTree } from "@/components/tree/ProjectInformationTree";
-import { projects } from "@/data/mock";
+import { projectDetail, projects } from "@/data/mock";
 
 export const Route = createFileRoute("/projects/$id")({
   head: () => ({
@@ -20,10 +20,25 @@ export const Route = createFileRoute("/projects/$id")({
 function ProjectDetail() {
   const { id } = Route.useParams();
   const project = projects.find((item) => item.code === id);
+  const projectName = project?.name ?? `项目 ${id}`;
 
   return (
     <PageShell title="项目信息管理" back>
-      <ProjectInformationTree projectCode={id} projectName={project?.name ?? `项目 ${id}`} />
+      <ProjectInformationTree
+        projectCode={id}
+        projectName={projectName}
+        overview={{
+          wecomId: projectDetail.wecomId,
+          manager: projectDetail.manager,
+          contact: projectDetail.contact,
+          progress: project?.progress ?? projectDetail.progress,
+          deployAt: projectDetail.deployAt,
+          nearDelivery: projectDetail.nearDelivery,
+          finalDelivery: projectDetail.finalDelivery,
+          tags: projectDetail.tags,
+          urgent: projectDetail.urgent,
+        }}
+      />
     </PageShell>
   );
 }

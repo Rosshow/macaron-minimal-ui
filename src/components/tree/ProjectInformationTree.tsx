@@ -9,6 +9,7 @@ import {
   GripVertical,
   Image as ImageIcon,
   MoreHorizontal,
+  Pencil,
   Plus,
   Trash2,
 } from "lucide-react";
@@ -34,6 +35,17 @@ import { cn } from "@/lib/utils";
 type ContentType = "text" | "select" | "file" | "image";
 type FileValue = { path: string; name: string; size: number };
 type SelectValue = { selected: string; options: string[] };
+type ProjectOverview = {
+  wecomId: string;
+  manager: string;
+  contact: string;
+  progress: number;
+  deployAt: string;
+  nearDelivery: string;
+  finalDelivery: string;
+  tags: string[];
+  urgent: string;
+};
 
 const DEFAULT_TAGS = [
   "车辆", "车端软件", "调度软件", "服务器信息", "环境", "业务系统",
@@ -60,7 +72,15 @@ function formatSize(size: number) {
   return `${(size / 1024 / 1024).toFixed(1)} MB`;
 }
 
-export function ProjectInformationTree({ projectCode, projectName }: { projectCode: string; projectName: string }) {
+export function ProjectInformationTree({
+  projectCode,
+  projectName,
+  overview,
+}: {
+  projectCode: string;
+  projectName: string;
+  overview: ProjectOverview;
+}) {
   const queryClient = useQueryClient();
   const getNodes = useServerFn(getProjectNodes);
   const createNode = useServerFn(createProjectNode);
@@ -73,6 +93,7 @@ export function ProjectInformationTree({ projectCode, projectName }: { projectCo
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<{ id: string; mode: "child" | "before" } | null>(null);
+  const [summary, setSummary] = useState({ name: projectName, ...overview });
   const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const queryKey = ["project-nodes", projectCode];
@@ -167,21 +188,69 @@ export function ProjectInformationTree({ projectCode, projectName }: { projectCo
     return next;
   });
 
+  function editSummary(key: "name" | "manager" | "contact", label: string) {
+    const value = window.prompt(`修改${label}`, summary[key]);
+    if (value?.trim()) setSummary((current) => ({ ...current, [key]: value.trim() }));
+  }
+
   if (isPending) return <div className="py-16 text-center text-sm text-muted-foreground">正在加载项目信息…</div>;
 
   return (
-    <div>
+    <div className="space-y-3">
       <section className="surface-card overflow-hidden p-4">
         <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="text-[11px] text-muted-foreground">项目编号 {projectCode}</div>
-            <h1 className="mt-1 text-[19px] font-bold leading-7">{projectName}</h1>
+          <div className="min-w-0 flex-1">
+            <div className="text-[10.5px] text-muted-foreground">项目名称</div>
+            <div className="mt-0.5 flex items-center gap-1.5">
+              <h1 className="min-w-0 text-[17px] font-bold leading-6">{summary.name}</h1>
+              <Button variant="ghost" size="icon" className="size-7 shrink-0" onClick={() => editSummary("name", "项目名称")} aria-label="修改项目名称"><Pencil className="size-3.5" /></Button>
+            </div>
+            <div className="mt-1 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+              <span>项目编号</span><span>{projectCode}</span><Pencil className="size-3" aria-hidden />
+            </div>
+            <div className="text-[10.5px] text-muted-foreground">· 企业微信记录ID: {summary.wecomId}</div>
           </div>
-          <Button size="sm" variant="secondary" onClick={() => addNode(null)}>
-            <Plus />新标签
-          </Button>
+          <div className="flex shrink-0 flex-col items-end gap-1.5">
+            {summary.tags.map((tag) => <span key={tag} className="rounded-full bg-primary px-2.5 py-1 text-[10px] font-semibold text-primary-foreground">{tag} ›</span>)}
+            <span className="rounded-full bg-foreground px-2.5 py-1 text-[10px] font-semibold text-background">{summary.urgent} ›</span>
+          </div>
         </div>
-        <div className="mt-4 flex items-center justify-between">
+
+        <div className="mt-3 divide-y divide-border/70">
+          {([['manager', '项目经理'], ['contact', '对接人']] as const).map(([key, label]) => (
+            <div key={key} className="flex min-h-10 items-center justify-between gap-3 py-2">
+              <span className="text-[11px] text-muted-foreground">{label}</span>
+              <Button type="button" variant="ghost" size="sm" className="gap-2 px-1 text-[12.5px] text-foreground" onClick={() => editSummary(key, label)}>
+                <span>{summary[key]}</span><Pencil className="size-3.5 text-muted-foreground" />
+              </Button>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-2">
+          <div className="flex items-center justify-between text-[11px]">
+            <span className="text-muted-foreground">项目时间进度</span>
+            <span className="font-semibold text-primary">{summary.progress}%</span>
+          </div>
+          <progress className="project-progress mt-1.5 block h-1.5 w-full overflow-hidden rounded-full" max={100} value={Math.min(100, Math.max(0, summary.progress))} aria-label="项目时间进度" />
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-3 border-t border-border/70 pt-3">
+          {([['部署时间', summary.deployAt], ['近期交付', summary.nearDelivery], ['最终交付', summary.finalDelivery]] as const).map(([label, value]) => (
+            <div key={label} className="min-w-0">
+              <div className="text-[10px] text-muted-foreground">{label}</div>
+              <div className="mt-0.5 truncate text-[11.5px] font-semibold">{value}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="surface-card overflow-hidden p-4">
+        <div className="flex items-center justify-between gap-3 border-b border-border/70 pb-3">
+          <h2 className="text-[14px] font-semibold">项目详细信息</h2>
+          <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
+        </div>
+        <div className="mt-3 flex items-center justify-between">
           <span className="text-[12px] font-semibold">显示内容</span>
           <div className="flex gap-1">
             <Button size="sm" variant="ghost" onClick={() => setSelected(new Set(roots.map((node) => node.id)))}>全选</Button>
@@ -202,11 +271,9 @@ export function ProjectInformationTree({ projectCode, projectName }: { projectCo
           })}
         </div>
         <p className="mt-2 text-[10.5px] text-muted-foreground">不选择标签时显示全部内容</p>
-      </section>
-
-      <div className="mt-3 space-y-3">
+        <div className="mt-4 space-y-3">
         {visibleRoots.map((root) => (
-          <section key={root.id} className="surface-card overflow-hidden p-2">
+          <div key={root.id}>
             <TreeRow
               node={root} depth={1} byParent={byParent} collapsed={collapsed} editingId={editingId}
               draggingId={draggingId} dropTarget={dropTarget} onEdit={setEditingId}
@@ -218,9 +285,10 @@ export function ProjectInformationTree({ projectCode, projectName }: { projectCo
               onDragMove={(target, mode) => draggingId && setDropTarget({ id: target.id, mode })}
               onDrop={(target, mode) => { moveNode(target, mode); setDraggingId(null); setDropTarget(null); }}
             />
-          </section>
+          </div>
         ))}
-      </div>
+        </div>
+      </section>
     </div>
   );
 }
@@ -241,7 +309,9 @@ function TreeRow(props: TreeRowProps) {
   const isCollapsed = collapsed.has(node.id);
   const activeDrop = dropTarget?.id === node.id;
   const depthBorder = ["", "border-tree-depth-1", "border-tree-depth-2", "border-tree-depth-3", "border-tree-depth-4"][depth] ?? "border-tree-depth-4";
-  const depthText = ["", "text-tree-depth-1", "text-tree-depth-2", "text-tree-depth-3", "text-tree-depth-4"][depth] ?? "text-tree-depth-4";
+  const depthText = ["", "text-primary-foreground", "text-tree-depth-2", "text-tree-depth-3", "text-tree-depth-4"][depth] ?? "text-tree-depth-4";
+  const depthSurface = depth === 1 ? "bg-tree-depth-1" : "bg-card";
+  const depthAction = depth === 1 ? "hover:bg-card/15 hover:text-primary-foreground" : "";
 
   const titleOptions = nodeValue<{ titleOptions?: string[] }>(node.value, {}).titleOptions ?? [];
   const nodeLookup = (id: string) => [...byParent.values()].flat().find((item) => item.id === id);
@@ -259,8 +329,8 @@ function TreeRow(props: TreeRowProps) {
       <div
         data-tree-node={node.id}
         className={cn(
-          "relative mb-1.5 touch-pan-y rounded-lg border-2 bg-card px-2 py-2 shadow-sm transition-all",
-          depthBorder,
+          "relative mb-1.5 touch-pan-y rounded-lg border-2 px-2 py-2 shadow-sm transition-all",
+          depthBorder, depthSurface,
           draggingId === node.id && "scale-[1.015] opacity-70 shadow-lg",
           activeDrop && dropTarget.mode === "child" && "ring-2 ring-blue-2",
           activeDrop && dropTarget.mode === "before" && "before:absolute before:inset-x-1 before:-top-1 before:h-0.5 before:bg-blue-2",
@@ -280,8 +350,8 @@ function TreeRow(props: TreeRowProps) {
         onPointerCancel={props.onHoldEnd}
       >
         <div className="flex min-h-9 items-center gap-1.5">
-          <GripVertical className="size-3.5 shrink-0 text-muted-foreground/50" aria-hidden />
-          <Button variant="ghost" size="icon" className={cn("size-8 shrink-0", depthText)} disabled={isLeaf} onPointerDown={(event) => event.stopPropagation()} onClick={() => props.onToggle(node.id)} aria-label={isCollapsed ? "展开" : "收起"}>
+          <GripVertical className={cn("size-3.5 shrink-0", depth === 1 ? "text-primary-foreground/60" : "text-muted-foreground/50")} aria-hidden />
+          <Button variant="ghost" size="icon" className={cn("size-8 shrink-0", depthText, depthAction)} disabled={isLeaf} onPointerDown={(event) => event.stopPropagation()} onClick={() => props.onToggle(node.id)} aria-label={isCollapsed ? "展开" : "收起"}>
             {children.length ? (isCollapsed ? <ChevronRight /> : <ChevronDown />) : <span className="size-4" />}
           </Button>
           {editingId === node.id ? (
@@ -301,8 +371,8 @@ function TreeRow(props: TreeRowProps) {
             <span className={cn("min-w-0 font-semibold", depthText, depth === 1 ? "text-[14px]" : "text-[12.5px]")}>{node.title}</span>
           )}
           <div className="ml-auto flex items-center gap-0.5" onPointerDown={(event) => event.stopPropagation()}>
-            <Button variant="ghost" size="icon" className={cn("size-8", depthText)} onClick={() => props.onAdd(node)} aria-label={`在${node.title}下新增`}><Plus /></Button>
-            <NodeMenu node={node} isLeaf={isLeaf} titleOptions={titleOptions} depthText={depthText} onEdit={() => props.onEdit(node.id)} onSave={props.onSave} onDelete={props.onDelete} />
+            <Button variant="ghost" size="icon" className={cn("size-8", depthText, depthAction)} onClick={() => props.onAdd(node)} aria-label={`在${node.title}下新增`}><Plus /></Button>
+            <NodeMenu node={node} isLeaf={isLeaf} titleOptions={titleOptions} depthText={cn(depthText, depthAction)} onEdit={() => props.onEdit(node.id)} onSave={props.onSave} onDelete={props.onDelete} />
           </div>
         </div>
         {isLeaf ? <NodeContent node={node} onSave={props.onSave} /> : null}
