@@ -26,6 +26,8 @@ import { Route as HistoryIdRouteImport } from './routes/history_.$id'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as TicketsIdRouteImport } from './routes/tickets.$id'
+import { Route as ProjectsIdEditRouteImport } from './routes/projects.$id_.edit'
+import { Route as ProjectsIdTicketsRouteImport } from './routes/projects.$id_.tickets'
 import { Route as ProjectsAuthIdRouteImport } from './routes/projects.auth.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -113,6 +115,16 @@ const TicketsIdRoute = TicketsIdRouteImport.update({
   path: '/tickets/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsIdEditRoute = ProjectsIdEditRouteImport.update({
+  id: '/projects/$id_/edit',
+  path: '/projects/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsIdTicketsRoute = ProjectsIdTicketsRouteImport.update({
+  id: '/projects/$id_/tickets',
+  path: '/projects/$id/tickets',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjectsAuthIdRoute = ProjectsAuthIdRouteImport.update({
   id: '/projects/auth/$id',
   path: '/projects/auth/$id',
@@ -137,6 +149,8 @@ export interface FileRoutesByFullPath {
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/projects/$id/edit': typeof ProjectsIdEditRoute
+  '/projects/$id/tickets': typeof ProjectsIdTicketsRoute
   '/projects/auth/$id': typeof ProjectsAuthIdRoute
 }
 export interface FileRoutesByTo {
@@ -157,6 +171,8 @@ export interface FileRoutesByTo {
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/projects': typeof ProjectsIndexRoute
+  '/projects/$id/edit': typeof ProjectsIdEditRoute
+  '/projects/$id/tickets': typeof ProjectsIdTicketsRoute
   '/projects/auth/$id': typeof ProjectsAuthIdRoute
 }
 export interface FileRoutesById {
@@ -178,6 +194,8 @@ export interface FileRoutesById {
   '/projects/$id': typeof ProjectsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/projects/$id_/edit': typeof ProjectsIdEditRoute
+  '/projects/$id_/tickets': typeof ProjectsIdTicketsRoute
   '/projects/auth/$id': typeof ProjectsAuthIdRoute
 }
 export interface FileRouteTypes {
@@ -200,6 +218,8 @@ export interface FileRouteTypes {
     | '/projects/$id'
     | '/tickets/$id'
     | '/projects/'
+    | '/projects/$id/edit'
+    | '/projects/$id/tickets'
     | '/projects/auth/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -220,6 +240,8 @@ export interface FileRouteTypes {
     | '/projects/$id'
     | '/tickets/$id'
     | '/projects'
+    | '/projects/$id/edit'
+    | '/projects/$id/tickets'
     | '/projects/auth/$id'
   id:
     | '__root__'
@@ -240,6 +262,8 @@ export interface FileRouteTypes {
     | '/projects/$id'
     | '/tickets/$id'
     | '/projects/'
+    | '/projects/$id_/edit'
+    | '/projects/$id_/tickets'
     | '/projects/auth/$id'
   fileRoutesById: FileRoutesById
 }
@@ -261,6 +285,8 @@ export interface RootRouteChildren {
   ProjectsIdRoute: typeof ProjectsIdRoute
   TicketsIdRoute: typeof TicketsIdRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
+  ProjectsIdEditRoute: typeof ProjectsIdEditRoute
+  ProjectsIdTicketsRoute: typeof ProjectsIdTicketsRoute
   ProjectsAuthIdRoute: typeof ProjectsAuthIdRoute
 }
 
@@ -385,6 +411,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TicketsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/$id_/edit': {
+      id: '/projects/$id_/edit'
+      path: '/projects/$id/edit'
+      fullPath: '/projects/$id/edit'
+      preLoaderRoute: typeof ProjectsIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/$id_/tickets': {
+      id: '/projects/$id_/tickets'
+      path: '/projects/$id/tickets'
+      fullPath: '/projects/$id/tickets'
+      preLoaderRoute: typeof ProjectsIdTicketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projects/auth/$id': {
       id: '/projects/auth/$id'
       path: '/projects/auth/$id'
@@ -413,6 +453,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsIdRoute: ProjectsIdRoute,
   TicketsIdRoute: TicketsIdRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
+  ProjectsIdEditRoute: ProjectsIdEditRoute,
+  ProjectsIdTicketsRoute: ProjectsIdTicketsRoute,
   ProjectsAuthIdRoute: ProjectsAuthIdRoute,
 }
 export const routeTree = rootRouteImport

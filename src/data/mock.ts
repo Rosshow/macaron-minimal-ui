@@ -6,14 +6,242 @@ export type Ticket = {
   title: string;
   kind: "需求" | "问题" | "功能" | "支持";
   priority: "低" | "中" | "高" | "紧急";
-  status: "新建" | "处理中" | "进行中" | "已解决" | "已关闭" | "已取消";
+  status: "新建" | "待处理" | "处理中" | "进行中" | "已解决" | "已关闭" | "已取消";
   project: string;
   desc: string;
   owner: string;
   reporter: string;
   participants: string[];
   date: string;
+  parentId?: string | undefined;
+  dependsOn?: string[] | undefined;
 };
+
+/** 项目工单卡片统计与关系（示例数据） */
+export const projectTicketStats = { total: 12, pending: 3, processing: 5, closed: 4 };
+
+export const projectBlockingTicket = {
+  no: "#789",
+  title: "目标点不可达但车辆仍持续运动",
+  reporter: "官伟文",
+  owner: "贾爽",
+  summary:
+    "现场调度下发目标点后，路径规划判定该点不可达，但车辆未停止而是继续按旧路径运动，存在碰撞风险，需优先排查规划与执行的衔接逻辑。",
+};
+
+export const projectRiskCounts: { level: "高" | "中" | "低"; count: number }[] = [
+  { level: "高", count: 2 },
+  { level: "中", count: 4 },
+  { level: "低", count: 6 },
+];
+
+export const projectTickets: Ticket[] = [
+  {
+    id: "789",
+    no: "#789",
+    title: "目标点不可达但车辆仍持续运动",
+    kind: "问题",
+    priority: "紧急",
+    status: "处理中",
+    project: "重庆赛美两江新动力混场项目",
+    desc: "目标点判定为不可达，车辆仍持续运动，需要现场复现并确认路径规划模块行为。",
+    owner: "贾爽",
+    reporter: "官伟文",
+    participants: ["杨", "朱", "秦"],
+    date: "2026-09-06",
+  },
+  {
+    id: "790",
+    no: "#790",
+    title: "复现不可达点车辆继续运动场景",
+    kind: "支持",
+    priority: "高",
+    status: "待处理",
+    project: "重庆赛美两江新动力混场项目",
+    desc: "在测试场复现不可达目标点场景，记录规划模块输出与车辆轨迹。",
+    owner: "杨帆",
+    reporter: "官伟文",
+    participants: ["朱"],
+    date: "2026-09-07",
+    parentId: "789",
+  },
+  {
+    id: "791",
+    no: "#791",
+    title: "规划模块输出日志采集",
+    kind: "功能",
+    priority: "高",
+    status: "处理中",
+    project: "重庆赛美两江新动力混场项目",
+    desc: "在规划模块增加不可达判定日志，便于定位 #789。",
+    owner: "朱一鸣",
+    reporter: "贾爽",
+    participants: ["秦"],
+    date: "2026-09-07",
+    parentId: "789",
+    dependsOn: ["790"],
+  },
+  {
+    id: "785",
+    no: "#785",
+    title: "调度任务优先级配置不生效",
+    kind: "问题",
+    priority: "高",
+    status: "处理中",
+    project: "浙江湖州中力安吉北区调度升级项目",
+    desc: "现场任务优先级配置整体不生效，怀疑后端分配优先逻辑改动导致。",
+    owner: "中力-汪海波",
+    reporter: "胡健楠",
+    participants: ["陈"],
+    date: "2026-09-03",
+  },
+  {
+    id: "786",
+    no: "#786",
+    title: "优先级配置回读校验工具",
+    kind: "功能",
+    priority: "中",
+    status: "待处理",
+    project: "浙江湖州中力安吉北区调度升级项目",
+    desc: "提供配置回读校验，确认前端配置与后端实际生效值一致。",
+    owner: "陈杰",
+    reporter: "中力-汪海波",
+    participants: [],
+    date: "2026-09-04",
+    parentId: "785",
+  },
+  {
+    id: "778",
+    no: "#778",
+    title: "现场充电桩通讯超时",
+    kind: "问题",
+    priority: "中",
+    status: "处理中",
+    project: "江苏常州多摩川混场项目",
+    desc: "充电桩偶发通讯超时，需升级固件并复测。",
+    owner: "毛梦晴",
+    reporter: "白永奇",
+    participants: ["董"],
+    date: "2026-08-29",
+  },
+  {
+    id: "779",
+    no: "#779",
+    title: "充电桩固件升级回归测试",
+    kind: "支持",
+    priority: "中",
+    status: "已关闭",
+    project: "江苏常州多摩川混场项目",
+    desc: "固件升级后回归测试通过，超时未复现。",
+    owner: "董华来",
+    reporter: "毛梦晴",
+    participants: [],
+    date: "2026-09-02",
+    dependsOn: ["778"],
+  },
+  {
+    id: "770",
+    no: "#770",
+    title: "库位地图更新流程确认",
+    kind: "需求",
+    priority: "低",
+    status: "已关闭",
+    project: "安徽合肥赛美中储混场项目",
+    desc: "与客户确认库位地图更新流程与责任人。",
+    owner: "罗昊",
+    reporter: "张俊磊",
+    participants: [],
+    date: "2026-08-25",
+  },
+  {
+    id: "771",
+    no: "#771",
+    title: "库位地图首期导入",
+    kind: "功能",
+    priority: "低",
+    status: "已关闭",
+    project: "安徽合肥赛美中储混场项目",
+    desc: "按确认后的流程导入首期库位地图。",
+    owner: "张俊磊",
+    reporter: "罗昊",
+    participants: [],
+    date: "2026-08-28",
+    dependsOn: ["770"],
+  },
+  {
+    id: "766",
+    no: "#766",
+    title: "现场网络波动排查",
+    kind: "支持",
+    priority: "中",
+    status: "已关闭",
+    project: "四川峨眉山乐飞光电混场项目",
+    desc: "现场无线覆盖存在盲区，已协调客户调整 AP 点位。",
+    owner: "白永奇",
+    reporter: "官伟文",
+    participants: [],
+    date: "2026-08-22",
+  },
+  {
+    id: "765",
+    no: "#765",
+    title: "服务器磁盘容量告警",
+    kind: "问题",
+    priority: "低",
+    status: "待处理",
+    project: "印尼雅加达 TNS-ATI 叉车项目",
+    desc: "日志分区使用超过 80%，需清理或扩容。",
+    owner: "汪海波",
+    reporter: "系统",
+    participants: [],
+    date: "2026-08-20",
+  },
+  {
+    id: "760",
+    no: "#760",
+    title: "出厂测试环境版本核对",
+    kind: "支持",
+    priority: "低",
+    status: "已关闭",
+    project: "国铁集团无人正面吊车西南交大合作申报项目",
+    desc: "核对出厂测试环境与目标版本一致。",
+    owner: "张文星",
+    reporter: "罗昊",
+    participants: [],
+    date: "2026-08-15",
+  },
+];
+
+/** 项目动态（示例数据） */
+export const projectVersionChanges = [
+  { version: "v2.7.1", time: "2026-09-08 20:12", note: "修复充电不打断问题，新增任务优先级兜底逻辑" },
+  { version: "v2.7.0", time: "2026-09-01 16:40", note: "调度算法升级，支持混场多车型协同" },
+  { version: "v2.6.4", time: "2026-08-22 10:05", note: "修复库位地图导入偶发失败" },
+];
+
+export const projectTicketMonthly: { key: string; year: number; month: number; value: number }[] = [
+  ["2026-04", 3], ["2026-05", 5], ["2026-06", 2], ["2026-07", 6], ["2026-08", 4], ["2026-09", 5],
+].map(([k, v]) => ({
+  key: k as string,
+  year: Number((k as string).slice(0, 4)),
+  month: Number((k as string).slice(5)),
+  value: v as number,
+}));
+
+export const projectStageChanges = [
+  { from: "已签合同", to: "出厂测试", time: "2026-08-18" },
+  { from: "出厂测试", to: "即将进场", time: "2026-09-02" },
+  { from: "即将进场", to: "正在实施", time: "2026-09-09" },
+];
+
+/** 信息节点编辑历史（示例数据） */
+export type NodeEditRecord = { who: string; when: string; what: string };
+
+export const nodeEditHistory: NodeEditRecord[] = [
+  { who: "罗昊", when: "2026-09-09 15:42", what: "把内容从「4 台叉车」改为「6 台叉车（含 2 台备用）」" },
+  { who: "张俊磊", when: "2026-09-08 10:17", what: "新增了子节点「充电区位置」" },
+  { who: "毛梦晴", when: "2026-09-05 18:03", what: "把标题从「车辆配置」改为「车辆」" },
+];
 
 export const tickets: Ticket[] = [
   {
@@ -146,6 +374,7 @@ export const priorityTone: Record<Ticket["priority"], Tone> = {
 
 export const statusTone: Record<Ticket["status"], Tone> = {
   新建: "sky",
+  待处理: "sky",
   处理中: "blue",
   进行中: "blue",
   已解决: "blue-deep",
@@ -238,6 +467,11 @@ export const projectDetail = {
   urgent: "重要紧急",
   stage: "出厂测试",
   syncedAt: "00:05:52",
+  agvCount: "6 台",
+  uspVersion: "USP v2.7.1",
+  aiSummary:
+    "项目已进入实施阶段，AGV 部署 6 台，整体进度 27%。当前核心阻滞为工单 #789（目标点不可达但车辆仍持续运动），另有 2 项高风险问题待处理。近一个月工单新增 5 个，调度软件已升级至 v2.7.1，建议优先闭环核心阻滞问题并跟踪高风险项。",
+
   basics: [
     { label: "项目名称", value: "国铁集团无人正面吊车西南交大合作申报项目", kind: "edit" },
     { label: "项目编号", value: "92", kind: "edit" },
