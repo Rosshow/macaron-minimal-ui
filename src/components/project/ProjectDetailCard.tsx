@@ -48,7 +48,9 @@ function formatSize(size: number) {
 export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
   const getNodes = useServerFn(getProjectNodes);
   const selectionKey = `project-tree:selected:${projectCode}`;
+  const collapseKey = `project-tree:collapsed:${projectCode}`;
   const [selected, setSelected] = useState(() => readStoredSet(selectionKey));
+  const [collapsed, setCollapsed] = useState(() => readStoredBool(collapseKey));
 
   const { data: nodes = [], isPending } = useQuery({
     queryKey: ["project-nodes", projectCode],
@@ -56,6 +58,7 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
   });
 
   useEffect(() => localStorage.setItem(selectionKey, JSON.stringify([...selected])), [selected, selectionKey]);
+  useEffect(() => localStorage.setItem(collapseKey, collapsed ? "1" : "0"), [collapsed, collapseKey]);
 
   const byParent = useMemo(() => {
     const map = new Map<string | null, ProjectNode[]>();
@@ -84,12 +87,17 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
   return (
     <section className="surface-card overflow-hidden p-4">
       <div className="flex items-center justify-between gap-3 border-b border-border/70 pb-2.5">
-        <h2 className="text-[14px] font-semibold">项目详细信息</h2>
-        <Button size="sm" variant="secondary" className="gap-1.5" asChild>
-          <Link to="/projects/$id/edit" params={{ id: projectCode }}>
-            <Pencil className="size-3.5" />编辑
-          </Link>
-        </Button>
+        <h2 className="text-[14px] font-semibold">项目信息管理</h2>
+        <div className="flex items-center gap-1">
+          <Button size="sm" variant="secondary" className="gap-1.5" asChild>
+            <Link to="/projects/$id/edit" params={{ id: projectCode }}>
+              <Pencil className="size-3.5" />编辑
+            </Link>
+          </Button>
+          <Button size="sm" variant="ghost" className="size-8 px-0" onClick={() => setCollapsed((v) => !v)} aria-label={collapsed ? "展开" : "折叠"}>
+            {collapsed ? <ChevronDown className="size-4" /> : <ChevronUp className="size-4" />}
+          </Button>
+        </div>
       </div>
 
       <div className="mt-3 flex items-center justify-between">
@@ -108,14 +116,16 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
       </div>
       <p className="mt-2 text-[10.5px] text-muted-foreground">不选择标签时显示全部内容</p>
 
-      {isPending ? (
-        <div className="py-10 text-center text-sm text-muted-foreground">正在加载项目信息…</div>
-      ) : visibleRoots.length === 0 ? (
-        <div className="py-10 text-center text-[12px] text-muted-foreground">暂无内容，点击右上角「编辑」添加信息节点</div>
-      ) : (
-        <article className="mt-4">
-          {visibleRoots.map((root) => <DocSection key={root.id} node={root} depth={1} byParent={byParent} />)}
-        </article>
+      {!collapsed && (
+        isPending ? (
+          <div className="py-10 text-center text-sm text-muted-foreground">正在加载项目信息…</div>
+        ) : visibleRoots.length === 0 ? (
+          <div className="py-10 text-center text-[12px] text-muted-foreground">暂无内容，点击右上角「编辑」添加信息节点</div>
+        ) : (
+          <article className="mt-4">
+            {visibleRoots.map((root) => <DocSection key={root.id} node={root} depth={1} byParent={byParent} />)}
+          </article>
+        )
       )}
     </section>
   );
