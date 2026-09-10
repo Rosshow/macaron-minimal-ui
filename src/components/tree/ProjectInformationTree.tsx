@@ -218,14 +218,22 @@ export function ProjectInformationTree({
         </div>
 
         <div className="mt-3 divide-y divide-border/70">
-          {([['manager', '项目经理'], ['contact', '对接人']] as const).map(([key, label]) => (
-            <div key={key} className="flex min-h-10 items-center justify-between gap-3 py-2">
-              <span className="text-[11px] text-muted-foreground">{label}</span>
-              <Button type="button" variant="ghost" size="sm" className="gap-2 px-1 text-[12.5px] text-foreground" onClick={() => editSummary(key, label)}>
-                <span>{summary[key]}</span><Pencil className="size-3.5 text-muted-foreground" />
-              </Button>
-            </div>
-          ))}
+          <div className="flex min-h-10 items-center justify-between gap-3 py-2">
+            <span className="text-[11px] text-muted-foreground">客户信息</span>
+            <Button type="button" variant="ghost" size="sm" className="gap-2 px-1 text-[12.5px] text-foreground" onClick={() => editSummary("client", "客户信息")}>
+              <span>{summary.client}</span><Pencil className="size-3.5 text-muted-foreground" />
+            </Button>
+          </div>
+          <div className="grid grid-cols-2 gap-3 py-2">
+            {([['manager', '项目经理'], ['contact', '对接人']] as const).map(([key, label]) => (
+              <div key={key} className="flex min-h-10 flex-col gap-1">
+                <span className="text-[11px] text-muted-foreground">{label}</span>
+                <Button type="button" variant="ghost" size="sm" className="h-auto justify-start gap-2 px-0 py-0 text-[12.5px] text-foreground" onClick={() => editSummary(key, label)}>
+                  <span className="truncate">{summary[key]}</span><Pencil className="size-3.5 shrink-0 text-muted-foreground" />
+                </Button>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="mt-2">
