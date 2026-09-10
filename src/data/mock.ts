@@ -227,6 +227,7 @@ export const projectDetail = {
   name: "国铁集团无人正面吊车西南交大合作申报项目",
   code: "92",
   wecomId: "rNqFS6",
+  client: "国铁集团",
   manager: "未指定",
   contact: "刘青源",
   progress: 27,
