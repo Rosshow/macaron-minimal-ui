@@ -151,6 +151,11 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
               <p className="text-[10.5px] text-muted-foreground">项目为必选项，未绑定项目无法提交</p>
             </Field>
 
+            <label className="flex items-center gap-2 text-[12px]">
+              <Checkbox checked={outsideProject} onCheckedChange={(v) => setOutsideProject(v === true)} />
+              我的项目不在所属项目集中，向项目负责人发送申请工单
+            </label>
+
             {/* 问题共享文档设置 */}
             <div className="space-y-2 rounded-xl border border-border bg-card p-3">
               <span className="text-[12px] font-semibold">问题共享文档设置</span>
@@ -196,11 +201,6 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
                 打开共享文档（已引入 {selectedTags.length} 项背景信息）
               </Button>
             </div>
-
-            <label className="flex items-center gap-2 text-[12px]">
-              <Checkbox checked={outsideProject} onCheckedChange={(v) => setOutsideProject(v === true)} />
-              我的项目不在所属项目集中，向项目负责人发送申请工单
-            </label>
           </div>
 
           <div className="mt-4 flex gap-2 border-t border-border/70 pt-3">
