@@ -258,3 +258,23 @@
   background-clip: text;
   color: transparent;
 }
+
+@utility project-progress {
+  appearance: none;
+  background: var(--secondary);
+
+  &::-webkit-progress-bar {
+    background: var(--secondary);
+    border-radius: 999px;
+  }
+
+  &::-webkit-progress-value {
+    background: var(--primary);
+    border-radius: 999px;
+  }
+
+  &::-moz-progress-bar {
+    background: var(--primary);
+    border-radius: 999px;
+  }
+}

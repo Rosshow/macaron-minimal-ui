@@ -232,7 +232,7 @@ export function ProjectInformationTree({
             <span className="text-muted-foreground">项目时间进度</span>
             <span className="font-semibold text-primary">{summary.progress}%</span>
           </div>
-          <progress className="mt-1.5 block h-1.5 w-full overflow-hidden rounded-full accent-primary" max={100} value={Math.min(100, Math.max(0, summary.progress))} aria-label="项目时间进度" />
+          <progress className="project-progress mt-1.5 block h-1.5 w-full overflow-hidden rounded-full" max={100} value={Math.min(100, Math.max(0, summary.progress))} aria-label="项目时间进度" />
         </div>
 
         <div className="mt-3 grid grid-cols-3 gap-3 border-t border-border/70 pt-3">
