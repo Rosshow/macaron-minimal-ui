@@ -137,6 +137,20 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
               <Input readOnly value={deadlineText} className="mt-1.5 text-muted-foreground" />
             </Field>
 
+            <Field label="绑定项目 *">
+              <select
+                className={cn(selectClass, !projectCode && "text-muted-foreground")}
+                value={projectCode}
+                onChange={(e) => setProjectCode(e.target.value)}
+              >
+                <option value="">请选择绑定项目</option>
+                {projects.map((item) => (
+                  <option key={item.code} value={item.code}>{item.name}</option>
+                ))}
+              </select>
+              <p className="text-[10.5px] text-muted-foreground">项目为必选项，未绑定项目无法提交</p>
+            </Field>
+
             {/* 问题共享文档设置 */}
             <div className="space-y-2 rounded-xl border border-border bg-card p-3">
               <span className="text-[12px] font-semibold">问题共享文档设置</span>
@@ -144,7 +158,7 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
                 勾选要带入文档的项目背景信息（来自所绑定项目的信息标签）。
               </p>
               {!projectCode ? (
-                <p className="text-[11.5px] text-muted-foreground">请先在下方选择绑定项目</p>
+                <p className="text-[11.5px] text-muted-foreground">请先在上方选择绑定项目</p>
               ) : isPending ? (
                 <p className="text-[11.5px] text-muted-foreground">正在加载项目信息…</p>
               ) : roots.length === 0 ? (
@@ -182,20 +196,6 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
                 打开共享文档（已引入 {selectedTags.length} 项背景信息）
               </Button>
             </div>
-
-            <Field label="绑定项目 *">
-              <select
-                className={cn(selectClass, !projectCode && "text-muted-foreground")}
-                value={projectCode}
-                onChange={(e) => setProjectCode(e.target.value)}
-              >
-                <option value="">请选择绑定项目</option>
-                {projects.map((item) => (
-                  <option key={item.code} value={item.code}>{item.name}</option>
-                ))}
-              </select>
-              <p className="text-[10.5px] text-muted-foreground">项目为必选项，未绑定项目无法提交</p>
-            </Field>
 
             <label className="flex items-center gap-2 text-[12px]">
               <Checkbox checked={outsideProject} onCheckedChange={(v) => setOutsideProject(v === true)} />
