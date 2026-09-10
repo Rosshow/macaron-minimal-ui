@@ -27,6 +27,7 @@ const priorityRank: Record<Ticket["priority"], number> = { 紧急: 0, 高: 1, �
 /** 状态文字色：唯一保留色彩的文本 */
 const statusText: Record<Ticket["status"], string> = {
   新建: "text-blue-3",
+  待处理: "text-blue-3",
   处理中: "text-blue-2",
   进行中: "text-blue-2",
   已解决: "text-blue-1",

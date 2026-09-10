@@ -7,14 +7,20 @@ import {
   Download,
   FileText,
   GripVertical,
+  History,
   Image as ImageIcon,
   MoreHorizontal,
-  Pencil,
   Plus,
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
+import { nodeEditHistory } from "@/data/mock";
 import {
   createProjectNode,
   deleteProjectNode,
@@ -35,23 +42,6 @@ import { cn } from "@/lib/utils";
 type ContentType = "text" | "select" | "file" | "image";
 type FileValue = { path: string; name: string; size: number };
 type SelectValue = { selected: string; options: string[] };
-type ProjectOverview = {
-  client: string;
-  wecomId: string;
-  manager: string;
-  contact: string;
-  progress: number;
-  deployAt: string;
-  nearDelivery: string;
-  finalDelivery: string;
-  tags: string[];
-  urgent: string;
-};
-
-const DEFAULT_TAGS = [
-  "车辆", "车端软件", "调度软件", "服务器信息", "环境", "业务系统",
-  "业务流程", "人员", "特性", "项目配置", "项目定制", "基础信息",
-];
 
 function readStoredSet(key: string) {
   if (typeof window === "undefined") return new Set<string>();
@@ -73,28 +63,25 @@ function formatSize(size: number) {
   return `${(size / 1024 / 1024).toFixed(1)} MB`;
 }
 
+/** 项目信息树编辑页：集中管理节点的增删改与拖动。 */
 export function ProjectInformationTree({
   projectCode,
   projectName,
-  overview,
 }: {
   projectCode: string;
   projectName: string;
-  overview: ProjectOverview;
 }) {
   const queryClient = useQueryClient();
   const getNodes = useServerFn(getProjectNodes);
   const createNode = useServerFn(createProjectNode);
   const updateNode = useServerFn(updateProjectNode);
   const removeNode = useServerFn(deleteProjectNode);
-  const selectionKey = `project-tree:selected:${projectCode}`;
   const collapsedKey = `project-tree:collapsed:${projectCode}`;
-  const [selected, setSelected] = useState(() => readStoredSet(selectionKey));
   const [collapsed, setCollapsed] = useState(() => readStoredSet(collapsedKey));
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [historyNode, setHistoryNode] = useState<ProjectNode | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<{ id: string; mode: "child" | "before" } | null>(null);
-  const [summary, setSummary] = useState({ name: projectName, ...overview });
   const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const queryKey = ["project-nodes", projectCode];
@@ -103,7 +90,6 @@ export function ProjectInformationTree({
     queryFn: () => getNodes({ data: { projectCode } }),
   });
 
-  useEffect(() => localStorage.setItem(selectionKey, JSON.stringify([...selected])), [selected, selectionKey]);
   useEffect(() => localStorage.setItem(collapsedKey, JSON.stringify([...collapsed])), [collapsed, collapsedKey]);
 
   const byParent = useMemo(() => {
@@ -117,7 +103,6 @@ export function ProjectInformationTree({
     return map;
   }, [nodes]);
   const roots = byParent.get(null) ?? [];
-  const visibleRoots = selected.size === 0 ? roots : roots.filter((node) => selected.has(node.id));
 
   const mutation = useMutation({
     mutationFn: async (work: () => Promise<unknown>) => work(),
@@ -183,121 +168,60 @@ export function ProjectInformationTree({
     saveNode(dragged.id, { parentId, sortOrder });
   }
 
-  const toggleSelection = (id: string) => setSelected((current) => {
-    const next = new Set(current);
-    next.has(id) ? next.delete(id) : next.add(id);
-    return next;
-  });
-
-  function editSummary(key: "name" | "client" | "manager" | "contact", label: string) {
-    const value = window.prompt(`修改${label}`, summary[key]);
-    if (value?.trim()) setSummary((current) => ({ ...current, [key]: value.trim() }));
-  }
-
   if (isPending) return <div className="py-16 text-center text-sm text-muted-foreground">正在加载项目信息…</div>;
 
   return (
     <div className="space-y-3">
       <section className="surface-card overflow-hidden p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <div className="text-[10.5px] text-muted-foreground">项目名称</div>
-            <div className="mt-0.5 flex items-center gap-1.5">
-              <h1 className="min-w-0 text-[17px] font-bold leading-6">{summary.name}</h1>
-              <Button variant="ghost" size="icon" className="size-7 shrink-0" onClick={() => editSummary("name", "项目名称")} aria-label="修改项目名称"><Pencil className="size-3.5" /></Button>
-            </div>
-            <div className="mt-1 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-              <span>项目编号</span><span>{projectCode}</span><Pencil className="size-3" aria-hidden />
-            </div>
-            <div className="text-[10.5px] text-muted-foreground">· 企业微信记录ID: {summary.wecomId}</div>
+        <div className="flex items-center justify-between gap-3 border-b border-border/70 pb-3">
+          <div className="min-w-0">
+            <h2 className="text-[14px] font-semibold">信息节点</h2>
+            <p className="mt-0.5 text-[10.5px] text-muted-foreground">{projectName} · 长按节点可拖动调整从属</p>
           </div>
-          <div className="flex shrink-0 flex-col items-end gap-1.5">
-            {summary.tags.map((tag) => <span key={tag} className="rounded-full bg-primary px-2.5 py-1 text-[10px] font-semibold text-primary-foreground">{tag} ›</span>)}
-            <span className="rounded-full bg-foreground px-2.5 py-1 text-[10px] font-semibold text-background">{summary.urgent} ›</span>
-          </div>
+          <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
         </div>
-
-        <div className="mt-3 divide-y divide-border/70">
-          <div className="flex min-h-10 items-center justify-between gap-3 py-2">
-            <span className="text-[11px] text-muted-foreground">客户信息</span>
-            <Button type="button" variant="ghost" size="sm" className="gap-2 px-1 text-[12.5px] text-foreground" onClick={() => editSummary("client", "客户信息")}>
-              <span>{summary.client}</span><Pencil className="size-3.5 text-muted-foreground" />
-            </Button>
-          </div>
-          <div className="grid grid-cols-2 gap-3 py-2">
-            {([['manager', '项目经理'], ['contact', '对接人']] as const).map(([key, label]) => (
-              <div key={key} className="flex min-h-10 flex-col gap-1">
-                <span className="text-[11px] text-muted-foreground">{label}</span>
-                <Button type="button" variant="ghost" size="sm" className="h-auto justify-start gap-2 px-0 py-0 text-[12.5px] text-foreground" onClick={() => editSummary(key, label)}>
-                  <span className="truncate">{summary[key]}</span><Pencil className="size-3.5 shrink-0 text-muted-foreground" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-2">
-          <div className="flex items-center justify-between text-[11px]">
-            <span className="text-muted-foreground">项目时间进度</span>
-            <span className="font-semibold text-primary">{summary.progress}%</span>
-          </div>
-          <progress className="project-progress mt-1.5 block h-1.5 w-full overflow-hidden rounded-full" max={100} value={Math.min(100, Math.max(0, summary.progress))} aria-label="项目时间进度" />
-        </div>
-
-        <div className="mt-3 grid grid-cols-3 gap-3 border-t border-border/70 pt-3">
-          {([['部署时间', summary.deployAt], ['近期交付', summary.nearDelivery], ['最终交付', summary.finalDelivery]] as const).map(([label, value]) => (
-            <div key={label} className="min-w-0">
-              <div className="text-[10px] text-muted-foreground">{label}</div>
-              <div className="mt-0.5 truncate text-[11.5px] font-semibold">{value}</div>
+        <div className="mt-4 space-y-3">
+          {roots.length === 0 ? (
+            <p className="py-8 text-center text-[12px] text-muted-foreground">还没有信息节点，点击右上角「新标签」创建第一个</p>
+          ) : null}
+          {roots.map((root) => (
+            <div key={root.id}>
+              <TreeRow
+                node={root} depth={1} byParent={byParent} collapsed={collapsed} editingId={editingId}
+                draggingId={draggingId} dropTarget={dropTarget} onEdit={setEditingId}
+                onToggle={(id) => setCollapsed((current) => { const next = new Set(current); next.has(id) ? next.delete(id) : next.add(id); return next; })}
+                onAdd={addNode} onSave={saveNode}
+                onDelete={(id) => mutation.mutate(() => removeNode({ data: { id } }))}
+                onHistory={setHistoryNode}
+                onHoldStart={(id) => { holdTimer.current = setTimeout(() => { setDraggingId(id); navigator.vibrate?.(35); }, 400); }}
+                onHoldEnd={() => { if (holdTimer.current) clearTimeout(holdTimer.current); }}
+                onDragMove={(target, mode) => draggingId && setDropTarget({ id: target.id, mode })}
+                onDrop={(target, mode) => { moveNode(target, mode); setDraggingId(null); setDropTarget(null); }}
+              />
             </div>
           ))}
         </div>
       </section>
 
-      <section className="surface-card overflow-hidden p-4">
-        <div className="flex items-center justify-between gap-3 border-b border-border/70 pb-3">
-          <h2 className="text-[14px] font-semibold">项目详细信息</h2>
-          <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
-        </div>
-        <div className="mt-3 flex items-center justify-between">
-          <span className="text-[12px] font-semibold">显示内容</span>
-          <div className="flex gap-1">
-            <Button size="sm" variant="ghost" onClick={() => setSelected(new Set(roots.map((node) => node.id)))}>全选</Button>
-            <Button size="sm" variant="ghost" onClick={() => setSelected(new Set())}>清空</Button>
-          </div>
-        </div>
-        <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
-          {roots.sort((a, b) => {
-            const ai = DEFAULT_TAGS.indexOf(a.title); const bi = DEFAULT_TAGS.indexOf(b.title);
-            return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-          }).map((node) => {
-            const active = selected.has(node.id);
-            return (
-              <Button key={node.id} size="sm" variant={active ? "default" : "outline"} className="shrink-0" onClick={() => toggleSelection(node.id)}>
-                {node.title}
-              </Button>
-            );
-          })}
-        </div>
-        <p className="mt-2 text-[10.5px] text-muted-foreground">不选择标签时显示全部内容</p>
-        <div className="mt-4 space-y-3">
-        {visibleRoots.map((root) => (
-          <div key={root.id}>
-            <TreeRow
-              node={root} depth={1} byParent={byParent} collapsed={collapsed} editingId={editingId}
-              draggingId={draggingId} dropTarget={dropTarget} onEdit={setEditingId}
-              onToggle={(id) => setCollapsed((current) => { const next = new Set(current); next.has(id) ? next.delete(id) : next.add(id); return next; })}
-              onAdd={addNode} onSave={saveNode}
-              onDelete={(id) => mutation.mutate(() => removeNode({ data: { id } }))}
-              onHoldStart={(id) => { holdTimer.current = setTimeout(() => { setDraggingId(id); navigator.vibrate?.(35); }, 400); }}
-              onHoldEnd={() => { if (holdTimer.current) clearTimeout(holdTimer.current); }}
-              onDragMove={(target, mode) => draggingId && setDropTarget({ id: target.id, mode })}
-              onDrop={(target, mode) => { moveNode(target, mode); setDraggingId(null); setDropTarget(null); }}
-            />
-          </div>
-        ))}
-        </div>
-      </section>
+      <Dialog open={historyNode !== null} onOpenChange={(open) => !open && setHistoryNode(null)}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-[15px]">编辑历史{historyNode ? ` · ${historyNode.title}` : ""}</DialogTitle>
+          </DialogHeader>
+          <ul className="mt-1 max-h-80 space-y-3 overflow-y-auto pr-1">
+            {nodeEditHistory.map((record, index) => (
+              <li key={index} className="rounded-lg bg-secondary/60 p-3">
+                <div className="flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
+                  <span className="font-semibold text-foreground">{record.who}</span>
+                  <span>{record.when}</span>
+                </div>
+                <p className="mt-1 text-[12px] leading-5">{record.what}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="text-[10.5px] text-muted-foreground">当前为示例记录，真实编辑历史将在后续版本自动记录。</p>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -307,7 +231,7 @@ type TreeRowProps = {
   editingId: string | null; draggingId: string | null; dropTarget: { id: string; mode: "child" | "before" } | null;
   onEdit: (id: string | null) => void; onToggle: (id: string) => void; onAdd: (node: ProjectNode) => void;
   onSave: (id: string, updates: { title?: string; contentType?: ContentType; value?: unknown; parentId?: string | null; sortOrder?: number }) => void;
-  onDelete: (id: string) => void; onHoldStart: (id: string) => void; onHoldEnd: () => void;
+  onDelete: (id: string) => void; onHistory: (node: ProjectNode) => void; onHoldStart: (id: string) => void; onHoldEnd: () => void;
   onDragMove: (node: ProjectNode, mode: "child" | "before") => void; onDrop: (node: ProjectNode, mode: "child" | "before") => void;
 };
 
@@ -381,6 +305,7 @@ function TreeRow(props: TreeRowProps) {
           )}
           <div className="ml-auto flex items-center gap-0.5" onPointerDown={(event) => event.stopPropagation()}>
             <Button variant="ghost" size="icon" className={cn("size-8", depthText, depthAction)} onClick={() => props.onAdd(node)} aria-label={`在${node.title}下新增`}><Plus /></Button>
+            <Button variant="ghost" size="icon" className={cn("size-8", depthText, depthAction)} onClick={() => props.onHistory(node)} aria-label={`查看${node.title}的编辑历史`}><History /></Button>
             <NodeMenu node={node} isLeaf={isLeaf} titleOptions={titleOptions} depthText={cn(depthText, depthAction)} onEdit={() => props.onEdit(node.id)} onSave={props.onSave} onDelete={props.onDelete} />
           </div>
         </div>
@@ -449,7 +374,6 @@ function NodeContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps
     />
   );
 }
-
 
 function FileContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps["onSave"] }) {
   const inputRef = useRef<HTMLInputElement>(null);

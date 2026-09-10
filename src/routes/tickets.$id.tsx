@@ -38,6 +38,7 @@ export const Route = createFileRoute("/tickets/$id")({
 
 const statusText: Record<Ticket["status"], string> = {
   新建: "text-blue-3",
+  待处理: "text-blue-3",
   处理中: "text-blue-2",
   进行中: "text-blue-2",
   已解决: "text-blue-1",
