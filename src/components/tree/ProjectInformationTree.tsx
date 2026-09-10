@@ -220,9 +220,9 @@ export function ProjectInformationTree({
           {([['manager', '项目经理'], ['contact', '对接人']] as const).map(([key, label]) => (
             <div key={key} className="flex min-h-10 items-center justify-between gap-3 py-2">
               <span className="text-[11px] text-muted-foreground">{label}</span>
-              <button type="button" className="flex items-center gap-2 text-[12.5px] text-foreground" onClick={() => editSummary(key, label)}>
+              <Button type="button" variant="ghost" size="sm" className="gap-2 px-1 text-[12.5px] text-foreground" onClick={() => editSummary(key, label)}>
                 <span>{summary[key]}</span><Pencil className="size-3.5 text-muted-foreground" />
-              </button>
+              </Button>
             </div>
           ))}
         </div>
@@ -232,9 +232,7 @@ export function ProjectInformationTree({
             <span className="text-muted-foreground">项目时间进度</span>
             <span className="font-semibold text-primary">{summary.progress}%</span>
           </div>
-          <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-secondary">
-            <div className="h-full rounded-full bg-primary" style={{ width: `${Math.min(100, Math.max(0, summary.progress))}%` }} />
-          </div>
+          <progress className="mt-1.5 block h-1.5 w-full overflow-hidden rounded-full accent-primary" max={100} value={Math.min(100, Math.max(0, summary.progress))} aria-label="项目时间进度" />
         </div>
 
         <div className="mt-3 grid grid-cols-3 gap-3 border-t border-border/70 pt-3">
