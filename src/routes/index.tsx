@@ -246,7 +246,8 @@ function Chat() {
         </div>
       </div>
 
-      <FloatingTicketButton />
+      <FloatingTicketButton onClick={() => setTicketOpen(true)} />
+      <TicketCreateSheet open={ticketOpen} onOpenChange={setTicketOpen} />
     </PageShell>
 
   );
