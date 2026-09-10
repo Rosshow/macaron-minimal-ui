@@ -16,6 +16,7 @@ import { PageShell } from "@/components/Shell";
 import { Tag } from "@/components/Tag";
 import { HistorySessions } from "@/components/HistorySessions";
 import { FloatingTicketButton } from "@/components/FloatingTicketButton";
+import { TicketCreateSheet } from "@/components/ticket/TicketCreateSheet";
 
 import { cn } from "@/lib/utils";
 
