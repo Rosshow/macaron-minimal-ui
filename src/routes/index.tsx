@@ -53,6 +53,7 @@ const initialMessages = [
 
 function Chat() {
   const [inputValue, setInputValue] = useState("");
+  const [ticketOpen, setTicketOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
   const [feedback, setFeedback] = useState<Record<number, "like" | "dislike" | null>>({});
   const textareaRef = useRef<HTMLTextAreaElement>(null);
