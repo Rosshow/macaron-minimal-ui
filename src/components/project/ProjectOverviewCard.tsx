@@ -54,9 +54,6 @@ export function ProjectOverviewCard({
           <div className="text-[10.5px] text-muted-foreground">· 企业微信记录ID: {summary.wecomId}</div>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1.5">
-          {summary.tags.map((tag) => (
-            <span key={tag} className="rounded-full bg-primary px-2.5 py-1 text-[10px] font-semibold text-primary-foreground">{tag} ›</span>
-          ))}
           <span className="rounded-full bg-foreground px-2.5 py-1 text-[10px] font-semibold text-background">{summary.urgent} ›</span>
         </div>
       </div>
