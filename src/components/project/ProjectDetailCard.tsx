@@ -90,9 +90,9 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
           <Button size="sm" variant="ghost" onClick={() => setSelected(new Set())}>清空</Button>
         </div>
       </div>
-      <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+      <div className="mt-2 flex flex-wrap gap-2">
         {roots.map((node) => (
-          <Button key={node.id} size="sm" variant={selected.has(node.id) ? "default" : "outline"} className="shrink-0" onClick={() => toggle(node.id)}>
+          <Button key={node.id} size="sm" variant={selected.has(node.id) ? "default" : "outline"} onClick={() => toggle(node.id)}>
             {node.title}
           </Button>
         ))}
