@@ -273,6 +273,68 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
       </Sheet>
 
       <SharedDocDialog open={docOpen} onOpenChange={setDocOpen} value={doc} onChange={setDoc} />
+
+      {/* 补充信息：侧滑抽屉，直接编辑云端项目信息 */}
+      <Sheet open={supplementOpen} onOpenChange={setSupplementOpen}>
+        <SheetContent side="right" className="w-full overflow-y-auto p-4 sm:max-w-lg">
+          <SheetHeader className="space-y-1 p-0 text-left">
+            <SheetTitle className="text-[15px]">补充项目信息</SheetTitle>
+            <p className="text-[11.5px] text-muted-foreground">
+              编辑后自动保存到云端，共享文档中的背景信息同步更新。
+            </p>
+          </SheetHeader>
+          <div className="mt-3">
+            {projectCode ? (
+              <ProjectInformationTree projectCode={projectCode} projectName={projectName} />
+            ) : null}
+          </div>
+          <Button className="mt-3 w-full" onClick={() => setSupplementOpen(false)}>完成</Button>
+        </SheetContent>
+      </Sheet>
+
+      {/* 提单给他人补充（示例态） */}
+      <Dialog open={assignOpen} onOpenChange={setAssignOpen}>
+        <DialogContent className="max-w-md p-4">
+          <DialogHeader className="text-left">
+            <DialogTitle className="text-[15px]">提单给他人补充</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <span className="text-[11.5px] text-muted-foreground">待补充信息</span>
+              <p className="text-[12.5px]">{incompleteTags.map(tagTitle).join("、") || "无"}</p>
+            </div>
+            <Field label="接单人">
+              <select className={selectClass} value={assignee} onChange={(e) => setAssignee(e.target.value)}>
+                {projectMembers.map((member) => (
+                  <option key={member.name} value={member.name}>
+                    {member.name}（{member.role}）
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="备注">
+              <Textarea
+                rows={3}
+                value={assignNote}
+                onChange={(e) => setAssignNote(e.target.value)}
+                placeholder="请补充上述项目背景信息"
+                className="text-[12.5px] leading-6"
+              />
+            </Field>
+            <Button
+              className="w-full"
+              onClick={() => {
+                setPendingTagIds(incompleteTags);
+                setSkipWarning(true);
+                setAssignOpen(false);
+                toast.success(`补充工单已发送给 ${assignee}`);
+              }}
+            >
+              发送补充工单
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
