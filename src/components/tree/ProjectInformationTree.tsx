@@ -257,7 +257,7 @@ export function ProjectInformationTree({
 
 type TreeRowProps = {
   node: ProjectNode; depth: number; byParent: Map<string | null, ProjectNode[]>; collapsed: Set<string>;
-  editingId: string | null; missingCount?: number; draggingId: string | null; dropTarget: { id: string; mode: "child" | "before" } | null;
+  editingId: string | null; missingCount?: number | undefined; draggingId: string | null; dropTarget: { id: string; mode: "child" | "before" } | null;
   onEdit: (id: string | null) => void; onToggle: (id: string) => void; onAdd: (node: ProjectNode) => void;
   onSave: (id: string, updates: { title?: string; contentType?: ContentType; value?: unknown; parentId?: string | null; sortOrder?: number }) => void;
   onDelete: (id: string) => void; onHistory: (node: ProjectNode) => void; onHoldStart: (id: string) => void; onHoldEnd: () => void;
