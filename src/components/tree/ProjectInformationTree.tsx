@@ -208,6 +208,7 @@ export function ProjectInformationTree({
             <div key={root.id}>
               <TreeRow
                 node={root} depth={1} byParent={byParent} collapsed={collapsed} editingId={editingId}
+                missingCount={completeness.get(root.id)?.empty ?? 0}
                 draggingId={draggingId} dropTarget={dropTarget} onEdit={setEditingId}
                 onToggle={(id) => setCollapsed((current) => { const next = new Set(current); next.has(id) ? next.delete(id) : next.add(id); return next; })}
                 onAdd={addNode} onSave={saveNode}
@@ -256,7 +257,7 @@ export function ProjectInformationTree({
 
 type TreeRowProps = {
   node: ProjectNode; depth: number; byParent: Map<string | null, ProjectNode[]>; collapsed: Set<string>;
-  editingId: string | null; draggingId: string | null; dropTarget: { id: string; mode: "child" | "before" } | null;
+  editingId: string | null; missingCount?: number; draggingId: string | null; dropTarget: { id: string; mode: "child" | "before" } | null;
   onEdit: (id: string | null) => void; onToggle: (id: string) => void; onAdd: (node: ProjectNode) => void;
   onSave: (id: string, updates: { title?: string; contentType?: ContentType; value?: unknown; parentId?: string | null; sortOrder?: number }) => void;
   onDelete: (id: string) => void; onHistory: (node: ProjectNode) => void; onHoldStart: (id: string) => void; onHoldEnd: () => void;
