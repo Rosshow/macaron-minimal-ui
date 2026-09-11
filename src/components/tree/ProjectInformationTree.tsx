@@ -265,7 +265,7 @@ type TreeRowProps = {
 };
 
 function TreeRow(props: TreeRowProps) {
-  const { node, depth, byParent, collapsed, editingId, draggingId, dropTarget } = props;
+  const { node, depth, byParent, collapsed, editingId, missingCount, draggingId, dropTarget } = props;
   const children = byParent.get(node.id) ?? [];
   const isLeaf = children.length === 0;
   const isCollapsed = collapsed.has(node.id);
@@ -333,6 +333,9 @@ function TreeRow(props: TreeRowProps) {
             <span className={cn("min-w-0 font-semibold", depthText, depth === 1 ? "text-[14px]" : "text-[12.5px]")}>{node.title}</span>
           )}
           <div className="ml-auto flex items-center gap-0.5" onPointerDown={(event) => event.stopPropagation()}>
+            {depth === 1 && missingCount ? (
+              <span className="mr-1 rounded-full bg-card/20 px-1.5 py-0.5 text-[10px] font-semibold text-primary-foreground" title={`${missingCount} 项信息未填写`}>缺 {missingCount}</span>
+            ) : null}
             <Button variant="ghost" size="icon" className={cn("size-8", depthText, depthAction)} onClick={() => props.onAdd(node)} aria-label={`在${node.title}下新增`}><Plus /></Button>
             <Button variant="ghost" size="icon" className={cn("size-8", depthText, depthAction)} onClick={() => props.onHistory(node)} aria-label={`查看${node.title}的编辑历史`}><History /></Button>
             <NodeMenu node={node} isLeaf={isLeaf} titleOptions={titleOptions} depthText={cn(depthText, depthAction)} onEdit={() => props.onEdit(node.id)} onSave={props.onSave} onDelete={props.onDelete} />
@@ -340,7 +343,7 @@ function TreeRow(props: TreeRowProps) {
         </div>
         {isLeaf ? <NodeContent node={node} onSave={props.onSave} /> : null}
       </div>
-      {!isCollapsed && children.map((child) => <TreeRow key={child.id} {...props} node={child} depth={depth + 1} />)}
+      {!isCollapsed && children.map((child) => <TreeRow key={child.id} {...props} node={child} depth={depth + 1} missingCount={undefined} />)}
     </div>
   );
 }
