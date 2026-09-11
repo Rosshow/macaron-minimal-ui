@@ -12,6 +12,7 @@ import {
   MoreHorizontal,
   Plus,
   Trash2,
+  Upload,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NodeImportDialog } from "@/components/tree/NodeImportDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { nodeEditHistory } from "@/data/mock";
 import {
@@ -80,6 +82,7 @@ export function ProjectInformationTree({
   const [collapsed, setCollapsed] = useState(() => readStoredSet(collapsedKey));
   const [editingId, setEditingId] = useState<string | null>(null);
   const [historyNode, setHistoryNode] = useState<ProjectNode | null>(null);
+  const [importOpen, setImportOpen] = useState(false);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<{ id: string; mode: "child" | "before" } | null>(null);
   const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -205,6 +208,14 @@ export function ProjectInformationTree({
           ))}
         </div>
       </section>
+
+      <NodeImportDialog
+        open={importOpen}
+        onOpenChange={setImportOpen}
+        projectCode={projectCode}
+        nodes={nodes}
+        onApplied={() => queryClient.invalidateQueries({ queryKey })}
+      />
 
       <Dialog open={historyNode !== null} onOpenChange={(open) => !open && setHistoryNode(null)}>
         <DialogContent className="max-w-sm">
