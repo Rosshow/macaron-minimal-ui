@@ -31,10 +31,10 @@ export function ProjectActivityCard() {
         {projectKeyChanges.map((item) => (
           <li
             key={`${item.time}-${item.text}`}
-            className="flex items-center gap-2 rounded-lg bg-secondary/60 px-2.5 py-2 text-[11.5px]"
+            className="flex items-baseline gap-2 rounded-lg bg-secondary/60 px-2.5 py-2 text-[11.5px]"
           >
             <span className="shrink-0 font-semibold text-blue-2">{item.kind}</span>
-            <span className="min-w-0 flex-1 truncate">{item.text}</span>
+            <span className="min-w-0 flex-1">{item.text}</span>
             <span className="shrink-0 text-muted-foreground">{item.operator}</span>
             <span className="shrink-0 text-[10.5px] text-muted-foreground">{item.time}</span>
           </li>
