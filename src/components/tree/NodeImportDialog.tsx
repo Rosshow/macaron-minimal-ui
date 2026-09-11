@@ -19,7 +19,9 @@ type Row = ImportedItem & {
 async function extractText(file: File): Promise<string> {
   const name = file.name.toLowerCase();
   if (name.endsWith(".docx")) {
-    const mammoth = await import("mammoth/mammoth.browser");
+    const mammoth = (await import("mammoth/mammoth.browser")) as {
+      extractRawText: (input: { arrayBuffer: ArrayBuffer }) => Promise<{ value: string }>;
+    };
     const result = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
     return result.value;
   }
@@ -174,7 +176,7 @@ export function NodeImportDialog({
         const parent = wanted.length
           ? nodes.find((node) => node.title === wanted[wanted.length - 1]) ?? roots.find((node) => wanted.includes(node.title))
           : undefined;
-        let parentId = parent?.id ?? fallbackParentId;
+        let parentId: string | null = parent?.id ?? fallbackParentId;
         if (!parentId) {
           const existing = roots.find((node) => node.title === "导入信息");
           if (existing) parentId = existing.id;
