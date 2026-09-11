@@ -85,7 +85,7 @@ export const updateProjectNode = createServerFn({ method: "POST" })
       .eq("id", data.id)
       .select()
       .single();
-    if (error) throw new Error("节点保存失败");
+    if (error) throw new Error(`节点保存失败：${error.message}`);
     return row;
   });
 
