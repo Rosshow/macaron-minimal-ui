@@ -66,18 +66,38 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
   });
 
   const roots = useMemo(() => nodes.filter((node) => node.parent_id === null), [nodes]);
+  const completeness = useMemo(() => computeTagCompleteness(nodes), [nodes]);
 
-  useEffect(() => setSelectedTags([]), [projectCode]);
+  const incompleteTags = useMemo(
+    () => selectedTags.filter((id) => completeness.get(id)?.incomplete),
+    [selectedTags, completeness],
+  );
+  const tagTitle = (id: string) => roots.find((node) => node.id === id)?.title ?? "标签";
+  const pendingTitles = useMemo(
+    () => pendingTagIds.filter((id) => selectedTags.includes(id)).map(tagTitle),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pendingTagIds, selectedTags, roots],
+  );
+
+  useEffect(() => {
+    setSelectedTags([]);
+    setPendingTagIds([]);
+    setSkipWarning(false);
+  }, [projectCode]);
 
   // 勾选变化时只重算自动段，保留用户补充内容
   useEffect(() => {
     setDoc((current) =>
-      mergeDoc(buildAutoSection(nodes, selectedTags, projectName || "未选择项目"), current),
+      mergeDoc(buildAutoSection(nodes, selectedTags, projectName || "未选择项目", pendingTitles), current),
     );
-  }, [nodes, selectedTags, projectName]);
+  }, [nodes, selectedTags, projectName, pendingTitles]);
 
   const toggleTag = (id: string) =>
-    setSelectedTags((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
+    setSelectedTags((current) => {
+      if (current.includes(id)) return current.filter((item) => item !== id);
+      setSkipWarning(false);
+      return [...current, id];
+    });
 
   const deadlineText = useMemo(() => {
     const date = new Date(Date.now() + deadlineDays * 86400000);
