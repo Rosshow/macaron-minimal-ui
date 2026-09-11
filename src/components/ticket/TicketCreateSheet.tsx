@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { FileText, X } from "lucide-react";
+import { AlertTriangle, FileText, X } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tag } from "@/components/Tag";
 import { toast } from "sonner";
-import { projects } from "@/data/mock";
+import { projectMembers, projects } from "@/data/mock";
 import { getProjectNodes } from "@/lib/project-tree.functions";
+import { computeTagCompleteness } from "@/lib/node-completeness";
 import { buildAutoSection, DEFAULT_MANUAL_SECTION, mergeDoc } from "@/lib/shared-doc";
+import { ProjectInformationTree } from "@/components/tree/ProjectInformationTree";
 import { SharedDocDialog } from "./SharedDocDialog";
 import { cn } from "@/lib/utils";
 
@@ -47,6 +50,12 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [doc, setDoc] = useState(DEFAULT_MANUAL_SECTION);
   const [docOpen, setDocOpen] = useState(false);
+  const [skipWarning, setSkipWarning] = useState(false);
+  const [supplementOpen, setSupplementOpen] = useState(false);
+  const [assignOpen, setAssignOpen] = useState(false);
+  const [assignee, setAssignee] = useState(projectMembers[0]!.name);
+  const [assignNote, setAssignNote] = useState("");
+  const [pendingTagIds, setPendingTagIds] = useState<string[]>([]);
 
   const projectName = projects.find((item) => item.code === projectCode)?.name ?? "";
 
@@ -57,18 +66,38 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
   });
 
   const roots = useMemo(() => nodes.filter((node) => node.parent_id === null), [nodes]);
+  const completeness = useMemo(() => computeTagCompleteness(nodes), [nodes]);
 
-  useEffect(() => setSelectedTags([]), [projectCode]);
+  const incompleteTags = useMemo(
+    () => selectedTags.filter((id) => completeness.get(id)?.incomplete),
+    [selectedTags, completeness],
+  );
+  const tagTitle = (id: string) => roots.find((node) => node.id === id)?.title ?? "标签";
+  const pendingTitles = useMemo(
+    () => pendingTagIds.filter((id) => selectedTags.includes(id)).map(tagTitle),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pendingTagIds, selectedTags, roots],
+  );
+
+  useEffect(() => {
+    setSelectedTags([]);
+    setPendingTagIds([]);
+    setSkipWarning(false);
+  }, [projectCode]);
 
   // 勾选变化时只重算自动段，保留用户补充内容
   useEffect(() => {
     setDoc((current) =>
-      mergeDoc(buildAutoSection(nodes, selectedTags, projectName || "未选择项目"), current),
+      mergeDoc(buildAutoSection(nodes, selectedTags, projectName || "未选择项目", pendingTitles), current),
     );
-  }, [nodes, selectedTags, projectName]);
+  }, [nodes, selectedTags, projectName, pendingTitles]);
 
   const toggleTag = (id: string) =>
-    setSelectedTags((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
+    setSelectedTags((current) => {
+      if (current.includes(id)) return current.filter((item) => item !== id);
+      setSkipWarning(false);
+      return [...current, id];
+    });
 
   const deadlineText = useMemo(() => {
     const date = new Date(Date.now() + deadlineDays * 86400000);
@@ -170,18 +199,51 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
                 <p className="text-[11.5px] text-muted-foreground">该项目暂无信息标签</p>
               ) : (
                 <div className="flex flex-wrap gap-1.5">
-                  {roots.map((node) => (
-                    <Button
-                      key={node.id}
-                      size="sm"
-                      variant={selectedTags.includes(node.id) ? "default" : "outline"}
-                      onClick={() => toggleTag(node.id)}
-                    >
-                      {node.title}
-                    </Button>
-                  ))}
+                  {roots.map((node) => {
+                    const selected = selectedTags.includes(node.id);
+                    const warn = selected && completeness.get(node.id)?.incomplete;
+                    return (
+                      <div key={node.id} className="relative">
+                        <Button
+                          size="sm"
+                          variant={selected ? "default" : "outline"}
+                          onClick={() => toggleTag(node.id)}
+                        >
+                          {node.title}
+                        </Button>
+                        {warn ? (
+                          <span
+                            aria-label="信息不全"
+                            className="pointer-events-none absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground"
+                          >
+                            !
+                          </span>
+                        ) : null}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
+
+              {incompleteTags.length > 0 && !skipWarning ? (
+                <div className="space-y-2 rounded-lg border border-destructive/40 bg-destructive/5 p-2.5">
+                  <p className="flex items-start gap-1.5 text-[11.5px] text-destructive">
+                    <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
+                    当前问题缺少有效信息，可能影响问题定位（{incompleteTags.map(tagTitle).join("、")}）
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <Button size="sm" onClick={() => setSupplementOpen(true)}>补充信息</Button>
+                    <Button size="sm" variant="outline" onClick={() => setAssignOpen(true)}>提单给他人补充</Button>
+                    <Button size="sm" variant="ghost" onClick={() => setSkipWarning(true)}>暂时跳过</Button>
+                  </div>
+                </div>
+              ) : null}
+
+              {pendingTitles.length > 0 ? (
+                <p className="text-[11px] text-blue-2">
+                  已提单待他人补充：{pendingTitles.join("、")}
+                </p>
+              ) : null}
 
               {selectedTags.length > 0 ? (
                 <div className="flex flex-wrap gap-1.5 border-t border-border/70 pt-2">
@@ -211,6 +273,68 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
       </Sheet>
 
       <SharedDocDialog open={docOpen} onOpenChange={setDocOpen} value={doc} onChange={setDoc} />
+
+      {/* 补充信息：侧滑抽屉，直接编辑云端项目信息 */}
+      <Sheet open={supplementOpen} onOpenChange={setSupplementOpen}>
+        <SheetContent side="right" className="w-full overflow-y-auto p-4 sm:max-w-lg">
+          <SheetHeader className="space-y-1 p-0 text-left">
+            <SheetTitle className="text-[15px]">补充项目信息</SheetTitle>
+            <p className="text-[11.5px] text-muted-foreground">
+              编辑后自动保存到云端，共享文档中的背景信息同步更新。
+            </p>
+          </SheetHeader>
+          <div className="mt-3">
+            {projectCode ? (
+              <ProjectInformationTree projectCode={projectCode} projectName={projectName} />
+            ) : null}
+          </div>
+          <Button className="mt-3 w-full" onClick={() => setSupplementOpen(false)}>完成</Button>
+        </SheetContent>
+      </Sheet>
+
+      {/* 提单给他人补充（示例态） */}
+      <Dialog open={assignOpen} onOpenChange={setAssignOpen}>
+        <DialogContent className="max-w-md p-4">
+          <DialogHeader className="text-left">
+            <DialogTitle className="text-[15px]">提单给他人补充</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <span className="text-[11.5px] text-muted-foreground">待补充信息</span>
+              <p className="text-[12.5px]">{incompleteTags.map(tagTitle).join("、") || "无"}</p>
+            </div>
+            <Field label="接单人">
+              <select className={selectClass} value={assignee} onChange={(e) => setAssignee(e.target.value)}>
+                {projectMembers.map((member) => (
+                  <option key={member.name} value={member.name}>
+                    {member.name}（{member.role}）
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="备注">
+              <Textarea
+                rows={3}
+                value={assignNote}
+                onChange={(e) => setAssignNote(e.target.value)}
+                placeholder="请补充上述项目背景信息"
+                className="text-[12.5px] leading-6"
+              />
+            </Field>
+            <Button
+              className="w-full"
+              onClick={() => {
+                setPendingTagIds(incompleteTags);
+                setSkipWarning(true);
+                setAssignOpen(false);
+                toast.success(`补充工单已发送给 ${assignee}`);
+              }}
+            >
+              发送补充工单
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

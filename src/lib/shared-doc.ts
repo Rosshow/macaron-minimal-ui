@@ -31,6 +31,7 @@ export function buildAutoSection(
   nodes: ProjectNode[],
   selectedRootIds: string[],
   projectName: string,
+  pendingTitles: string[] = [],
 ): string {
   const byParent = new Map<string | null, ProjectNode[]>();
   nodes.forEach((node) => {
@@ -40,7 +41,13 @@ export function buildAutoSection(
   });
   byParent.forEach((list) => list.sort((a, b) => a.sort_order - b.sort_order));
 
-  const lines: string[] = [`# 问题共享文档`, ``, `> 项目：${projectName}`, ``, `## 项目背景信息`, ``];
+  const lines: string[] = [`# 问题共享文档`, ``, `> 项目：${projectName}`, ``];
+
+  if (pendingTitles.length > 0) {
+    lines.push(`> 等待他人补充：${pendingTitles.join("、")}`, ``);
+  }
+
+  lines.push(`## 项目背景信息`, ``);
 
   const roots = (byParent.get(null) ?? []).filter((node) => selectedRootIds.includes(node.id));
   if (roots.length === 0) {
