@@ -50,6 +50,12 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [doc, setDoc] = useState(DEFAULT_MANUAL_SECTION);
   const [docOpen, setDocOpen] = useState(false);
+  const [skipWarning, setSkipWarning] = useState(false);
+  const [supplementOpen, setSupplementOpen] = useState(false);
+  const [assignOpen, setAssignOpen] = useState(false);
+  const [assignee, setAssignee] = useState(projectMembers[0]!.name);
+  const [assignNote, setAssignNote] = useState("");
+  const [pendingTagIds, setPendingTagIds] = useState<string[]>([]);
 
   const projectName = projects.find((item) => item.code === projectCode)?.name ?? "";
 
