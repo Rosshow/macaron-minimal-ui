@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil } from "lucide-react";
+import { AlertTriangle, ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { getProjectNodes, type ProjectNode } from "@/lib/project-tree.functions";
+import { computeTagCompleteness } from "@/lib/node-completeness";
 import { cn } from "@/lib/utils";
 
 function readStoredBool(key: string) {
@@ -77,6 +78,7 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
     return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
   });
   const visibleRoots = selected.size === 0 ? roots : roots.filter((node) => selected.has(node.id));
+  const completeness = useMemo(() => computeTagCompleteness(nodes), [nodes]);
 
   const toggle = (id: string) => setSelected((current) => {
     const next = new Set(current);
@@ -113,6 +115,9 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
         {roots.map((node) => (
           <Button key={node.id} size="sm" variant={selected.has(node.id) ? "default" : "outline"} onClick={() => toggle(node.id)}>
             {node.title}
+            {completeness.get(node.id)?.incomplete ? (
+              <AlertTriangle className="size-3.5 text-amber-500" aria-label="该标签信息不完整" />
+            ) : null}
           </Button>
         ))}
       </div>
