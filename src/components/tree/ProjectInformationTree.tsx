@@ -12,6 +12,7 @@ import {
   MoreHorizontal,
   Plus,
   Trash2,
+  Upload,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NodeImportDialog } from "@/components/tree/NodeImportDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { nodeEditHistory } from "@/data/mock";
 import {
@@ -80,6 +82,7 @@ export function ProjectInformationTree({
   const [collapsed, setCollapsed] = useState(() => readStoredSet(collapsedKey));
   const [editingId, setEditingId] = useState<string | null>(null);
   const [historyNode, setHistoryNode] = useState<ProjectNode | null>(null);
+  const [importOpen, setImportOpen] = useState(false);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<{ id: string; mode: "child" | "before" } | null>(null);
   const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -178,7 +181,10 @@ export function ProjectInformationTree({
             <h2 className="text-[14px] font-semibold">信息节点</h2>
             <p className="mt-0.5 text-[10.5px] text-muted-foreground">{projectName} · 长按节点可拖动调整从属</p>
           </div>
-          <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <Button size="sm" variant="outline" onClick={() => setImportOpen(true)}><Upload />文件导入</Button>
+            <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
+          </div>
         </div>
         <div className="mt-4 space-y-3">
           {roots.length === 0 ? (
@@ -202,6 +208,14 @@ export function ProjectInformationTree({
           ))}
         </div>
       </section>
+
+      <NodeImportDialog
+        open={importOpen}
+        onOpenChange={setImportOpen}
+        projectCode={projectCode}
+        nodes={nodes}
+        onApplied={() => queryClient.invalidateQueries({ queryKey })}
+      />
 
       <Dialog open={historyNode !== null} onOpenChange={(open) => !open && setHistoryNode(null)}>
         <DialogContent className="max-w-sm">
