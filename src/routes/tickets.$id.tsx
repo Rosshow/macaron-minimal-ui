@@ -11,12 +11,14 @@ import {
 } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Avatar } from "@/components/Bits";
-import { tickets, type Ticket } from "@/data/mock";
+import { projectTickets, tickets, type Ticket } from "@/data/mock";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/tickets/$id")({
   loader: ({ params }) => {
-    const ticket = tickets.find((t) => t.id === params.id);
+    const ticket =
+      tickets.find((t) => t.id === params.id) ??
+      projectTickets.find((t) => t.id === params.id);
     if (!ticket) throw notFound();
     return ticket;
   },
