@@ -391,6 +391,14 @@ function FileContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps
     if (error) { toast.error("上传失败"); return; }
     onSave(node.id, { value: { path, name: selectedFile.name, size: selectedFile.size } });
   }
+  async function removeFile() {
+    if (!file) return;
+    if (!window.confirm(`删除${node.content_type === "image" ? "图片" : "文件"}“${file.name}”？`)) return;
+    await supabase.storage.from("project-files").remove([file.path]);
+    setPreview(null);
+    if (inputRef.current) inputRef.current.value = "";
+    onSave(node.id, { value: {} });
+  }
   return (
     <div className="mt-2 pl-10" onPointerDown={(event) => event.stopPropagation()}>
       <input ref={inputRef} type="file" className="hidden" accept={node.content_type === "image" ? "image/*" : undefined} onChange={(event) => { const selectedFile = event.target.files?.[0]; if (selectedFile) void upload(selectedFile); }} />
