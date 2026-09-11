@@ -1,5 +1,5 @@
-import { ArrowRight, GitBranch, Milestone } from "lucide-react";
-import { projectStageChanges, projectTicketMonthly, projectVersionChanges } from "@/data/mock";
+import { ArrowRight, GitBranch, History, Milestone } from "lucide-react";
+import { projectKeyChanges, projectStageChanges, projectTicketMonthly, projectVersionChanges } from "@/data/mock";
 
 export function ProjectActivityCard() {
   const max = Math.max(...projectTicketMonthly.map((item) => item.value), 1);

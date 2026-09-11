@@ -219,6 +219,21 @@ export const projectVersionChanges = [
   { version: "v2.6.4", time: "2026-08-22 10:05", note: "修复库位地图导入偶发失败" },
 ];
 
+/** 关键变动：只保留最重要的几条（时间/节点），含操作人 */
+export type ProjectKeyChange = {
+  kind: "时间" | "节点";
+  text: string;
+  operator: string;
+  time: string;
+};
+
+export const projectKeyChanges: ProjectKeyChange[] = [
+  { kind: "节点", text: "即将进场 → 正在实施", operator: "罗昊", time: "2026-09-09" },
+  { kind: "时间", text: "最终交付由 2026-10-30 调整为 2026-11-15", operator: "罗昊", time: "2026-09-05" },
+  { kind: "节点", text: "出厂测试 → 即将进场", operator: "张俊磊", time: "2026-09-02" },
+  { kind: "时间", text: "部署时间由 2026-08-20 提前至 2026-08-15", operator: "毛梦晴", time: "2026-08-10" },
+];
+
 export const projectTicketMonthly: { key: string; year: number; month: number; value: number }[] = [
   ["2026-04", 3], ["2026-05", 5], ["2026-06", 2], ["2026-07", 6], ["2026-08", 4], ["2026-09", 5],
 ].map(([k, v]) => ({
