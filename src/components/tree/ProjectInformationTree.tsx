@@ -401,6 +401,7 @@ function FileContent({ node, onSave }: { node: ProjectNode; onSave: TreeRowProps
             {node.content_type === "image" ? <ImageIcon className="size-4" /> : <FileText className="size-4" />}
             <span className="min-w-0 flex-1 truncate">{file.name}</span><span className="text-muted-foreground">{formatSize(file.size)}</span>
             {preview ? <Button variant="ghost" size="icon" className="size-8" asChild><a href={preview} download={file.name} aria-label="下载"><Download /></a></Button> : null}
+            <Button variant="ghost" size="icon" className="size-8 text-destructive" aria-label={node.content_type === "image" ? "删除图片" : "删除文件"} onClick={() => void removeFile()}><Trash2 /></Button>
           </div>
         </div>
       ) : <Button size="sm" variant="secondary" onClick={() => inputRef.current?.click()}>{node.content_type === "image" ? <ImageIcon /> : <FileText />}选择{node.content_type === "image" ? "图片" : "文件"}</Button>}
