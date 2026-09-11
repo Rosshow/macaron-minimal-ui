@@ -1,5 +1,5 @@
-import { ArrowRight, GitBranch, Milestone } from "lucide-react";
-import { projectStageChanges, projectTicketMonthly, projectVersionChanges } from "@/data/mock";
+import { ArrowRight, GitBranch, History, Milestone } from "lucide-react";
+import { projectKeyChanges, projectStageChanges, projectTicketMonthly, projectVersionChanges } from "@/data/mock";
 
 export function ProjectActivityCard() {
   const max = Math.max(...projectTicketMonthly.map((item) => item.value), 1);
@@ -23,6 +23,23 @@ export function ProjectActivityCard() {
           </li>
         ))}
       </ol>
+
+      <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold">
+        <History className="size-3.5 text-blue-2" />关键变动
+      </div>
+      <ul className="mt-2 space-y-1.5">
+        {projectKeyChanges.map((item) => (
+          <li
+            key={`${item.time}-${item.text}`}
+            className="flex items-baseline gap-2 rounded-lg bg-secondary/60 px-2.5 py-2 text-[11.5px]"
+          >
+            <span className="shrink-0 font-semibold text-blue-2">{item.kind}</span>
+            <span className="min-w-0 flex-1">{item.text}</span>
+            <span className="shrink-0 text-muted-foreground">{item.operator}</span>
+            <span className="shrink-0 text-[10.5px] text-muted-foreground">{item.time}</span>
+          </li>
+        ))}
+      </ul>
 
       <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold">工单增加变化趋势</div>
       <div className="mt-2 flex h-28 items-end gap-2">
