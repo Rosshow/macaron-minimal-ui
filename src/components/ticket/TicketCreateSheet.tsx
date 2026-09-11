@@ -199,18 +199,51 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
                 <p className="text-[11.5px] text-muted-foreground">该项目暂无信息标签</p>
               ) : (
                 <div className="flex flex-wrap gap-1.5">
-                  {roots.map((node) => (
-                    <Button
-                      key={node.id}
-                      size="sm"
-                      variant={selectedTags.includes(node.id) ? "default" : "outline"}
-                      onClick={() => toggleTag(node.id)}
-                    >
-                      {node.title}
-                    </Button>
-                  ))}
+                  {roots.map((node) => {
+                    const selected = selectedTags.includes(node.id);
+                    const warn = selected && completeness.get(node.id)?.incomplete;
+                    return (
+                      <div key={node.id} className="relative">
+                        <Button
+                          size="sm"
+                          variant={selected ? "default" : "outline"}
+                          onClick={() => toggleTag(node.id)}
+                        >
+                          {node.title}
+                        </Button>
+                        {warn ? (
+                          <span
+                            aria-label="信息不全"
+                            className="pointer-events-none absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground"
+                          >
+                            !
+                          </span>
+                        ) : null}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
+
+              {incompleteTags.length > 0 && !skipWarning ? (
+                <div className="space-y-2 rounded-lg border border-destructive/40 bg-destructive/5 p-2.5">
+                  <p className="flex items-start gap-1.5 text-[11.5px] text-destructive">
+                    <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
+                    当前问题缺少有效信息，可能影响问题定位（{incompleteTags.map(tagTitle).join("、")}）
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <Button size="sm" onClick={() => setSupplementOpen(true)}>补充信息</Button>
+                    <Button size="sm" variant="outline" onClick={() => setAssignOpen(true)}>提单给他人补充</Button>
+                    <Button size="sm" variant="ghost" onClick={() => setSkipWarning(true)}>暂时跳过</Button>
+                  </div>
+                </div>
+              ) : null}
+
+              {pendingTitles.length > 0 ? (
+                <p className="text-[11px] text-blue-2">
+                  已提单待他人补充：{pendingTitles.join("、")}
+                </p>
+              ) : null}
 
               {selectedTags.length > 0 ? (
                 <div className="flex flex-wrap gap-1.5 border-t border-border/70 pt-2">
