@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import {
   ChevronDown,
   ChevronRight,
+  ChevronsDownUp,
+  ChevronsUpDown,
   Download,
   FileText,
   GripVertical,
@@ -32,6 +34,7 @@ import {
 import { NodeImportDialog } from "@/components/tree/NodeImportDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { nodeEditHistory } from "@/data/mock";
+import { computeTagCompleteness } from "@/lib/node-completeness";
 import {
   createProjectNode,
   deleteProjectNode,
