@@ -1,5 +1,5 @@
-import { ArrowRight, GitBranch, History, Milestone } from "lucide-react";
-import { projectKeyChanges, projectStageChanges, projectTicketMonthly, projectVersionChanges } from "@/data/mock";
+import { GitBranch, History } from "lucide-react";
+import { projectKeyChanges, projectTicketMonthly, projectVersionChanges } from "@/data/mock";
 
 export function ProjectActivityCard() {
   const max = Math.max(...projectTicketMonthly.map((item) => item.value), 1);
@@ -56,19 +56,6 @@ export function ProjectActivityCard() {
         ))}
       </div>
 
-      <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold">
-        <Milestone className="size-3.5 text-blue-2" />项目阶段变化
-      </div>
-      <ul className="mt-2 space-y-1.5">
-        {projectStageChanges.map((item) => (
-          <li key={item.time} className="flex items-center gap-2 rounded-lg bg-secondary/60 px-2.5 py-2 text-[11.5px]">
-            <span className="text-muted-foreground">{item.from}</span>
-            <ArrowRight className="size-3.5 text-blue-2" />
-            <span className="font-semibold">{item.to}</span>
-            <span className="ml-auto text-[10.5px] text-muted-foreground">{item.time}</span>
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }
