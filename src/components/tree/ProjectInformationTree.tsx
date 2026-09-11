@@ -178,7 +178,10 @@ export function ProjectInformationTree({
             <h2 className="text-[14px] font-semibold">信息节点</h2>
             <p className="mt-0.5 text-[10.5px] text-muted-foreground">{projectName} · 长按节点可拖动调整从属</p>
           </div>
-          <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <Button size="sm" variant="outline" onClick={() => setImportOpen(true)}><Upload />文件导入</Button>
+            <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
+          </div>
         </div>
         <div className="mt-4 space-y-3">
           {roots.length === 0 ? (
