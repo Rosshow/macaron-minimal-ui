@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { FileText, X } from "lucide-react";
+import { AlertTriangle, FileText, X } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tag } from "@/components/Tag";
 import { toast } from "sonner";
-import { projects } from "@/data/mock";
+import { projectMembers, projects } from "@/data/mock";
 import { getProjectNodes } from "@/lib/project-tree.functions";
+import { computeTagCompleteness } from "@/lib/node-completeness";
 import { buildAutoSection, DEFAULT_MANUAL_SECTION, mergeDoc } from "@/lib/shared-doc";
+import { ProjectInformationTree } from "@/components/tree/ProjectInformationTree";
 import { SharedDocDialog } from "./SharedDocDialog";
 import { cn } from "@/lib/utils";
 
