@@ -189,9 +189,9 @@ export function ProjectInformationTree({
     <div className="space-y-3">
       <section className="surface-card overflow-hidden p-4">
         <div className="flex items-center justify-between gap-3 border-b border-border/70 pb-3">
-          <div className="min-w-0">
+          <div className="min-w-0 shrink">
             <h2 className="text-[14px] font-semibold">信息节点</h2>
-            <p className="mt-0.5 text-[10.5px] text-muted-foreground">{projectName} · 长按节点可拖动调整从属</p>
+            <p className="mt-0.5 hidden text-[10.5px] text-muted-foreground min-[480px]:block">{projectName} · 长按节点可拖动调整从属</p>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
             <Button size="icon" variant="ghost" className="size-8" onClick={expandAll} aria-label="全部展开" title="全部展开"><ChevronsUpDown /></Button>
