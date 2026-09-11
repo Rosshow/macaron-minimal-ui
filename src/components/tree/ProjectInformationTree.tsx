@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import {
   ChevronDown,
   ChevronRight,
+  ChevronsDownUp,
+  ChevronsUpDown,
   Download,
   FileText,
   GripVertical,
@@ -32,6 +34,7 @@ import {
 import { NodeImportDialog } from "@/components/tree/NodeImportDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { nodeEditHistory } from "@/data/mock";
+import { computeTagCompleteness } from "@/lib/node-completeness";
 import {
   createProjectNode,
   deleteProjectNode,
@@ -106,6 +109,15 @@ export function ProjectInformationTree({
     return map;
   }, [nodes]);
   const roots = byParent.get(null) ?? [];
+  const completeness = useMemo(() => computeTagCompleteness(nodes), [nodes]);
+
+  function expandAll() {
+    setCollapsed(new Set());
+  }
+
+  function collapseAll() {
+    setCollapsed(new Set(nodes.filter((node) => (byParent.get(node.id) ?? []).length > 0).map((node) => node.id)));
+  }
 
   const mutation = useMutation({
     mutationFn: async (work: () => Promise<unknown>) => work(),
@@ -177,11 +189,13 @@ export function ProjectInformationTree({
     <div className="space-y-3">
       <section className="surface-card overflow-hidden p-4">
         <div className="flex items-center justify-between gap-3 border-b border-border/70 pb-3">
-          <div className="min-w-0">
+          <div className="min-w-0 shrink">
             <h2 className="text-[14px] font-semibold">信息节点</h2>
-            <p className="mt-0.5 text-[10.5px] text-muted-foreground">{projectName} · 长按节点可拖动调整从属</p>
+            <p className="mt-0.5 hidden text-[10.5px] text-muted-foreground min-[480px]:block">{projectName} · 长按节点可拖动调整从属</p>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
+            <Button size="icon" variant="ghost" className="size-8" onClick={expandAll} aria-label="全部展开" title="全部展开"><ChevronsUpDown /></Button>
+            <Button size="icon" variant="ghost" className="size-8" onClick={collapseAll} aria-label="全部折叠" title="全部折叠"><ChevronsDownUp /></Button>
             <Button size="sm" variant="outline" onClick={() => setImportOpen(true)}><Upload />文件导入</Button>
             <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
           </div>
@@ -194,6 +208,7 @@ export function ProjectInformationTree({
             <div key={root.id}>
               <TreeRow
                 node={root} depth={1} byParent={byParent} collapsed={collapsed} editingId={editingId}
+                missingCount={completeness.get(root.id)?.empty ?? 0}
                 draggingId={draggingId} dropTarget={dropTarget} onEdit={setEditingId}
                 onToggle={(id) => setCollapsed((current) => { const next = new Set(current); next.has(id) ? next.delete(id) : next.add(id); return next; })}
                 onAdd={addNode} onSave={saveNode}
@@ -242,7 +257,7 @@ export function ProjectInformationTree({
 
 type TreeRowProps = {
   node: ProjectNode; depth: number; byParent: Map<string | null, ProjectNode[]>; collapsed: Set<string>;
-  editingId: string | null; draggingId: string | null; dropTarget: { id: string; mode: "child" | "before" } | null;
+  editingId: string | null; missingCount?: number | undefined; draggingId: string | null; dropTarget: { id: string; mode: "child" | "before" } | null;
   onEdit: (id: string | null) => void; onToggle: (id: string) => void; onAdd: (node: ProjectNode) => void;
   onSave: (id: string, updates: { title?: string; contentType?: ContentType; value?: unknown; parentId?: string | null; sortOrder?: number }) => void;
   onDelete: (id: string) => void; onHistory: (node: ProjectNode) => void; onHoldStart: (id: string) => void; onHoldEnd: () => void;
@@ -250,7 +265,7 @@ type TreeRowProps = {
 };
 
 function TreeRow(props: TreeRowProps) {
-  const { node, depth, byParent, collapsed, editingId, draggingId, dropTarget } = props;
+  const { node, depth, byParent, collapsed, editingId, missingCount, draggingId, dropTarget } = props;
   const children = byParent.get(node.id) ?? [];
   const isLeaf = children.length === 0;
   const isCollapsed = collapsed.has(node.id);
@@ -318,6 +333,9 @@ function TreeRow(props: TreeRowProps) {
             <span className={cn("min-w-0 font-semibold", depthText, depth === 1 ? "text-[14px]" : "text-[12.5px]")}>{node.title}</span>
           )}
           <div className="ml-auto flex items-center gap-0.5" onPointerDown={(event) => event.stopPropagation()}>
+            {depth === 1 && missingCount ? (
+              <span className="mr-1 rounded-full bg-card/20 px-1.5 py-0.5 text-[10px] font-semibold text-primary-foreground" title={`${missingCount} 项信息未填写`}>缺 {missingCount}</span>
+            ) : null}
             <Button variant="ghost" size="icon" className={cn("size-8", depthText, depthAction)} onClick={() => props.onAdd(node)} aria-label={`在${node.title}下新增`}><Plus /></Button>
             <Button variant="ghost" size="icon" className={cn("size-8", depthText, depthAction)} onClick={() => props.onHistory(node)} aria-label={`查看${node.title}的编辑历史`}><History /></Button>
             <NodeMenu node={node} isLeaf={isLeaf} titleOptions={titleOptions} depthText={cn(depthText, depthAction)} onEdit={() => props.onEdit(node.id)} onSave={props.onSave} onDelete={props.onDelete} />
@@ -325,7 +343,7 @@ function TreeRow(props: TreeRowProps) {
         </div>
         {isLeaf ? <NodeContent node={node} onSave={props.onSave} /> : null}
       </div>
-      {!isCollapsed && children.map((child) => <TreeRow key={child.id} {...props} node={child} depth={depth + 1} />)}
+      {!isCollapsed && children.map((child) => <TreeRow key={child.id} {...props} node={child} depth={depth + 1} missingCount={undefined} />)}
     </div>
   );
 }
