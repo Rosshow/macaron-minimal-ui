@@ -109,6 +109,15 @@ export function ProjectInformationTree({
     return map;
   }, [nodes]);
   const roots = byParent.get(null) ?? [];
+  const completeness = useMemo(() => computeTagCompleteness(nodes), [nodes]);
+
+  function expandAll() {
+    setCollapsed(new Set());
+  }
+
+  function collapseAll() {
+    setCollapsed(new Set(nodes.filter((node) => (byParent.get(node.id) ?? []).length > 0).map((node) => node.id)));
+  }
 
   const mutation = useMutation({
     mutationFn: async (work: () => Promise<unknown>) => work(),
@@ -185,6 +194,8 @@ export function ProjectInformationTree({
             <p className="mt-0.5 text-[10.5px] text-muted-foreground">{projectName} · 长按节点可拖动调整从属</p>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
+            <Button size="icon" variant="ghost" className="size-8" onClick={expandAll} aria-label="全部展开" title="全部展开"><ChevronsUpDown /></Button>
+            <Button size="icon" variant="ghost" className="size-8" onClick={collapseAll} aria-label="全部折叠" title="全部折叠"><ChevronsDownUp /></Button>
             <Button size="sm" variant="outline" onClick={() => setImportOpen(true)}><Upload />文件导入</Button>
             <Button size="sm" variant="secondary" onClick={() => addNode(null)}><Plus />新标签</Button>
           </div>
