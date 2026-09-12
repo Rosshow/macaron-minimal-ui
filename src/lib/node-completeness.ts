@@ -13,7 +13,7 @@ function isEmptyLeaf(node: ProjectNode): boolean {
   return !(typeof value === "string" && value.trim());
 }
 
-/** 统计每个一级标签下末级节点的填写情况，空值率超过一半视为信息不全。 */
+/** 统计每个一级标签下末级节点的填写情况，只要存在空叶子节点即视为信息不全。 */
 export function computeTagCompleteness(nodes: ProjectNode[]): Map<string, TagCompleteness> {
   const byParent = new Map<string | null, ProjectNode[]>();
   nodes.forEach((node) => {
@@ -40,7 +40,7 @@ export function computeTagCompleteness(nodes: ProjectNode[]): Map<string, TagCom
     result.set(root.id, {
       total: acc.total,
       empty: acc.empty,
-      incomplete: acc.total > 0 && acc.empty * 2 > acc.total,
+      incomplete: acc.total > 0 && acc.empty > 0,
     });
   });
 
