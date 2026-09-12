@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, FileText, X } from "lucide-react";
+import { TagWarningBadge } from "@/components/TagWarningBadge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -211,15 +212,8 @@ export function TicketCreateSheet({ open, onOpenChange }: { open: boolean; onOpe
                         >
                           {node.title}
                         </Button>
-                        {warn ? (
-                          <span
-                            aria-label="信息不全"
-                            className="pointer-events-none absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground"
-                          >
-                            !
-                          </span>
-                        ) : null}
-                      </div>
+                    {warn ? <TagWarningBadge /> : null}
+                  </div>
                     );
                   })}
                 </div>
