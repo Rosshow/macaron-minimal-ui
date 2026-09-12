@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertCircle, ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil } from "lucide-react";
+import { TagWarningBadge } from "@/components/TagWarningBadge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { getProjectNodes, type ProjectNode } from "@/lib/project-tree.functions";
@@ -120,9 +121,7 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
         {roots.map((node) => (
           <Button key={node.id} size="sm" variant={selected.has(node.id) ? "default" : "outline"} onClick={() => toggle(node.id)} className="relative">
             {node.title}
-            {completeness.get(node.id)?.incomplete ? (
-              <AlertCircle className="absolute -top-1.5 -right-1.5 size-3.5 fill-amber-500 text-amber-500" aria-label="该标签信息不完整" />
-            ) : null}
+            {completeness.get(node.id)?.incomplete ? <TagWarningBadge /> : null}
           </Button>
         ))}
       </div>
