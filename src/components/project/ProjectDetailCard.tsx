@@ -50,8 +50,13 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
   const getNodes = useServerFn(getProjectNodes);
   const selectionKey = `project-tree:selected:${projectCode}`;
   const collapseKey = `project-tree:collapsed:${projectCode}`;
-  const [selected, setSelected] = useState(() => readStoredSet(selectionKey));
-  const [collapsed, setCollapsed] = useState(() => readStoredBool(collapseKey));
+  const [selected, setSelected] = useState<Set<string>>(() => new Set());
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    setSelected(readStoredSet(selectionKey));
+    setCollapsed(readStoredBool(collapseKey));
+  }, [selectionKey, collapseKey]);
 
   const { data: nodes = [], isPending } = useQuery({
     queryKey: ["project-nodes", projectCode],
