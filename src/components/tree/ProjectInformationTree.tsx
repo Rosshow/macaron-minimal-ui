@@ -176,7 +176,8 @@ export function ProjectInformationTree({
   }
 
   function saveNode(id: string, updates: { title?: string; contentType?: ContentType; value?: unknown; parentId?: string | null; sortOrder?: number }) {
-    mutation.mutate(() => updateNode({ data: { id, ...updates, operator: getOperatorName() } }));
+    const operator = updates.value !== undefined ? { operator: getOperatorName() } : {};
+    mutation.mutate(() => updateNode({ data: { id, ...updates, ...operator } }));
   }
 
   function moveNode(target: ProjectNode, mode: "child" | "before") {
