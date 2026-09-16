@@ -200,7 +200,7 @@ async function recordMarkedChange(
   input: {
     node: BeforeNode;
     newValue: unknown;
-    newContentType: Database["public"]["Enums"] extends never ? never : "text" | "select" | "file" | "image";
+    newContentType: string;
     newTitle: string;
     operator: string;
   },
