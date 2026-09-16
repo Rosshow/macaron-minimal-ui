@@ -49,7 +49,7 @@ function ProjectDetailPage() {
         />
         <ProjectDetailCard projectCode={id} />
         <ProjectTicketsCard projectCode={id} />
-        <ProjectActivityCard />
+        <ProjectActivityCard projectCode={id} />
       </div>
     </PageShell>
   );
