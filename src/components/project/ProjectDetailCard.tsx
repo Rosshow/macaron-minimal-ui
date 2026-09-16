@@ -50,6 +50,9 @@ function formatSize(size: number) {
 /** 「项目详细信息」卡片：Markdown 文档式浏览态。 */
 export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
   const getNodes = useServerFn(getProjectNodes);
+  const getMarks = useServerFn(getNodeMarks);
+  const toggleMarkFn = useServerFn(toggleNodeMark);
+  const queryClient = useQueryClient();
   const selectionKey = `project-tree:selected:${projectCode}`;
   const collapseKey = `project-tree:collapsed:${projectCode}`;
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
@@ -63,6 +66,17 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
   const { data: nodes = [], isPending } = useQuery({
     queryKey: ["project-nodes", projectCode],
     queryFn: () => getNodes({ data: { projectCode } }),
+  });
+
+  const { data: marks = [] } = useQuery({
+    queryKey: ["project-node-marks", projectCode],
+    queryFn: () => getMarks({ data: { projectCode } }),
+  });
+  const markedSet = useMemo(() => new Set(marks), [marks]);
+  const toggleMark = useMutation({
+    mutationFn: async (nodeId: string) => toggleMarkFn({ data: { nodeId, projectCode } }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["project-node-marks", projectCode] }),
+    onError: (error) => toast.error(error instanceof Error ? error.message : "标注失败"),
   });
 
   useEffect(() => localStorage.setItem(selectionKey, JSON.stringify([...selected])), [selected, selectionKey]);
