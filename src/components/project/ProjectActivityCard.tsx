@@ -10,7 +10,8 @@ export function ProjectActivityCard({ projectCode }: { projectCode: string }) {
 
   const { data: markedChanges = [] } = useQuery({
     queryKey: ["project-node-changes", projectCode],
-    queryFn: () => getChanges({ data: { projectCode } }),
+    queryFn: () => getChanges({ data: { projectCode: projectCode! } }),
+    enabled: Boolean(projectCode),
   });
 
   return (

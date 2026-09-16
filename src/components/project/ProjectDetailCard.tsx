@@ -65,12 +65,14 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
 
   const { data: nodes = [], isPending } = useQuery({
     queryKey: ["project-nodes", projectCode],
-    queryFn: () => getNodes({ data: { projectCode } }),
+    queryFn: () => getNodes({ data: { projectCode: projectCode! } }),
+    enabled: Boolean(projectCode),
   });
 
   const { data: marks = [] } = useQuery({
     queryKey: ["project-node-marks", projectCode],
-    queryFn: () => getMarks({ data: { projectCode } }),
+    queryFn: () => getMarks({ data: { projectCode: projectCode! } }),
+    enabled: Boolean(projectCode),
   });
   const markedSet = useMemo(() => new Set(marks), [marks]);
   const toggleMark = useMutation({
