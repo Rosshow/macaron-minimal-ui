@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil, Star } from "lucide-react";
+import { toast } from "sonner";
 import { TagWarningBadge } from "@/components/TagWarningBadge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { getProjectNodes, type ProjectNode } from "@/lib/project-tree.functions";
+import { getNodeMarks, getProjectNodes, toggleNodeMark, type ProjectNode } from "@/lib/project-tree.functions";
 import { computeTagCompleteness } from "@/lib/node-completeness";
 import { cn } from "@/lib/utils";
 
