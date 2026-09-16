@@ -14,6 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
+      project_node_changes: {
+        Row: {
+          changed_by: string
+          created_at: string
+          id: string
+          new_text: string
+          node_id: string
+          node_title: string
+          old_text: string
+          project_code: string
+          root_title: string
+        }
+        Insert: {
+          changed_by?: string
+          created_at?: string
+          id?: string
+          new_text?: string
+          node_id: string
+          node_title?: string
+          old_text?: string
+          project_code: string
+          root_title?: string
+        }
+        Update: {
+          changed_by?: string
+          created_at?: string
+          id?: string
+          new_text?: string
+          node_id?: string
+          node_title?: string
+          old_text?: string
+          project_code?: string
+          root_title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_node_changes_node_id_fkey"
+            columns: ["node_id"]
+            isOneToOne: false
+            referencedRelation: "project_nodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_node_marks: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          node_id: string
+          project_code: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          node_id: string
+          project_code: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          node_id?: string
+          project_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_node_marks_node_id_fkey"
+            columns: ["node_id"]
+            isOneToOne: true
+            referencedRelation: "project_nodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_nodes: {
         Row: {
           content_type: string

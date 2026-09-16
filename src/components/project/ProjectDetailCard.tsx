@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, FileText, Image as ImageIcon, Pencil, Star } from "lucide-react";
+import { toast } from "sonner";
 import { TagWarningBadge } from "@/components/TagWarningBadge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { getProjectNodes, type ProjectNode } from "@/lib/project-tree.functions";
+import { getNodeMarks, getProjectNodes, toggleNodeMark, type ProjectNode } from "@/lib/project-tree.functions";
 import { computeTagCompleteness } from "@/lib/node-completeness";
 import { cn } from "@/lib/utils";
 
@@ -49,6 +50,9 @@ function formatSize(size: number) {
 /** 「项目详细信息」卡片：Markdown 文档式浏览态。 */
 export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
   const getNodes = useServerFn(getProjectNodes);
+  const getMarks = useServerFn(getNodeMarks);
+  const toggleMarkFn = useServerFn(toggleNodeMark);
+  const queryClient = useQueryClient();
   const selectionKey = `project-tree:selected:${projectCode}`;
   const collapseKey = `project-tree:collapsed:${projectCode}`;
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
@@ -62,6 +66,17 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
   const { data: nodes = [], isPending } = useQuery({
     queryKey: ["project-nodes", projectCode],
     queryFn: () => getNodes({ data: { projectCode } }),
+  });
+
+  const { data: marks = [] } = useQuery({
+    queryKey: ["project-node-marks", projectCode],
+    queryFn: () => getMarks({ data: { projectCode } }),
+  });
+  const markedSet = useMemo(() => new Set(marks), [marks]);
+  const toggleMark = useMutation({
+    mutationFn: async (nodeId: string) => toggleMarkFn({ data: { nodeId, projectCode } }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["project-node-marks", projectCode] }),
+    onError: (error) => toast.error(error instanceof Error ? error.message : "标注失败"),
   });
 
   useEffect(() => localStorage.setItem(selectionKey, JSON.stringify([...selected])), [selected, selectionKey]);
@@ -135,7 +150,7 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
             <div className="py-10 text-center text-[12px] text-muted-foreground">暂无内容，点击右上角「编辑」添加信息节点</div>
           ) : (
             <article className="mt-4">
-              {visibleRoots.map((root) => <DocSection key={root.id} node={root} depth={1} byParent={byParent} />)}
+              {visibleRoots.map((root) => <DocSection key={root.id} node={root} depth={1} byParent={byParent} markedSet={markedSet} onToggleMark={(id) => toggleMark.mutate(id)} />)}
             </article>
           )}
         </>
@@ -147,18 +162,31 @@ export function ProjectDetailCard({ projectCode }: { projectCode: string }) {
 const headingStyle = ["", "text-[16px] font-bold", "text-[14px] font-semibold", "text-[13px] font-semibold", "text-[12.5px] font-semibold"];
 const headingColor = ["", "text-tree-depth-1", "text-tree-depth-2", "text-tree-depth-3", "text-tree-depth-4"];
 
-function DocSection({ node, depth, byParent }: { node: ProjectNode; depth: number; byParent: Map<string | null, ProjectNode[]> }) {
+function DocSection({ node, depth, byParent, markedSet, onToggleMark }: { node: ProjectNode; depth: number; byParent: Map<string | null, ProjectNode[]>; markedSet: Set<string>; onToggleMark: (id: string) => void }) {
   const children = byParent.get(node.id) ?? [];
   const isLeaf = children.length === 0;
   const level = Math.min(depth, 4);
+  const marked = markedSet.has(node.id);
   return (
     <section className={cn(depth > 1 && "mt-3 ml-3 border-l-2 border-blue-4/40 pl-3", depth === 1 && "mt-5 first:mt-0")}>
       <div className={cn("flex items-baseline gap-2", headingStyle[level], headingColor[level])}>
         <span className="text-[10px] font-medium text-muted-foreground/70" aria-hidden>{"#".repeat(level)}</span>
         <h3 className="min-w-0">{node.title}</h3>
+        {isLeaf ? (
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn("ml-auto size-7 shrink-0 self-center", marked ? "text-blue-2" : "text-muted-foreground/50")}
+            onClick={() => onToggleMark(node.id)}
+            aria-label={marked ? `取消关注${node.title}` : `重点关注${node.title}`}
+            aria-pressed={marked}
+          >
+            <Star className={cn("size-4", marked && "fill-current")} />
+          </Button>
+        ) : null}
       </div>
       {isLeaf ? <DocContent node={node} /> : null}
-      {children.map((child) => <DocSection key={child.id} node={child} depth={depth + 1} byParent={byParent} />)}
+      {children.map((child) => <DocSection key={child.id} node={child} depth={depth + 1} byParent={byParent} markedSet={markedSet} onToggleMark={onToggleMark} />)}
     </section>
   );
 }

@@ -62,6 +62,21 @@ function nodeValue<T>(value: unknown, fallback: T): T {
   return value && typeof value === "object" ? (value as T) : fallback;
 }
 
+function getOperatorName() {
+  if (typeof window === "undefined") return "未署名";
+  try {
+    let name = localStorage.getItem("project-tree:operator");
+    if (!name) {
+      name = window.prompt("请输入你的名字（用于记录节点变动）")?.trim() ?? "";
+      if (!name) name = "未署名";
+      localStorage.setItem("project-tree:operator", name);
+    }
+    return name;
+  } catch {
+    return "未署名";
+  }
+}
+
 function formatSize(size: number) {
   if (size < 1024) return `${size} B`;
   if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
@@ -161,7 +176,8 @@ export function ProjectInformationTree({
   }
 
   function saveNode(id: string, updates: { title?: string; contentType?: ContentType; value?: unknown; parentId?: string | null; sortOrder?: number }) {
-    mutation.mutate(() => updateNode({ data: { id, ...updates } }));
+    const operator = updates.value !== undefined ? { operator: getOperatorName() } : {};
+    mutation.mutate(() => updateNode({ data: { id, ...updates, ...operator } }));
   }
 
   function moveNode(target: ProjectNode, mode: "child" | "before") {

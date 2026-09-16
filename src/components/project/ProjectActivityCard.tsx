@@ -1,8 +1,17 @@
-import { GitBranch, History } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { GitBranch, History, Star } from "lucide-react";
+import { getMarkedNodeChanges } from "@/lib/project-tree.functions";
 import { projectKeyChanges, projectTicketMonthly, projectVersionChanges } from "@/data/mock";
 
-export function ProjectActivityCard() {
+export function ProjectActivityCard({ projectCode }: { projectCode: string }) {
+  const getChanges = useServerFn(getMarkedNodeChanges);
   const max = Math.max(...projectTicketMonthly.map((item) => item.value), 1);
+
+  const { data: markedChanges = [] } = useQuery({
+    queryKey: ["project-node-changes", projectCode],
+    queryFn: () => getChanges({ data: { projectCode } }),
+  });
 
   return (
     <section className="surface-card overflow-hidden p-4">
@@ -23,6 +32,31 @@ export function ProjectActivityCard() {
           </li>
         ))}
       </ol>
+
+      <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold">
+        <Star className="size-3.5 text-blue-2" />关注节点变动
+      </div>
+      <ul className="mt-2 space-y-1.5">
+        {markedChanges.length === 0 ? (
+          <li className="rounded-lg bg-secondary/60 px-2.5 py-2 text-[11.5px] text-muted-foreground">
+            暂无变动。在「项目信息管理」中点末级节点标题旁的星标，即可关注该节点的后续变动。
+          </li>
+        ) : (
+          markedChanges.map((item) => (
+            <li
+              key={item.id}
+              className="flex items-baseline gap-2 rounded-lg bg-secondary/60 px-2.5 py-2 text-[11.5px]"
+            >
+              <span className="shrink-0 font-semibold text-blue-2">
+                {item.root_title !== item.node_title ? `${item.root_title} · ` : ""}{item.node_title}
+              </span>
+              <span className="min-w-0 flex-1 break-all">
+                {item.old_text ? `${item.old_text} → ${item.new_text}` : `新增：${item.new_text}`}
+              </span>
+            </li>
+          ))
+        )}
+      </ul>
 
       <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold">
         <History className="size-3.5 text-blue-2" />关键变动

@@ -8,6 +8,13 @@
       "when": 1788946000509,
       "tag": "0000_create_project_nodes",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789539994754,
+      "tag": "0001_create_node_marks_and_changes",
+      "breakpoints": true
     }
   ]
 }
