@@ -186,7 +186,7 @@ export function RelationList({ all, result, collapsed, setCollapsed, onShowAll, 
                       </span>
                     )}
                     {hidden.length > 0 && (
-                      <button type="button" onClick={() => reveal(hidden[0].from === t.id ? hidden[0].to : hidden[0].from)} className="inline-flex items-center gap-1 text-blue-1 underline-offset-2 hover:underline">
+                      <button type="button" onClick={() => { const h = hidden[0]!; reveal(h.from === t.id ? h.to : h.from); }} className="inline-flex items-center gap-1 text-blue-1 underline-offset-2 hover:underline">
                         <EyeOff className="size-3.5" /> 有依赖工单被折叠 · 展开
                       </button>
                     )}

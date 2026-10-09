@@ -55,7 +55,7 @@ function matches(t: Ticket, f: string) {
   }
 }
 
-function TicketCard({ t, parent }: { t: Ticket; parent?: Ticket }) {
+function TicketCard({ t, parent }: { t: Ticket; parent?: Ticket | undefined }) {
   const priorityClasses: Record<Ticket["priority"], string> = {
     紧急: "bg-blue-1 text-white",
     高: "bg-blue-2 text-white",
