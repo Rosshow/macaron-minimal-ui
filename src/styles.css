@@ -69,6 +69,7 @@
   --color-blue-3: var(--blue-3);
   --color-blue-4: var(--blue-4);
   --color-blue-5: var(--blue-5);
+  --color-warning: var(--warning);
   --color-blue-soft: var(--blue-soft);
   --color-tree-depth-1: var(--tree-depth-1);
   --color-tree-depth-2: var(--tree-depth-2);
@@ -152,6 +153,7 @@
   --blue-3: oklch(0.76 0.12 230);
   --blue-4: oklch(0.87 0.09 228);
   --blue-5: oklch(0.94 0.06 226);
+  --warning: oklch(0.66 0.15 58);
   --blue-soft: oklch(0.965 0.03 226);
 
   /* 项目信息树：一级蓝底，后续层级以高对比马卡龙蓝区分 */
