@@ -86,11 +86,11 @@ function DepRefLine({ t, dep }: { t: Ticket; dep: DepRef }) {
 
 type CardProps = {
   t: Ticket;
-  dep?: DepRef | null;
+  dep?: DepRef | null | undefined;
   followed: boolean;
   onFollow: () => void;
-  toggle?: { expanded: boolean; onToggle: () => void };
-  childSummary?: { done: number; total: number };
+  toggle?: { expanded: boolean; onToggle: () => void } | undefined;
+  childSummary?: { done: number; total: number } | undefined;
 };
 
 function TicketCard({ t, dep, followed, onFollow, toggle, childSummary }: CardProps) {
