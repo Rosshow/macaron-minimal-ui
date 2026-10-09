@@ -65,13 +65,7 @@ function nodeValue<T>(value: unknown, fallback: T): T {
 function getOperatorName() {
   if (typeof window === "undefined") return "未署名";
   try {
-    let name = localStorage.getItem("project-tree:operator");
-    if (!name) {
-      name = window.prompt("请输入你的名字（用于记录节点变动）")?.trim() ?? "";
-      if (!name) name = "未署名";
-      localStorage.setItem("project-tree:operator", name);
-    }
-    return name;
+    return localStorage.getItem("project-tree:operator")?.trim() || "未署名";
   } catch {
     return "未署名";
   }
