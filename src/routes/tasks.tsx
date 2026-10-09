@@ -3,10 +3,8 @@ import { useMemo, useState } from "react";
 import { Search, SlidersHorizontal, ArrowRight, Calendar } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Avatar, AvatarStack } from "@/components/Bits";
-import { tickets as baseTickets, type Ticket } from "@/data/mock";
+import { tickets, type Ticket } from "@/data/mock";
 import { cn } from "@/lib/utils";
-import { relationTickets } from "@/data/task-relations";
-import { RelationList } from "@/components/tasks/RelationList";
 
 export const Route = createFileRoute("/tasks")({
   head: () => ({
@@ -21,7 +19,6 @@ export const Route = createFileRoute("/tasks")({
 });
 
 const ME = "张俊磊";
-const tickets: Ticket[] = [...baseTickets, ...relationTickets];
 const filters = ["全部", "项目相关", "待我处理", "与我相关", "新建", "进行中", "已挂起", "已解决"];
 const sorts = ["紧急优先", "创建时间", "更新时间"];
 
@@ -55,7 +52,7 @@ function matches(t: Ticket, f: string) {
   }
 }
 
-function TicketCard({ t, parent }: { t: Ticket; parent?: Ticket | undefined }) {
+function TicketCard({ t }: { t: Ticket }) {
   const priorityClasses: Record<Ticket["priority"], string> = {
     紧急: "bg-blue-1 text-white",
     高: "bg-blue-2 text-white",
@@ -106,10 +103,6 @@ function TicketCard({ t, parent }: { t: Ticket; parent?: Ticket | undefined }) {
           <span className="text-[12px] font-medium text-foreground">{t.owner}</span>
           <Avatar name={t.owner} plain size="md" className="bg-gray-light text-white" />
         </div>
-
-        {parent ? (
-          <p className="mt-1 text-[11.5px] text-muted-foreground">所属：{parent.no} {parent.title}</p>
-        ) : null}
 
         <div className="mt-3 flex items-center gap-2 border-t border-border/70 pt-2.5 text-[11px] text-muted-foreground">
           <span className="rounded-full bg-secondary px-2 py-0.5 text-muted-foreground">{t.no}</span>
@@ -169,10 +162,6 @@ function Timeline({ items }: { items: Ticket[] }) {
 function Tasks() {
   const [filter, setFilter] = useState("全部");
   const [sort, setSort] = useState("紧急优先");
-  const [view, setView] = useState<"flat" | "relation">("flat");
-  const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
-  const parents = useMemo(() => new Set(tickets.map((t) => t.parentId).filter(Boolean) as string[]), []);
-  const byId = useMemo(() => new Map(tickets.map((t) => [t.id, t])), []);
 
   const counts = useMemo(
     () => Object.fromEntries(filters.map((f) => [f, tickets.filter((t) => matches(t, f)).length])),
@@ -242,38 +231,12 @@ function Tasks() {
         </button>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <div role="tablist" className="inline-flex rounded-full bg-card p-0.5">
-          {([["flat", "普通列表"], ["relation", "关系列表"]] as const).map(([v, l]) => (
-            <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)}
-              className={cn("rounded-full px-3 py-1 text-[12px] font-medium", view === v ? "bg-gray-soft text-foreground" : "text-muted-foreground")}>
-              {l}
-            </button>
-          ))}
-        </div>
-        {view === "relation" && (
-          <div className="ml-auto flex gap-2 text-[12px]">
-            <button onClick={() => setCollapsed(new Set())} className="rounded-full bg-card px-3 py-1 text-muted-foreground">全部展开</button>
-            <button onClick={() => setCollapsed(new Set(parents))} className="rounded-full bg-card px-3 py-1 text-muted-foreground">全部折叠</button>
-          </div>
-        )}
-      </div>
-
-      {view === "relation" ? (
-        <RelationList
-          all={tickets}
-          result={list}
-          collapsed={collapsed}
-          setCollapsed={setCollapsed}
-          onShowAll={() => setFilter("全部")}
-          renderCard={(t) => <TicketCard t={t} />}
-        />
-      ) : filter === "待我处理" ? (
+      {filter === "待我处理" ? (
         <Timeline items={list} />
       ) : (
         <div className="mt-3 space-y-3">
           {list.map((t) => (
-            <TicketCard key={t.id} t={t} parent={t.parentId ? byId.get(t.parentId) : undefined} />
+            <TicketCard key={t.id} t={t} />
           ))}
         </div>
       )}

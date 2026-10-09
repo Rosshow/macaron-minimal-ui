@@ -8,4 +8,3 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
-- Ticket relations on the tasks page are derived from Ticket.parentId/dependsOn via src/lib/task-graph.ts; arrows are measured from real card positions, never hardcoded — keeps lines correct after collapse/resize.
