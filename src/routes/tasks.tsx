@@ -1,10 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, SlidersHorizontal, ArrowRight, Calendar } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowRight, ArrowDown, Calendar, Star, Plus, Minus } from "lucide-react";
 import { PageShell } from "@/components/Shell";
 import { Avatar, AvatarStack } from "@/components/Bits";
-import { tickets, type Ticket } from "@/data/mock";
+import { tickets as baseTickets, type Ticket } from "@/data/mock";
+import { relationTickets } from "@/data/task-relations";
+import { arrowsBetween, buildRows, coveredEdges, summaryFor, type Summary } from "@/lib/task-graph";
 import { cn } from "@/lib/utils";
+
+const tickets: Ticket[] = [...relationTickets, ...baseTickets];
 
 export const Route = createFileRoute("/tasks")({
   head: () => ({
