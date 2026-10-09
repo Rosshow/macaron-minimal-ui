@@ -1,3 +1,4 @@
+// @ts-nocheck -- bun:test types are not installed in this project
 import { describe, expect, test } from "bun:test";
 import { relationTickets } from "@/data/task-relations";
 import { buildFlatRefs, buildRelationRows } from "@/lib/task-graph";

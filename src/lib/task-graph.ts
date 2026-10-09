@@ -2,9 +2,9 @@ import type { Ticket } from "@/data/mock";
 
 export type DepRef = {
   /** 展示的一个直接前置（可见、未用箭头表达） */
-  prev?: Ticket;
+  prev?: Ticket | undefined;
   prevMore: boolean;
-  next?: Ticket;
+  next?: Ticket | undefined;
   nextMore: boolean;
 };
 
@@ -79,7 +79,7 @@ export function orderSiblings(siblings: Ticket[]): Ticket[] {
     seen.add(s.id);
     while (stack.length) {
       const id = stack.pop()!;
-      comp.push(siblings[index.get(id)!]);
+      comp.push(siblings[index.get(id)!]!);
       for (const n of adj.get(id)!) if (!seen.has(n)) (seen.add(n), stack.push(n));
     }
     comp.sort((a, b) => index.get(a.id)! - index.get(b.id)!);
@@ -132,7 +132,7 @@ export function buildRelationRows(all: Ticket[], visibleList: Ticket[], collapse
   });
   return rows.map((r, i) => ({
     ...r,
-    arrowFromPrev: arrows[i],
+    arrowFromPrev: arrows[i] ?? false,
     ref: buildRef(r.ticket, map, visible, succ, arrowed),
   }));
 }
