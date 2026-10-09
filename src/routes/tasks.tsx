@@ -102,8 +102,9 @@ function TicketCard({ t, dep, followed, onFollow, toggle, childSummary }: CardPr
   };
 
   return (
-    <article className="surface-card relative p-4 transition-transform duration-300 active:scale-[0.99]">
-      <div className="mb-2 flex items-center gap-2">
+    <article className="surface-card @container relative p-4 transition-transform duration-300 active:scale-[0.99]">
+      <div className="mb-2 grid grid-cols-2 items-center gap-x-2 gap-y-1 @min-[380px]:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <div className="order-1 flex items-center gap-2">
         {toggle ? (
           <button
             type="button"
@@ -134,8 +135,11 @@ function TicketCard({ t, dep, followed, onFollow, toggle, childSummary }: CardPr
         >
           {t.priority}
         </span>
-        <div className="ml-auto flex min-w-0 items-center gap-2">
+        </div>
+        <div className="order-3 col-span-2 flex min-w-0 justify-center @min-[380px]:order-2 @min-[380px]:col-span-1">
           {dep ? <DepRefLine t={t} dep={dep} /> : null}
+        </div>
+        <div className="order-2 flex min-w-0 items-center justify-end gap-2 @min-[380px]:order-3">
           <span className={cn("shrink-0 text-[11.5px] text-muted-foreground", dep && "hidden sm:inline")}>
             {t.kind}
           </span>
@@ -215,7 +219,7 @@ function RelationList({
           <div
             key={r.ticket.id}
             style={{ "--d": depth } as React.CSSProperties}
-            className="pl-[calc(var(--d)*16px)] animate-in fade-in duration-200 motion-reduce:animate-none md:pl-[calc(var(--d)*24px)]"
+            className="pl-[calc(var(--d)*24px)] animate-in fade-in duration-200 motion-reduce:animate-none md:pl-[calc(var(--d)*36px)]"
           >
             {r.arrowFromPrev ? (
               <div className="flex h-5 items-center justify-center" aria-label="前置工单 → 后置工单">
